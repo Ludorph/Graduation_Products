@@ -1,0 +1,22 @@
+.alert-bar {
+    background-color: #f8d7da; /* 배경 색상 설정 */
+    color: #721c24; /* 텍스트 색상 설정 */
+    padding: 10px; /* 패딩 */
+    position: fixed; /* 고정 위치 */
+    top: 0; /* 상단에 위치 */
+    left: 0; /* 왼쪽 정렬 */
+    width: 100%; /* 너비 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .alert-bar button {
+    border: none; /* 버튼 테두리 제거 */
+    background-color: transparent; /* 배경색 투명 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    color: #721c24; /* 버튼 색상 */
+    font-weight: bold;
+  }

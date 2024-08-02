@@ -1,0 +1,506 @@
+@font-face {
+  font-family: 'NanumSquareNeoLight';
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.eot);
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.ttf) format("truetype");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+  /* background: linear-gradient(-45deg, #9c27b0, #673ab7); */
+  background-size: 100% 200%;
+  color: #000000;
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* navbar */
+
+.navbar {
+  background: #6e7955;  
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 메뉴 정렬 방식*/
+  padding: 0 70px;
+  /* 제일 상위 메뉴간의 간격(현재는 좌우간격만 부여) */
+  -webkit-box-shadow: 0 20px 50px 0 rgb(0 0 0 / 5%);
+  box-shadow: 0 20px 50px 0 rgb(0 0 0 / 5%);
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar .logo {
+  /* 로고 */
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* nav menu button */
+
+.menu-btn {
+  position: relative;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.navbar .menu-btn__lines::before,
+.navbar .menu-btn__lines::after {
+  content: "";
+  position: absolute;
+}
+
+.navbar .menu-btn__lines,
+.navbar .menu-btn__lines::before,
+.navbar .menu-btn__lines::after {
+  width: 1.5rem;
+  /* 각 라인의 너비, 높이*/
+  height: 0.1rem;
+  background: #132f48;
+  transition: all 0.4s ease-in-out;
+}
+
+/* .navbar .menu-btn__lines::before {
+    transform: translateY(-0.5rem);
+  }
+  
+  .navbar .menu-btn__lines::after {
+    transform: translateY(0.5rem);
+  } */
+
+.navbar .menu-items {
+  display: flex;
+  align-items: center;
+}
+
+.navbar ul li {
+  list-style: none;
+  transition: 0.3s ease;
+  padding-bottom: 7px; /* blur 오류 방지를 위한 padding 속성*/
+}
+
+.navbar ul li .arrow {
+  transition: all 0.3s ease-out;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+}
+
+
+
+/* dropdown menu */
+
+.navbar .dropdown {
+  position: relative;
+}
+
+.expand-btn:after {
+  content: " \25BE";
+  /* 화살표 문자 */
+  opacity: 0.4;
+  margin-left: 5px;
+}
+
+.navbar .dropdown-menu,
+.menu-right {
+  position: absolute;
+  background: #e9ecef;
+  width: 190px;
+  line-height: 30px;
+  border-radius: 0 0 5px 5px;
+  top: 65px;
+  border-top: 1px solid white;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  -webkit-box-shadow: 0 20px 50px 0 rgb(0 0 0 / 5%);
+  box-shadow: 0 20px 50px 0 rgb(0 0 0 / 5%);
+}
+
+.navbar .menu-right {
+  top: 0;
+  left: 100%;
+}
+
+.navbar .dropdown-menu,
+.menu-left {
+  left: unset;
+  right: 0;
+}
+
+.navbar .menu-left {
+  left: -100%;
+}
+
+.navbar .menu-item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 1.5rem;
+  font-size: 14px;
+}
+
+.navbar .menu-item:hover {
+  color: #33363b;
+}
+
+.menu-item.first-item {
+  padding: 1.5rem 1rem;
+}
+
+.navbar .dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.navbar .dropdown-right:hover .menu-right {
+  left: 100%;
+  opacity: 1;
+  visibility: visible;
+}
+
+.navbar .dropdown-right:hover .menu-left {
+  left: -100%;
+}
+
+/* mega menu  */
+
+.navbar .mega-menu {
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  top: 75px;  /* 서브메뉴 시작 y값(높이) */
+  border-top: 1px solid #ffffff;
+  opacity: 0; /* 메뉴 투명 */
+  visibility: hidden; /* 메뉴를 화면에서 숨김 */
+  transition: all 0.4s ease-out 0s, visibility 0.1s linear 0s;
+}
+
+.mega-menu .content {
+  /* 기출문제, blog의 서브메뉴 배경색 등등 */
+  background: #ffffff;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  padding-left: 12rem;
+  padding-right: 12rem;
+  display: grid;
+  grid-template-columns: repeat(5, 0.4fr);
+  /* 5개의 동일한 너비의 컬럼 생성(일단 우리학교 과 분류가 5개니까)*/
+  gap: 0.5rem;
+  width: 100%;
+  /* 서브메뉴 가로를 부모요소의 100%로 설정 */
+  justify-content: space-between;
+  -webkit-box-shadow: 0 20px 50px 0 rgb(0 0 0 / 65%);
+  /* 서브메뉴 그림자 설정 --> 투명도 65% */
+  box-shadow: 0 20px 50px 0 rgb(0 0 0 / 65%);
+}
+
+.blog .content {
+  /* 중복? 수정필요할지도 */
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.content .col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  line-height: 1.8rem;
+  /* 서브메뉴의 요소들 세로 간격 */
+}
+
+.content .col .img-wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 20vw;
+  overflow: hidden;
+}
+
+.content .col .img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content .col img {
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.content .col .img-wrapper:hover img {
+  transform: scale(1.1);
+}
+
+.content .col .menu-title {
+  font-family: 'NanumSquareNeoLight', sans-serif;
+  color: #000000;
+  font-size: 0.9rem;
+  line-height: 3rem; /* 학부명과 학과명 사이 간격 */
+  font-weight: bold;
+  text-align: left; /* 왼쪽 정렬 추가 */
+  padding-left: 4rem; /* 왼쪽 패딩 추가 (선택사항) */
+}
+
+.content .col p {
+  line-height: 1.2rem;
+  margin-top: 5px;
+  color: #b8c3cc;
+}
+
+/* .content .col .mega-links {
+  border-left: 1px solid #700e0e;
+} 세로줄 */
+
+.content .col .read-more {
+  font-size: 16px;
+  display: flex;
+  padding-top: 1rem;
+  color: #03a9f4;
+  transition: color 0.3s ease;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.col .mega-links li,
+.col .mega-links li a {
+  padding: 0 1rem;
+  color: #151515;  /* 학과명 폰트 색상, 폰트 사이즈*/
+  font-size: 0.8rem; 
+}
+
+.menu-items li:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.main-bg.blur {  /* 블러 효과 true일때*/
+  filter: blur(3px);
+  pointer-events: none;
+  user-select: none;
+  transition: filter 0.3s ease;
+}
+
+.content .col .read-more:hover {
+  color: #ff5722;
+}
+
+/* container */
+.container {
+  margin: 100px auto auto;
+  padding: 0 15px;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.container p {
+  color: #782525;
+}
+
+h1 {
+  font-weight: 700;
+  line-height: 1.2;
+  /* 더 적절한 줄 간격 설정 */
+  font-size: 2.5rem;
+  /* 글자 크기 명확하게 설정 */
+  color: #ffffff;
+  /* text-transform: uppercase; */
+}
+
+/* animation menu hamburger */
+.menu-btn.open .menu-btn__lines {
+  transform: translateX(1rem);
+  background: transparent;
+}
+
+.menu-btn.open .menu-btn__lines::before {
+  transform: rotate(45deg) translate(-0.5rem, 0.5rem);
+  background: #132f48;
+}
+
+.menu-btn.open .menu-btn__lines::after {
+  transform: rotate(-45deg) translate(-0.5rem, -0.5rem);
+  background: #132f48;
+}
+
+/* Responsive style */
+
+@media screen and (max-width: 1024px) {
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  .overflow {
+    overflow: hidden;
+  }
+
+  .overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 500;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  }
+
+  .overlay--active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .menu-btn {
+    display: flex;
+  }
+
+  .navbar .menu-items {
+    position: fixed;
+    height: 100%;
+    max-height: initial;
+    overflow-y: auto;
+    width: 80%;
+    top: 65px;
+    left: 0;
+    background: #fcfcfc;
+    display: block;
+    transform: translateX(-100vh);
+    transition: 0.3s ease-out;
+    padding-bottom: 100px;
+  }
+
+  .menu-items.open {
+    transform: translateY(0);
+  }
+
+  .menu-items li:first-child {
+    margin-top: 20px;
+  }
+
+  .menu-items li a {
+    padding: 10px 1rem;
+    display: block;
+    font-size: 18px;
+  }
+
+  .menu-items .dropdown-right .right-arrow {
+    transform: rotate(90deg);
+  }
+
+  .menu-item.first-item {
+    padding: 1rem 1rem;
+  }
+
+  /* DROPDOWN, MEGA MENUS */
+  .menu-items .dropdown-menu,
+  .menu-items .menu-right,
+  .menu-items .mega-menu {
+    position: static;
+    opacity: 1;
+    top: 4rem;
+    visibility: visible;
+    margin-left: -18px;
+    width: auto;
+    max-height: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    overflow: hidden;
+    transition: all 0.5s ease;
+  }
+
+  .menu-items .dropdown-menu,
+  .menu-items .menu-right {
+    padding-left: 1rem;
+    width: 102%;
+    margin-left: -10px;
+  }
+
+  .menu-items .mega-menu .col {
+    padding-left: 1rem;
+  }
+
+  .expand-btn.open+.sample {
+    max-height: 100%;
+    transform: scaleZ(1);
+  }
+
+  .expand-btn.open+.blog.sample {
+    max-height: 100%;
+    transform: scaleZ(1);
+    max-width: fit-content;
+  }
+
+  .navbar .sample {
+    border-top: none;
+  }
+
+  .sample li {
+    margin: 0;
+  }
+
+  .sample li:last-child {
+    border-bottom: none;
+  }
+
+  .sample li a {
+    font-size: 1rem;
+  }
+
+  .mega-menu .content {
+    grid-template-columns: auto;
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .mega-menu .content .col {
+    width: 100%;
+    padding-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .col .mega-links li,
+  .col .mega-links li a {
+    padding: 0 0.5rem;
+  }
+
+  .content .col .mega-links {
+    border-left: 0;
+    padding-left: 0.5rem;
+  }
+
+  .col .mega-links li {
+    margin: 0;
+  }
+
+
+
+
+  
+
+}
