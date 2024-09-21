@@ -1,0 +1,122 @@
+.admin-question-management {
+  width: 100%;
+}
+
+.admin-question-header {
+  font-weight: bold;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  margin-left: 15px;
+  border-bottom: 1.4px solid #e6e6e6;
+  text-align: left;
+  font-size: 18px;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+.admin-set-question-container {
+  display: flex;
+  height: calc(100% - 50px);
+  /* 헤더의 높이를 고려하여 조정 */
+}
+
+.admin-set-question-left {
+  width: 12%;
+  display: flex;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+.admin-set-question-right {
+  width: 88%;
+  padding: 20px;
+}
+
+.admin-item-text {
+  color: #545a61;
+  font-size: 16px;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+.admin-set-question-box {
+  border: 1.35px solid #e6e6e6;
+  border-radius: 10px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-set-question-top {
+  height: 15%;
+  border-bottom: 1.35px solid #e6e6e6;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-set-question-bottom {
+  height: 85%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+}
+
+.added-question-item {
+  height: 40px;
+  width: 100%;
+  background-color: #f5fdf5;
+  border-bottom: 1.2px solid #ececec;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #333333;
+  transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+  color: #070707;
+}
+
+@keyframes clickEffect {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.edit-icon:active {
+  animation: clickEffect 0.3s ease;
+}
+
+.added-question-item:first-child {
+  border-bottom: none;
+}
+
+.admin-set-question-icon {
+  margin-left: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+  color: #8c8c8c; /* 문제 추가 버튼 색상 */
+}
+
+.admin-set-question-icon:last-child {
+  margin-right: 0;
+}
+
+.admin-set-question-icon:last-child {
+  margin-right: 0;
+}
+
+.admin-set-question-icon.add-icon:hover {
+  color: #4CAF50;
+}
+
+.admin-set-question-icon.undo-icon:hover {
+  color: #2196F3;
+}

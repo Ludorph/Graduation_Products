@@ -1,0 +1,93 @@
+.point-management {
+    width: 100%;
+  }
+  
+  .point-header {
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    border-bottom: 1.4px solid #e6e6e6;
+    text-align: left;
+    font-size: 18px;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+  }
+  
+  .point-set-container {
+    display: flex;
+    height: calc(100% - 50px);
+  }
+  
+  .point-set-left {
+    width: 12%;
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+  }
+  
+  .point-set-right {
+    width: 60%;
+    padding: 20px;
+  }
+  
+  .point-set-box {
+    border: 1.35px solid #e6e6e6;
+    border-radius: 10px;
+    /* height: 300px;  */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 300px; /* 최대 높이 설정 */
+  }
+  
+  .point-set-top {
+    height: 15%;
+    border-bottom: 1.35px solid #e6e6e6;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .point-set-bottom {
+    height: 85%;
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  .point-item-text {
+    color: #545a61;
+    font-size: 16px;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+  }
+  
+  /* 포인트 내역 */
+  .point-history-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .point-history-table th,
+  .point-history-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  
+  .point-history-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
+  .point-history-table .positive {
+    color: #4CAF50;
+  }
+  
+  .point-history-table .negative {
+    color: #F44336;
+  }
+  
+  .point-set-box {
+    overflow-y: auto;
+  }
+
+  

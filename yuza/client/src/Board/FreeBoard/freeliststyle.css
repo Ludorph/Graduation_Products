@@ -1,0 +1,101 @@
+.free-list-container {
+    width: 85%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .free-list-title {
+    font-family: 'NanumSquareNeoLight', sans-serif;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.7rem;
+    color: #535353;
+    padding-top: 1.5rem;
+    padding-bottom: 1.2rem; /* 텍스트와 선 사이의 간격을 위해 패딩 추가 */
+    border-bottom: 1.5px solid #cbc9c9d6; /* 선의 두께, 스타일, 색상을 지정 */
+    box-shadow: 5px 0px 6px 0px rgba(0, 0, 0, 0.1); /* 그림자 */
+    margin-bottom: 2rem; /* 선 아래 여백 추가 (필요시) */
+    padding: 26px;
+  }
+  
+  .free-list-grid {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .free-write-button {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* DataGrid 스타일 오버라이드 */
+  .MuiDataGrid-root .MuiDataGrid-columnHeaders {
+    background-color: #f0f0f0;
+  }
+  
+  .MuiDataGrid-root .MuiDataGrid-columnHeaderTitle {
+    font-family: 'NanumSquareNeoBold', sans-serif !important;
+    font-weight: bold !important;
+    text-align: center;
+  }
+  
+  .MuiDataGrid-root .MuiDataGrid-cell {
+    font-family: 'NanumSquareNeoLight', sans-serif !important;
+  }
+
+  /* Autocomplete 컴포넌트의 입력 필드에 대한 스타일 */
+  .MuiAutocomplete-inputRoot {
+    font-family: 'NanumSquareNeoLight', sans-serif !important;
+  }
+  
+  /* 드롭다운 목록 아이템에 대한 스타일 */
+  .MuiAutocomplete-option {
+    font-family: 'NanumSquareNeoLight', sans-serif !important;
+    font-size: 16px;
+  }
+  
+  .super-app-theme--header {
+    font-family: 'NanumSquareNeoBold', sans-serif !important;
+    font-weight: bold !important;
+  }
+  
+  .super-app-theme .MuiDataGrid-cell {
+    font-family: 'NanumSquareNeoLight', sans-serif !important;
+  }
+  
+  /* 반응형 디자인을 위한 미디어 쿼리 */
+  @media (max-width: 1200px) {
+    .jokbo-list-container {
+      width: 85%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .jokbo-list-container {
+      width: 95%;
+    }
+  }
+
+
+  .free-subtab {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+  }
+  
+  .free-subtab p {
+    margin-bottom: 10px;
+  }
+
+  .free-title {
+    font-family: 'NanumSquareNeoBold', sans-serif;  /* 원하는 폰트로 변경하세요 */
+    font-weight: bold;
+    font-size: 1.1em;  /* 크기를 약간 키웠습니다. 필요에 따라 조절하세요 */
+    color: #333;  /* 원하는 색상으로 변경하세요 */
+  }
+
+  .free-detail {
+    font-size: 1.1rem;
+  }

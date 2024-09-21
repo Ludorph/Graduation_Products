@@ -1,0 +1,429 @@
+@font-face {
+  font-family: 'NanumSquareNeoBold';
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot);
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), 
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), 
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquareNeoLight';
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.eot);
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.ttf) format("truetype");
+}
+
+.jokbo-write-container {
+  display: flex; 
+  width: 1080px; 
+  max-width: 2000px;
+  margin: 0 auto;
+  padding-top: 65px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.jokbo-write-main {
+  flex: 1;
+  margin-right: 20px;
+}
+
+/* 여기부터 .setting-checkbox까지 우측 요소 */
+.jokbo-write-sidebar {
+  width: 290px;
+  margin-top: 140px; 
+  position: relative;
+}
+
+.additional-settings {
+  background-color: #f9f9fa;
+  border-radius: 1px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.settings-title {
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 16px;
+  color: #575f44;
+  margin-bottom: 15px;
+}
+
+.setting-item {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.setting-label {
+  display: inline-block; /* 2. 한 줄에 표시하기 위해 변경 */
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 14px;
+  color: #575f44;
+  margin-right: 10px;
+}
+
+.settings-title {
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 16px;
+  color: #575f44;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.setting-input {
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  width: 150px;
+  height: 30px;
+  padding: 8px;
+  border: 1px solid #ebecef;
+  border-radius: 4px;
+  font-size: 14px;
+  
+}
+
+.setting-input[type="number"] {
+  -moz-appearance: textfield; /* 2. 숫자 조절 레버 삭제 */
+}
+
+.setting-input[type="number"]::-webkit-inner-spin-button, 
+.setting-input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.setting-checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.setting-checkbox-input {
+  display: none;
+}
+
+.setting-checkbox-custom {
+  width: 17px;
+  height: 17px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  margin-right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.setting-checkbox-input:checked + .setting-checkbox-custom {
+  background-color: #F7A3A7;
+  border-color: #F7A3A7;
+}
+
+.setting-checkbox-icon {
+  color: white;
+  font-size: 14px;
+  display: none;
+}
+
+.setting-checkbox-input:checked + .setting-checkbox-custom .setting-checkbox-icon {
+  display: block;
+}
+
+.setting-checkbox-label {
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 14px;
+  color: rgb(56, 62, 44);
+}
+
+
+/* .setting-checkbox {
+  margin-right: 5px;
+  width: 16px;
+  height: 16px; 
+  vertical-align: middle; 
+} */
+
+/* 족보게시판 텍스트*/
+.jokbo-write-header {
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  text-align: left;
+  margin-bottom: 20px;
+  width: 100%;
+  color: #575f44;
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+  padding-bottom: 10px; /* 텍스트와 border 사이 간격 추가 */
+  border-bottom: 1px solid #575f44; /* 족보게시판 텍스트 아래 border 추가 */
+}
+
+.board-title {
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+/* 등록 버튼 */
+.jokbo-temporarily-submit-button {
+  position: absolute;
+  width: 90px;
+  height: 38px;
+  right: 0;
+  top: 0;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 65px;
+  margin-right: 75px;
+}
+
+.jokbo-submit-button {
+  position: absolute;
+  width: 60px;
+  right: 0;
+  top: 0;
+  background-color: #e0f8eb;
+  color: #009f47;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 65px;
+  margin-right: 5px;
+}
+
+/* .jokbo-submit-button:hover {
+  background-color: #91ae42;
+} */
+
+.title-input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.title-input {
+  width: 100%;
+  font-size: 22px;
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.title-input::placeholder {
+  color: #cacaca; /* placeholder 색상 설정 */
+  opacity: 1; /* Firefox에서 placeholder 투명도 설정 */
+}
+
+.title-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #dbdbdb;
+}
+
+.sidebar-top-border {
+  position: absolute;
+  top: -93px;  
+  left: -20px;
+  right: 0;
+  height: 0.5px;
+  background-color: #575f44;
+}
+
+
+ /* 
+.title-input::-webkit-input-placeholder {  Chrome/Opera/Safari 
+  color: #999;
+}  */
+
+.content-editor-container {
+  border: 1px solid #ebecef;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* 내부 요소들이 border 밖으로 나가는 것을 방지(사실상 가리는거임) */
+  box-shadow: inset 0.5px 0.5px rgba(49, 49, 49, 0.1); /* 내부 그림자 추가 */
+}
+
+ /* .content-editor-container .ql-toolbar {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border: none;
+  border-bottom: 1px solid #dcdcdd;
+  background-color: #fefefe; /* 툴바 배경색 변경 
+}  */
+
+.content-editor {
+  height: 600px;
+}
+
+.content-editor .quill {
+  width: 100%;
+}
+
+.ql-container {
+  font-size: 16px !important;
+  width: 100% !important;
+  border: none !important;
+  box-sizing: border-box;
+}
+
+.ql-editor {
+  min-height: 300px;
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+.ql-editor p {
+  font-size: 16px; /* 문단의 폰트 크기 */
+}
+
+/* 폰트 크기 선택기 스타일 */
+.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+  content: attr(data-value) !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value]:not([data-value=''])::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value]:not([data-value=''])::before {
+  content: attr(data-value) !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label {
+  padding-right: 20px !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-options {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* 폰트 추가 부분 */
+.ql-font-NeoBold { 
+  font-family: 'NanumSquareNeoBold', 'NanumSquareNeoLight', Arial, sans-serif !important; 
+}
+.ql-font-NeoLight { 
+  font-family: 'NanumSquareNeoLight', Arial, sans-serif !important; 
+}
+
+/* 폰트 크기 적용 안 돼서 추가함 */
+.ql-snow .ql-size-8px { font-size: 8px; }
+.ql-snow .ql-size-9px { font-size: 9px; }
+.ql-snow .ql-size-10px { font-size: 10px; }
+.ql-snow .ql-size-11px { font-size: 11px; }
+.ql-snow .ql-size-12px { font-size: 12px; }
+.ql-snow .ql-size-14px { font-size: 14px; }
+.ql-snow .ql-size-16px { font-size: 16px; }
+.ql-snow .ql-size-18px { font-size: 18px; }
+.ql-snow .ql-size-20px { font-size: 20px; }
+.ql-snow .ql-size-22px { font-size: 22px; }
+.ql-snow .ql-size-24px { font-size: 24px; }
+.ql-snow .ql-size-26px { font-size: 26px; }
+.ql-snow .ql-size-28px { font-size: 28px; }
+.ql-snow .ql-size-36px { font-size: 36px; }
+
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: attr(data-value) !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value]:not([data-value=''])::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value]:not([data-value=''])::before {
+  content: attr(data-value) !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label {
+  padding-right: 20px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-options {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* 기본 선택된 폰트 크기 스타일 */
+/* .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before {
+  content: '16px' !important;
+  font-weight: bold;
+} */
+
+
+.ql-toolbar {
+  width: 100% !important;
+  text-align: left !important;
+  border: none !important;
+  border-bottom: 1px solid #ebecef !important;
+  box-sizing: border-box;
+}
+
+.tag-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 10px 3%;
+  /* border-top: 1px solid #ccc; */
+  height: 68px;
+  cursor: text;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tag-input-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 3%;
+  right: 3%;
+  height: 0.5px;
+  color:#575f44;
+  background-color: #ebecef;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  display: inline-flex;
+  align-items: center;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+.remove-tag {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.tag-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 3px;
+  margin-bottom: 5px;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.tag-placeholder {
+  color: #999;
+  padding-left: 0; /* 왼쪽 패딩 제거 */
+}

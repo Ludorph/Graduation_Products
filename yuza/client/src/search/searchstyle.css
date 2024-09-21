@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.search_box {
+    background: #393b40;  /* 바깥쪽 배경색 */ 
+    padding: 15px;
+    border-radius: 50px;
+    display: flex;
+}
+
+.search_box .search_btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #4c4d50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    /* margin-right: 15px; */
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.search_box .input_search {
+    outline: none;
+    border: none;
+    background: #4c4d50;
+    border-radius: 50px;
+    padding: 15px 20px;
+    width: 300px; 
+    height: 50px;
+    color: #fff;
+    font-size: 16px; /* Font size 추가 */
+}
+
+::placeholder {
+    color: #fff;
+    opacity: 1; /* iOS의 플레이스홀더 투명도 문제 해결 */
+}
+
+/* 검색버튼 색상조정 */
+.search_btn a {
+    color: white; 
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.search_btn a:hover, .search_btn a:focus {
+    color: white; /* 마우스 오버 및 포커스 시 색상 유지 */
+    text-decoration: none; /* 밑줄 제거 */
+}

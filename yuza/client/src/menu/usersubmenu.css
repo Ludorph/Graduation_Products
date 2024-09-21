@@ -1,0 +1,90 @@
+.user-submenu-container {
+    position: relative;
+}
+
+.user-submenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 230px; /* 마이페이지 서브메뉴 너비 */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.user-submenu-top {
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 20px 0;
+    position: relative;
+}
+
+.user-icon-wrapper {
+    position: relative;
+    width: 66px;
+    height: 66px;
+}
+
+.user-icon-wrapper svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotate 10s linear infinite;
+}
+
+.user-icon {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 설정 버튼 */
+.settings-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333 !important;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.user-submenu-bottom {
+    display: flex;
+    flex-direction: column; /* bottom 요소들 배치 방향 설정(현재는 세로) */
+    border: 1px solid #e5e5e5;
+}
+
+.submenu-button {
+    flex: 1;
+    text-align: center;
+    padding: 15px 0;
+    text-decoration: none;
+    color: #333 !important;
+    font-size: 14px;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    transition: background-color 0.3s;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.submenu-button:hover {
+    background-color: #f0f0f0;
+}
+
+.submenu-button:last-child {
+    border-bottom: none;
+}

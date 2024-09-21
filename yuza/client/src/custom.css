@@ -1,0 +1,38 @@
+.bg-body-tertiary {
+    background-color: #15cd90 !important;
+  }
+  
+.main-bg {
+    height: 700px;
+    /* background-color: #121010; */
+    background-image: url('./img/main-img.png'); 
+    background-size: cover;
+    background-position: center
+  }
+
+  /* remove rounding from cards, buttons and inputs */
+.card, .btn, .form-control { border-radius: 0; }
+
+.title-message {
+    padding-top: 140px;
+}
+.title-message-top {
+    color: #6e7955;
+
+}
+
+.title-message-bottom {
+    color: #6e7955;
+
+}
+
+.redirect-card {
+    padding-top: 40px;
+}
+
+
+.mb-2 {
+    background: #262626;
+    border-radius: 30px;
+}
+

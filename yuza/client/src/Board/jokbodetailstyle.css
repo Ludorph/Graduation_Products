@@ -1,0 +1,13 @@
+.jokbo-title {
+    font-family: 'NanumSquareNeoLight', sans-serif;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.7rem;
+    color: #535353;
+    padding-top: 1.5rem;
+    padding-bottom: 1.2rem; /* 텍스트와 선 사이의 간격을 위해 패딩 추가 */
+    border-bottom: 1.5px solid #cbc9c9d6; /* 선의 두께, 스타일, 색상을 지정 */
+    box-shadow: 5px 0px 6px 0px rgba(0, 0, 0, 0.1); /* 그림자 */
+    margin-bottom: 2rem; /* 선 아래 여백 추가 (필요시) */
+    padding: 26px;
+  }
