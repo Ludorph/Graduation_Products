@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import DataComponent from '../DataComponent';
+import jokboService from './jokboService';
 import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -67,7 +67,6 @@ function JokboList() {
     const [jokbos, setJokbos] = useState([]);
     const [selectedJokbo, setSelectedJokbo] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const { data: jokbo } = DataComponent();
 
     // useEffect(() => {
     //     const fetchJokbos = async () => {
@@ -76,6 +75,18 @@ function JokboList() {
     //     };
     //     fetchJokbos();
     // }, []);
+
+    useEffect(() => {
+        const fetchJokbos = async () => {
+            try {
+                const data = await jokboService.getAllJokbos();
+                setJokbos(data);
+            } catch (error) {
+                console.error('족보 목록 조회 실패:', error);
+            }
+        };
+        fetchJokbos();
+    }, []);
 
     const handleAddToCart = (id) => {
         console.log(`족보 ID ${id}를 장바구니에 추가했습니다.`);
@@ -136,7 +147,7 @@ function JokboList() {
                 <div className="jokbo-list-grid">
                     <DataGrid
                         className="super-app-theme"
-                        rows={jokbo}
+                        rows={jokbos}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}

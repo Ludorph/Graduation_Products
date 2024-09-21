@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './jokbowritestyle.css';
 import { CiLock } from "react-icons/ci";
-import InsertJokboComponent from '../InsertJokboComponent';
+import jokboService from './jokboService';
 
 const JokboWrite = () => {
   const [content, setContent] = useState('');
@@ -17,7 +17,8 @@ const JokboWrite = () => {
   const tagInputRef = useRef(null);
   const tagContainerRef = useRef(null);
   const navigate = useNavigate();
-  const { insertJokbo } = InsertJokboComponent();
+
+
 
 
   // 폰트 크기 옵션(toolbar에 들어갈 거)
@@ -155,12 +156,11 @@ const JokboWrite = () => {
       examdata_title: title,
       examdata_content: content,
     };
-
     try {
-      const result = await insertJokbo(jokboData);
+      const result = await jokboService.createJokbo(jokboData);
       if (result.success) {
         alert('족보가 성공적으로 등록되었습니다!');
-        navigate('/board/jokbo'); // 족보 목록 페이지로 이동
+        navigate('/board/jokbo');
       } else {
         alert(`족보 등록 실패: ${result.error}`);
       }
