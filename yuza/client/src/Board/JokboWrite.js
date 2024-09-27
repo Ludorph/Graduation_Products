@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './jokbowritestyle.css';
 import { CiLock } from "react-icons/ci";
+import jokboService from './jokboService';
 
 const JokboWrite = () => {
   const [content, setContent] = useState('');
@@ -146,9 +147,25 @@ const JokboWrite = () => {
     setIsPrivate(e.target.checked);
   };
 
-  const handleSubmit = () => {
-    // 여기에 제출 로직을 구현하세요
-    console.log("글 등록 버튼이 클릭되었습니다.");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const jokboData = {
+      user_id: '테스트 유저',
+      examdata_title: title,
+      examdata_content: content,
+    };
+    try {
+      const result = await jokboService.createJokbo(jokboData);
+      if (result.success) {
+        alert('족보가 성공적으로 등록되었습니다!');
+        navigate('/board/jokbo');
+      } else {
+        alert(`족보 등록 실패: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('족보 등록 중 오류 발생:', error);
+      alert('족보 등록 중 오류가 발생했습니다.');
+    }
   };
 
   return (
