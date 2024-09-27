@@ -271,7 +271,7 @@ body {
 .content .col .menu-title {
   font-family: 'NanumSquareNeoLight', sans-serif;
   color: #000000;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   line-height: 3rem; /* 학부명과 학과명 사이 간격 */
   font-weight: bold;
   text-align: left; /* 왼쪽 정렬 추가 */
@@ -302,7 +302,8 @@ body {
 .col .mega-links li a {
   padding: 0 1rem;
   color: #151515;  /* 학과명 폰트 색상, 폰트 사이즈*/
-  font-size: 0.8rem; 
+  font-size: 0.9rem; 
+  font-family: 'NanumSquareNeoBold', sans-serif;
 }
 
 .menu-items li:hover .mega-menu {
@@ -406,6 +407,7 @@ h1 {
     transform: translateX(-100vh);
     transition: 0.3s ease-out;
     padding-bottom: 100px;
+    
   }
 
   .menu-items.open {

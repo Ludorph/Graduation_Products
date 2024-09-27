@@ -2,16 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // fortawesome에서 SVG 아이콘 import
 import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { Link } from 'react-router-dom'; // 리액트 라우터
+import { Link, useLocation } from 'react-router-dom'; // 리액트 라우터
 import './menustyle.css'; // CSS 파일
 import UserSubmenu from './UserSubmenu';
 
-function Menu({ setIsHovered }) {
+function Menu({ isHovered, setIsHovered }) {
     const [isOpen, setIsOpen] = useState(false);
     const [expandMenu, setExpandMenu] = useState(false);
     const menuRef = useRef(null);
     const bodyRef = useRef(document.body);
     const overlayRef = useRef();
+    const location = useLocation();
+
+    useEffect(() => {
+        setIsHovered(false);
+    }, [location, setIsHovered]);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -20,8 +25,12 @@ function Menu({ setIsHovered }) {
         menuRef.current.classList.toggle('open');
     };
 
-    const toggleExpand = () => {
-        setExpandMenu(!expandMenu);
+    /* 학과명을 클릭하면 서브메뉴가 닫히게 하기 */
+    const handleLinkClick = () => {
+        // 클릭 이벤트 발생 후 약간의 지연 시간을 두고 메뉴를 닫습니다.
+        setTimeout(() => {
+            setIsHovered(false);
+        }, 50);
     };
 
 
@@ -53,27 +62,27 @@ function Menu({ setIsHovered }) {
     ];
 
 
+    
 
 
     return (
-        <>
-            <header className="navbar sticky">
-                <a href="/" className="logo"><FontAwesomeIcon icon={faAppleWhole} /> YUJA</a>
-                <div className="menu-btn" onClick={toggleMenu}>
-                    <div className="menu-btn__lines"></div>
-                </div>
+        <header className="navbar sticky">
+            <a href="/" className="logo"><FontAwesomeIcon icon={faAppleWhole} /> YUJA</a>
+            <div className="menu-btn" onClick={toggleMenu}>
+                <div className="menu-btn__lines"></div>
+            </div>
 
-                <ul className="menu-items">
+            <ul className="menu-items">
+                <li 
+                    className="mega-menu-hover"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    <a href="#" className="menu-item first-item expand-btn">
+                        과별 자격증
+                    </a>
 
-                    <li className="mega-menu-hover"
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}>
-                        <a href="#"
-                            className="menu-item first-item expand-btn"
-                        >
-                            과별 자격증
-                        </a>
-
+                    {isHovered && (
                         <div className="mega-menu sample">
                             <div className="content">
                                 {departments.map((dept, index) => (
@@ -83,40 +92,30 @@ function Menu({ setIsHovered }) {
                                             <ul className="mega-links">
                                                 {dept.majors.map((major, majorIndex) => (
                                                     <li key={majorIndex}>
-                                                        <Link to={`/dp/${index + 1}/${majorIndex + 1}`} className="menu-item">
+                                                        <Link
+                                                            to={`/dp/${index + 1}/${majorIndex + 1}`}
+                                                            className="menu-item"
+                                                            onClick={handleLinkClick}
+                                                        >
                                                             {major}
                                                         </Link>
                                                     </li>
                                                 ))}
                                             </ul>
                                         </section>
-                                        {/* <div className="featured-image">
-                                            <img src={dept.featuredImage} alt={`${dept.name} 대표 이미지`} />
-                                        </div> */}
                                     </div>
                                 ))}
                             </div>
                         </div>
-
-                    </li>
-                    <li><Link to="/board/jokbo" className="menu-item first-item">족보게시판</Link></li>
-                    <li><Link to="/board/cert" className="menu-item first-item">문제은행</Link></li>
-                    <li>
-                        <Link to="/board/free" className="menu-item first-item">자유게시판</Link>
-                    </li>
-                    <UserSubmenu />
-                    {/* 기존 코드:
-                    <li><a href="#" className="menu-item first-item">
-                    <FontAwesomeIcon icon={faUser} style={{ fontSize: '18px' }} />
-                    </a></li> */}
-
-                </ul>
-
-            </header>
-        </>
-
-    )
-
+                    )}
+                </li>
+                <li><Link to="/board/jokbo" className="menu-item first-item" onClick={handleLinkClick}>족보게시판</Link></li>
+                <li><Link to="/board/cert" className="menu-item first-item" onClick={handleLinkClick}>문제게시판</Link></li>
+                <li><Link to="/board/free" className="menu-item first-item" onClick={handleLinkClick}>자유게시판</Link></li>
+                <UserSubmenu />
+            </ul>
+        </header>
+    );
 }
 
 export default Menu;

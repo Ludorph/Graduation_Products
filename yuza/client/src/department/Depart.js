@@ -324,6 +324,7 @@ function Depart() {
     '1': {
       '1': [
         {
+          id: 1,
           name: '기계조립산업기사',
           image: certImages['1-1-1'],
           description: '기계 부품을 조립하고 기계 장치를 제작, 설치, 보수하는 기술자격',
@@ -335,6 +336,7 @@ function Depart() {
           examDate: '24.10.19 ~ 24.11.08'
         },
         {
+          id: 2,
           name: '컴퓨터응용가공산업기사',
           image: certImages['1-1-2'],
           description: 'CAD/CAM 시스템을 활용하여 기계 부품을 가공하는 기술자격',
@@ -346,6 +348,7 @@ function Depart() {
           examDate: '24.10.19 ~ 24.11.08'
         },
         {
+          id: 3,
           name: '공조냉동기계산업기사',
           image: certImages['1-1-3'],
           description: '냉동, 공조 시스템의 설계, 시공, 운전, 관리를 수행하는 기술자격',
@@ -357,6 +360,7 @@ function Depart() {
           examDate: '24.10.19 ~ 24.11.08'
         },
         {
+          id: 4,
           name: '가스산업기사',
           image: certImages['1-1-4'],
           description: '가스관리를 담당하는 기술자격',
@@ -370,6 +374,7 @@ function Depart() {
       ],
       '2': [
         {
+          id: 1,
           name: '기계조립산업기사',
           image: certImages['1-1-1'],
           description: '기계 부품을 조립하고 기계 장치를 제작, 설치, 보수하는 기술자격',
@@ -381,6 +386,7 @@ function Depart() {
           examDate: '24.10.19 ~ 24.11.08'
         },
         {
+          id: 2,
           name: '컴퓨터응용가공산업기사',
           image: certImages['1-1-2'],
           description: 'CAD/CAM 시스템을 활용하여 기계 부품을 가공하는 기술자격',
@@ -392,6 +398,7 @@ function Depart() {
           examDate: '24.10.19 ~ 24.11.08'
         },
         {
+          id: 3,
           name: '공조냉동기계산업기사',
           image: certImages['1-1-3'],
           description: '냉동, 공조 시스템의 설계, 시공, 운전, 관리를 수행하는 기술자격',
@@ -403,6 +410,7 @@ function Depart() {
           examDate: '24.10.19 ~ 24.11.08'
         },
         {
+          id: 4,
           name: '가스산업기사',
           image: certImages['1-1-4'],
           description: '가스관리를 담당하는 기술자격',
@@ -475,24 +483,27 @@ function Depart() {
             <Slider {...settings}>
               {currentCertifications.map((cert, index) => (
                 <div key={index}>
-                  <div className="slide-content">
-                    <div className="slide-image">
-                      <img src={cert.image} alt={cert.name} />
-                      <div className="slide-overlay">
-                        {/* 슬라이드에 hover 했을 때 */}
-                        <p><FontAwesomeIcon icon={faPencil} className="fa-icon" />{cert.signUpPeriod}</p>
-                        <p><FontAwesomeIcon icon={faTools} className="fa-icon" />{cert.examDate}</p>
+                  <Link to={`/CertiGallery/${cert.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div className="slide-content">
+                      <div className="slide-image">
+                        {/* url로 자격증별 id값인 cert.id을 전달 --> 각 자격증 페이지를 로드할 때 사용*/}
+                        <img src={cert.image} alt={cert.name} />
+                        <div className="slide-overlay">
+                          {/* 슬라이드에 hover 했을 때 */}
+                          <p><FontAwesomeIcon icon={faPencil} className="fa-icon" />{cert.signUpPeriod}</p>
+                          <p><FontAwesomeIcon icon={faTools} className="fa-icon" />{cert.examDate}</p>
+                        </div>
+                      </div>
+                      <div className="slide-text">
+                        <h3>{cert.name}</h3>
+                        <p>{cert.description}</p>
+                        <div className="exam-info">
+                          <span className="exam-tag">필기(연{cert.examInfo.written}회)</span>
+                          <span className="exam-tag">실기(연{cert.examInfo.practical}회)</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="slide-text">
-                      <h3>{cert.name}</h3>
-                      <p>{cert.description}</p>
-                      <div className="exam-info">
-                        <span className="exam-tag">필기(연{cert.examInfo.written}회)</span>
-                        <span className="exam-tag">실기(연{cert.examInfo.practical}회)</span>
-                      </div>
-                    </div>
-                  </div>
+                  </Link>
                 </div>
               ))}
             </Slider>

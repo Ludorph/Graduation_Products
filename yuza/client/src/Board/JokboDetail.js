@@ -348,7 +348,7 @@ const mockJokboData = {
 };
 
 const JokboDetail = () => {
-    // const { id } = useParams(); // URL에서 족보 ID를 가져옵니다.
+    const { id } = useParams(); // URL에서 족보 ID를 가져옵니다.
     // 실제 구현에서는 이 ID를 사용해 서버에서 데이터를 가져와야 합니다.
     const jokbo = mockJokboData; // 여기서는 목업 데이터를 사용합니다.
     const [isLiked, setIsLiked] = useState(false);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import './certificationliststyle.css';
 import cartIcon from '../../img/boardimg/cart-icon.png';
@@ -137,6 +137,7 @@ function CertificationList() {
         '정보처리기사', '리눅스마스터', '네트워크관리사', '정보보안기사', '빅데이터분석기사'
     ]);
     const [purchasedCerts, setPurchasedCerts] = useState([]);
+    const location = useLocation();
 
     useEffect(() => {
         const fetchCerts = async () => {
@@ -253,6 +254,18 @@ function CertificationList() {
         },
     ];
 
+    useEffect(() => {
+        if (location.state && location.state.selectedCertType) {
+            const certType = location.state.selectedCertType;
+            if (myDepartmentCertifications.includes(certType)) {
+                setSelectedCertType(certType);
+            } else {
+                setSelectedCertType('기타 자격증');
+                setSelectedOtherCert(certType);
+            }
+        }
+    }, [location]);
+
     return (
         <div>
             <h2 className="cert-list-title">자격증 문제 게시판</h2>
@@ -261,9 +274,10 @@ function CertificationList() {
                     options={certTypes}
                     selectedOption={selectedCertType}
                     onSelect={(certType, otherCert) => handleCertTypeSelect(certType, otherCert)}
+                    selectedOtherCert={selectedOtherCert}
                 />
                 <div className="cert-list-grid" style={{ height: 891, width: '100%' }}>
-                {/* cert-list-grid를 조절해서 게시판 크기 조절  */}
+                    {/* cert-list-grid를 조절해서 게시판 크기 조절  */}
                     <DataGrid
                         rows={filteredCerts}
                         columns={columns}

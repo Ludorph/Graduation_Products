@@ -5,6 +5,7 @@ import './card.css';  // 메인페이지의 카드 3개
 import './fonts.css'; // 폰트 전역선언(단 styled-components는 적용 안 돼서 font선언 다시 해야 됨)
 import MenuBar from './menu/Menu'; // 상단 메뉴바
 import SearchBox from './search/SearchBox'; // 메인페이지 검색바
+import CertiGallery from './certigallery/CertiGallery.js';
 import Depart from './department/Depart.js'; // 학과페이지(Link는 Menu.js에서)
 import JokboBoard from './Board/JokboBoard.js'; // 족보게시판
 import CertificationBoard from './Board/CertificationBoard/CertificationBoard.js'
@@ -22,6 +23,7 @@ const queryClient = new QueryClient();
 function App() {
 
   const [isHovered, setIsHovered] = useState(false);
+  const [isMenuHovered, setIsMenuHovered] = useState(false); // 추가
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,7 +35,7 @@ function App() {
 
         { /* 메뉴바 import */}
         <div>
-          <MenuBar setIsHovered={setIsHovered} />  { /* 블러처리를 위한 상태함수 전달 */}
+          <MenuBar isHovered={isMenuHovered} setIsHovered={setIsMenuHovered} />  { /* 블러처리를 위한 상태함수 전달 */}
         </div>
 
         { /* 리액트 라우터 --> 상세페이지 */}
@@ -162,6 +164,7 @@ function App() {
 
 
             } />
+            <Route path="/certigallery/:certId" element={<CertiGallery />} />
             <Route path="/dp/:deptId/:majorId" element={<Depart />} />
             <Route path="/board/jokbo/*" element={<JokboBoard />}/>
             <Route path="/board/cert/*" element={<CertificationBoard />}/>

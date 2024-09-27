@@ -1,20 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { TextField, ThemeProvider, LinearProgress, Dialog, DialogTitle, DialogContent, DialogActions, Button, createTheme, Checkbox, FormControlLabel, Autocomplete } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faPenToSquare, faRotateRight, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
-import './certificationwritestyle.css';
-import addImageIcon from '../../img/boardimg/add-image-icon.png';
+import {
+  TextField,
+  ThemeProvider,
+  Autocomplete,
+  createTheme,
+  Button,
+  Checkbox,
+  FormControlLabel
+} from '@mui/material';
 import styled, { keyframes, css } from 'styled-components';
-
-// 이미지 업로드 모달창
-const StyledDialog = styled(Dialog)`
-  .MuiDialog-paper {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    padding: 16px;
-  }
-`;
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faCheck, faRotateRight, faUpload, faTrash, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
+import './certificationwritestyle.css';
 
 // 자격증 선택 select-box 관련(흔들리는 애니메이션)
 const shakeAnimation = keyframes`
@@ -25,22 +23,9 @@ const shakeAnimation = keyframes`
   100% { transform: translateX(0); }
 `;
 
-// 게시물 제목 입력란
-const ExpandingTextField = styled(TextField)`
-  transition: width 0.3s ease-in-out;
-  width: ${props => props.expanded ? '300px' : '150px'};
-  ${props => props.$error && css`
-    animation: ${shakeAnimation} 0.5s ease-in-out;
-    .MuiOutlinedInput-notchedOutline {
-      border-color: #760000;
-      border-width: 2px;
-    }
-  `}
-`;
-
 // error prop가 true면 흔들리는 애니메이션과 빨간색 테두리를 적용
 const StyledAutocomplete = styled(Autocomplete)`
-  width: 300px;  // 선택창 가로길이 
+  width: 100%;  // 부모 요소의 전체 너비를 사용
   ${props => props.$error && css`
     animation: ${shakeAnimation} 0.5s ease-in-out;
     .MuiOutlinedInput-notchedOutline {
@@ -50,11 +35,15 @@ const StyledAutocomplete = styled(Autocomplete)`
   `}
 `;
 
-const HeaderContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+const StyledTextField = styled(TextField)`
+  width: 100%;
+  margin-top: 10px;
+  .MuiOutlinedInput-root {
+    background-color: ${props => props.disabled ? '#f0f0f0' : 'white'};
+  }
+  .MuiOutlinedInput-input {
+    color: ${props => props.disabled ? '#999' : 'black'};
+  }
 `;
 
 const certificates = [
@@ -89,62 +78,283 @@ const theme = createTheme({
         }
       `,
     },
-    MuiLinearProgress: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#d7b03d',
-          height: 10,
-          borderRadius: 5,
-        },
-        bar: {
-          backgroundColor: '#a88a33',
-        },
-      },
-    },
-    // palette: {
-    //   primary: {
-    //     main: '#ff0000',
-    //   },
-    // },
   },
 });
 
-function CertificationWrite() {
-    const navigate = useNavigate();
-    const formRef = useRef(null);
-    const [questionType, setQuestionType] = useState('');
-    const [question, setQuestion] = useState('');
-    const [optionCount, setOptionCount] = useState(0);
-    const [options, setOptions] = useState([]);
-    const [note, setNote] = useState('');
-    const [registeredQuestions, setRegisteredQuestions] = useState([]);
-    const [answers, setAnswers] = useState([]);
-    // 이미지 업로드 관련 속성들
-    const [images, setImages] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
-    // 이미지 업로드 오류 모달창 속성들
-    const [openModal, setOpenModal] = useState(false);
-    const [modalMessage, setModalMessage] = useState('');
-    // 자격증 선택 select-box
-    const [selectedCertificate, setSelectedCertificate] = useState(null);
-    const [certificateError, setCertificateError] = useState(false);
-    const [title, setTitle] = useState('');
-    const [titleExpanded, setTitleExpanded] = useState(false);
-    const [titleError, setTitleError] = useState(false);
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 15px;
+`;
 
-  
-  const handleQuestionTypeChange = (type) => {
-    setQuestionType(type);
+/* 문제 등록의 입력필드(CustomTextField => 사각형 border의 문제 입력필드, UnderlinedTextField => 밑줄만 있는 선택지 입력필드) */
+const CustomTextField = styled(TextField)`
+  width: ${props => props.width || '100%'};
+  & .MuiInputBase-root {
+    height: ${props => props.height || 'auto'};
+  }
+`;
+
+const UnderlinedTextField = styled(TextField)`
+  width: ${props => props.width || '100%'};
+  & .MuiInputBase-root {
+  font-size: 15px;
+  width: 550px;
+    &:before {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+    }
+    &:after {
+      border-bottom: 2px solid #6e8ab9;
+    }
+  }
+  & .MuiInput-underline:hover:not(.Mui-disabled):before {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.87);
+  }
+`;
+
+const CustomCheckbox = styled(Checkbox)`
+  &.MuiCheckbox-root {
+    padding: 0px;
+    margin-left: 20px;
+    margin-top: 11px;
+    margin-right: -15px;
+  }
+  .MuiSvgIcon-root {
+    display: none;
+  }
+  &::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #b9b8b8;
+    background-color: #fff;
+    transition: all 0.2s;
+  }
+  &.Mui-checked::before {
+    background-color: #5f7daf;
+    border-color: #5f7daf;
+  }
+  &.Mui-checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+  }
+`;
+
+
+const OptionRowWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding-left: 5px;
+`;
+
+/* 여기부터 파일 업로드 영역 */
+const FileUploadArea = styled.div`
+  margin-top: -10px;
+  padding: 20px;
+  border-radius: 8px;
+`;
+
+const FileUploadWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  width: 100%;
+`;
+
+const FileNameInput = styled.input`
+  width: 500px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  font-size: 15px;
+  padding: 5px 0;
+  margin-left: -9px;
+  background-color: transparent;
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid #6e8ab9;
+  }
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.42);
+  }
+`;
+
+const UploadButton = styled.button`
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  color: #6e8ab9;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-weight: bold;
+  &:hover {
+    border-bottom: 2px solid #6e8ab9;
+  }
+`;
+
+/* 여기부터 등록된 문제 영역 */
+const RegisteredQuestionsArea = styled.div`
+  margin-top: 0px;
+  padding: 5px;
+  border-radius: 8px;
+`;
+
+const RegisteredQuestion = styled.div`
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  position: relative;
+  text-align: left;
+`;
+
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #d32f2f;
+  cursor: pointer;
+  font-size: 18px;
+`;
+
+const RegisteredQuestionTitle = styled.div`
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 18px;
+  color: #575f44;
+  margin-bottom: 15px; // 문항제목 아래 간격
+  padding: 8px;
+`;
+
+const RegisteredQuestionOptions = styled.ol`
+  padding-left: 28px;
+  margin-top: 10px;
+`;
+
+const RegisteredQuestionOption = styled.li`
+  margin-bottom: 5px;
+  color: ${props => props.isCorrect ? '#4CAF50' : 'inherit'};
+  font-weight: ${props => props.isCorrect ? 'bold' : 'normal'};
+`;
+
+const RegisteredQuestionNote = styled.p`
+  margin-top: 10px;
+  font-style: italic;
+  color: #666;
+  margin-left: 10px;
+`;
+
+const RegisteredQuestionFile = styled.p`
+  margin-top: 10px;
+  color: #1976d2;
+  margin-left: 10px;
+`;
+
+/* 문제속성, 문제작성, 등록된 문제 영역을 구분하는 border 컴포넌트 */
+const StyledCertWriteContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledCertWriteLeft = styled.div`
+  width: 22%;
+  padding-right: 20px;
+  border-right: 1px solid #a5a5a5;
+`;
+
+const StyledCertWriteRight = styled.div`
+  width: 75%;
+`;
+
+const QuestionInputArea = styled.div`
+  padding-bottom: 20px;
+  border-bottom: 1px solid #a5a5a5;
+`;
+
+
+
+
+const CertificationWrite = () => {
+  const navigate = useNavigate();
+  const [questionType, setQuestionType] = useState('');
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [certificateError, setCertificateError] = useState(false);
+  const [questionCount, setQuestionCount] = useState('');
+
+
+  const [questionTitle, setQuestionTitle] = useState('');
+  const [options, setOptions] = useState([]);
+  const [answers, setAnswers] = useState([]);
+
+  /* 파일 업로드 관련 */
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const formRef = useRef(null);
+  const fileInputRef = useRef(null);
+
+  /* 등록된 문제 관련 */
+  const [registeredQuestions, setRegisteredQuestions] = useState([]);
+
+
+  const handleSubmit = () => {
+    if (!selectedCertificate || !questionTitle || (questionType === '객관식' && options.length === 0)) {
+      // 에러 처리
+      return;
+    }
+
+    const newQuestion = {
+      certificate: selectedCertificate,
+      type: questionType,
+      question: questionTitle,
+      options: questionType === '객관식' ? options : null,
+      answers: questionType === '객관식' ? answers : null,
+      note: questionType === '주관식' ? options[0] : null,
+      file: uploadedFile,
+    };
+
+    setRegisteredQuestions(prev => [...prev, newQuestion]);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setQuestionType('');
+    setQuestionCount('');
+    setQuestionTitle('');
     setOptions([]);
-    setOptionCount(0);
+    setAnswers([]);
+    setUploadedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
-  const handleOptionCountChange = (event) => {
-    const count = Math.min(parseInt(event.target.value), 6); // 최대 6개로 제한
-    setOptionCount(count);
-    setOptions(Array(count).fill(''));
-    setAnswers(Array(count).fill(false));
-  };
+  /* 여기부터 오른쪽 문제 작성 영역 */
+
+  useEffect(() => {
+    if (questionType === '객관식' && questionCount) {
+      const count = Math.min(parseInt(questionCount), 5); // 최대 6개로 제한
+      setQuestionCount(count.toString());
+      setOptions(Array(count).fill(''));
+      setAnswers(Array(count).fill(false));
+    } else {
+      setOptions([]);
+      setAnswers([]);
+    }
+  }, [questionType, questionCount]);
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
@@ -158,289 +368,203 @@ function CertificationWrite() {
     setAnswers(newAnswers);
   };
 
-  // 이미지 업로드 부분
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (images.length + files.length > 2) {
-      setModalMessage('최대 2개의 이미지만 업로드할 수 있습니다.');
-      setOpenModal(true);
-      return;
-    }
 
-    const newImages = files.map(file => ({
-      file,
-      preview: URL.createObjectURL(file)
-    }));
-    setImages(prevImages => [...prevImages, ...newImages]);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!selectedCertificate) {
-      setCertificateError(true);
-      setTimeout(() => setCertificateError(false), 500);
-      return;
-    }
-    if (!title) {
-      setTitleError(true);
-      setTimeout(() => setTitleError(false), 500);
-      return;
-    }
-    const newQuestion = {
-      title: title,
-      type: questionType,
-      question: question,
-      options: questionType === '객관식' ? options : null,
-      answers: questionType === '객관식' ? answers : null,
-      note: questionType === '주관식' ? note : null,
-      images: images.map(img => img.preview),
-      certificate: selectedCertificate
-    };
-    setRegisteredQuestions([...registeredQuestions, newQuestion]);
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setQuestionType('');
-    setQuestion('');
-    setOptions([]);
-    setOptionCount(0);
-    setNote('');
-    setAnswers([]);
-    setImages([]);
-    setErrorMessage('');
-  };
-
-  const handleExternalSubmit = () => {
-    if (formRef.current) {
-      formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  /* 파일 업로드 관련 */
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedFile(file);
     }
   };
 
-  const handleCancel = () => {
-    navigate('/board/cert');
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
   };
 
-  useEffect(() => {
-    return () => {
-      images.forEach(image => URL.revokeObjectURL(image.preview));
-    };
-  }, [images]);
+  /* 등록된 문제 영역 관련 */
+  const handleDeleteQuestion = (index) => {
+    setRegisteredQuestions(prev => prev.filter((_, i) => i !== index));
+  };
 
-  // 문제 등록 영역 퍼센트바 부분
-  const MAX_QUESTIONS = 40;
-  const progressPercentage = (registeredQuestions.length / MAX_QUESTIONS) * 100;
+
 
   return (
     <ThemeProvider theme={theme}>
       <div className="cert-write-container">
-        <div className="question-register-background">
-          <div className="question-register-area">
-            <HeaderContainer>
-              <p><FontAwesomeIcon icon={faPenToSquare} /> 문제 등록</p>
-              <ExpandingTextField
-                label="게시물 제목"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onFocus={() => setTitleExpanded(true)}
-                onBlur={() => setTitleExpanded(false)}
-                expanded={titleExpanded}
-                $error={titleError}
-              />
-              <StyledAutocomplete
-                options={certificates}
-                renderInput={(params) => <TextField {...params} label="자격증 선택" />}
-                value={selectedCertificate}
-                onChange={(event, newValue) => {
-                  setSelectedCertificate(newValue);
-                }}
-                $error={certificateError}
-              />
-            </HeaderContainer>
-            <form ref={formRef} onSubmit={handleSubmit}>
-              <div className="question-type-buttons">
-                <Button
-                  onClick={() => handleQuestionTypeChange('객관식')}
-                  className={questionType === '객관식' ? 'active' : ''}
-                >
-                  객관식
-                </Button>
-                <Button
-                  onClick={() => handleQuestionTypeChange('주관식')}
-                  className={questionType === '주관식' ? 'active' : ''}
-                >
-                  주관식
-                </Button>
-              </div>
-
-              <TextField
-                label="문제"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-
-              {questionType === '객관식' && (
-                <div>
-                  <div className="option-count-input">
-                    <TextField
-                      label="선택지 개수"
-                      type="number"
-                      value={optionCount}
-                      onChange={handleOptionCountChange}
-                      inputProps={{ min: 1, max: 6 }}
-                      fullWidth
-                      sx={{ width: '120px' }}  // Material-UI의 sx prop 사용
-                    />
-                  </div>
-                  {options.map((option, index) => (
-                    <div key={index} className="option-row">
-                      <TextField
-                        label={`선택지 ${index + 1}`}
-                        value={option}
-                        onChange={(e) => handleOptionChange(index, e.target.value)}
-                        fullWidth
-                        margin="normal"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={answers[index]}
-                            onChange={() => handleAnswerChange(index)}
-                            color="primary"
-                          />
-                        }
-                        label=""
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {questionType === '주관식' && (
+        <div className="cert-write-header">
+          <div onClick={() => navigate('/board/certification')} className="board-title">
+            <FontAwesomeIcon icon={faPenToSquare} /> 문제은행 게시판
+          </div>
+        </div>
+        <StyledCertWriteContent className="cert-write-content">
+          <StyledCertWriteLeft className="cert-write-left">
+            <div className="cert-section-title">문제 속성</div>
+            <div className="cert-section-subtitle">자격증 선택</div>
+            <StyledAutocomplete
+              options={certificates}
+              renderInput={(params) => (
                 <TextField
-                  label="유의사항"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  fullWidth
-                  margin="normal"
-                  multiline
-                  rows={4}
+                  {...params}
+                  placeholder="자격증을 선택/입력"
+                  InputLabelProps={{ shrink: true }}
                 />
               )}
+              value={selectedCertificate}
+              onChange={(event, newValue) => {
+                setSelectedCertificate(newValue);
+                setCertificateError(false);
+              }}
+              $error={certificateError}
+            />
+            <div className="cert-section-subtitle">문제형식 지정</div>
+            <div className="question-type-buttons">
+              <button
+                type="button"
+                onClick={() => setQuestionType('객관식')}
+                className={questionType === '객관식' ? 'active' : ''}
+              >
+                객관식
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuestionType('주관식')}
+                className={questionType === '주관식' ? 'active' : ''}
+              >
+                주관식
+              </button>
+            </div>
+            <StyledTextField
+              label="문항 갯수"
+              type="number"
+              value={questionCount}
+              onChange={(e) => setQuestionCount(Math.min(parseInt(e.target.value), 6).toString())}
+              disabled={questionType !== '객관식'}
+              InputProps={{
+                inputProps: {
+                  min: 1,
+                  max: 5
+                }
+              }}
+            />
+            <div className="cert-section-subtitle">등록/리셋</div>
+            <ButtonGroup>
+              <Button
+                onClick={handleSubmit}
+                variant="outlined"
+                className="submit-button"
+              >
+                <FontAwesomeIcon icon={faCheck} />
+              </Button>
+              <Button
+                onClick={resetForm}
+                variant="outlined"
+                className="reset-button"
+              >
+                <FontAwesomeIcon icon={faRotateRight} />
+              </Button>
+            </ButtonGroup>
+          </StyledCertWriteLeft>
 
-              {(questionType === '객관식' && optionCount > 0) || questionType === '주관식' ? (
-                <div className="image-upload-area">
+          {/* 오른쪽 영역 시작 */}
+          <StyledCertWriteRight className="cert-write-right">
+            <QuestionInputArea>
+              <div className="cert-section-title">문제 작성</div>
+              <div className="question-input-area">
+                <CustomTextField
+                  label="문제"
+                  value={questionTitle}
+                  onChange={(e) => setQuestionTitle(e.target.value)}
+                  margin="normal"
+                  width="100%"
+                  height="50px"
+                  variant="outlined"
+                />
+                {questionType === '객관식' && options.map((option, index) => (
+                  <OptionRowWrapper key={index}>
+                    <UnderlinedTextField
+                      placeholder={`선택지 ${index + 1}`}
+                      value={option}
+                      onChange={(e) => handleOptionChange(index, e.target.value)}
+                      margin="normal"
+                      width="calc(100% - 50px)"
+                      variant="standard"
+                    />
+                    <FormControlLabel
+                      control={
+                        <CustomCheckbox
+                          checked={answers[index]}
+                          onChange={() => handleAnswerChange(index)}
+                          color="primary"
+                        />
+                      }
+                      label=""
+                    />
+                  </OptionRowWrapper>
+                ))}
+                {questionType === '주관식' && (
+                  <CustomTextField
+                    label="정답"
+                    value={options[0] || ''}
+                    onChange={(e) => handleOptionChange(0, e.target.value)}
+                    fullWidth
+                    margin="normal"
+                    multiline
+                    rows={4}
+                    width="100%"
+                    variant="outlined"
+                  />
+                )}
+              </div>
+
+              <div className="cert-section-title" style={{ marginTop: '20px' }}>문제 작성(파일 업로드)</div>
+              <FileUploadArea>
+                <FileUploadWrapper>
+                  <FileNameInput
+                    type="text"
+                    placeholder="사진 등 참고자료를 업로드"
+                    value={uploadedFile ? uploadedFile.name : ''}
+                    readOnly
+                  />
+                  <UploadButton onClick={triggerFileInput}>
+                    <FontAwesomeIcon icon={faUpload} /> 파일찾기
+                  </UploadButton>
                   <input
                     type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
+                    ref={fileInputRef}
+                    onChange={handleFileUpload}
                     style={{ display: 'none' }}
-                    id="image-upload"
-                    multiple
                   />
-                  <label htmlFor="image-upload" className="image-upload-button">
-                    <img src={addImageIcon} alt="이미지 추가" className="add-image-icon" />
-                  </label>
-                  <div className="preview-images">
-                    {images.map((image, index) => (
-                      <img key={index} src={image.preview} alt={`미리보기 ${index + 1}`} className="preview-image" />
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              {errorMessage && <p className="error-message">{errorMessage}</p>}
-            </form>
-          </div>
-          {/* 문제 등록영역 퍼센트바 부분 */}
-          <div className="progress-area-background">
-            <div className="progress-area">
-              <div className="progress-info">
-                <p>{progressPercentage.toFixed(0)}% completed</p>
-                <LinearProgress variant="determinate" value={progressPercentage} />
-              </div>
-              <div className="button-group">
-                <Button
-                  onClick={handleExternalSubmit}
-                  variant="contained"
-                  color="primary"
-                  className="submit-button"
-                >
-                  <FontAwesomeIcon icon={faCheck} />
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  variant="contained"
-                  color="secondary"
-                  className="reset-button"
-                >
-                  <FontAwesomeIcon icon={faRotateRight} />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
+                </FileUploadWrapper>
+              </FileUploadArea>
+            </QuestionInputArea>
 
-        <div className="registered-questions-area">
-          <p><FontAwesomeIcon icon={faNoteSticky} /> 등록된 문제</p>
-          {registeredQuestions.map((q, index) => (
-            <div key={index} className="registered-question">
-              <p className="question-title">
-                <span className="question-number">{index + 1}. </span>
-                {q.question}
-              </p>
-              {q.images && q.images.length > 0 && (
-                <div className="question-images">
-                  {q.images.map((image, i) => (
-                    <img key={i} src={image} alt={`문제 ${index + 1} 이미지 ${i + 1}`} className="preview-image" />
-                  ))}
-                </div>
-              )}
-              {q.type === '객관식' && (
-                <ol className="options-list">
-                  {q.options.map((option, i) => (
-                    <li
-                      key={i}
-                      className={`option-item ${q.answers[i] ? 'correct-answer' : ''}`}
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ol>
-              )}
-              {q.type === '주관식' && <p className="add-info">유의사항: {q.note}</p>}
-            </div>
-          ))}
-        </div>
-
-        <Button 
-          variant="contained" 
-          color="secondary" 
-          onClick={handleCancel} 
-          style={{ marginTop: '20px', backgroundColor: '#413839' }}
-        >
-          작성취소
-        </Button>
-
-        <StyledDialog open={openModal} onClose={handleCloseModal}>
-          <DialogTitle>알림</DialogTitle>
-          <DialogContent>
-            <p>{modalMessage}</p>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseModal} color="primary">
-              확인
-            </Button>
-          </DialogActions>
-        </StyledDialog>
+              <div className="cert-section-title" style={{ marginTop: '40px' }}>작성한 문제</div>
+              <RegisteredQuestionsArea>
+                {registeredQuestions.map((q, index) => (
+                  <RegisteredQuestion key={index}>
+                    <DeleteButton onClick={() => handleDeleteQuestion(index)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </DeleteButton>
+                    <RegisteredQuestionTitle>{index + 1}. {q.question}</RegisteredQuestionTitle>
+                    {q.type === '객관식' && (
+                      <RegisteredQuestionOptions>
+                        {q.options.map((option, i) => (
+                          <RegisteredQuestionOption key={i} isCorrect={q.answers[i]}>
+                            {option} {q.answers[i] && ' (정답)'}
+                          </RegisteredQuestionOption>
+                        ))}
+                      </RegisteredQuestionOptions>
+                    )}
+                    {q.type === '주관식' && <RegisteredQuestionNote>유의사항: {q.note}</RegisteredQuestionNote>}
+                    {q.file && <RegisteredQuestionFile>첨부파일: {q.file.name}</RegisteredQuestionFile>}
+                  </RegisteredQuestion>
+                ))}
+              </RegisteredQuestionsArea>
+          </StyledCertWriteRight>
+        </StyledCertWriteContent>
       </div>
     </ThemeProvider>
   );
-}
+};
 
 export default CertificationWrite;

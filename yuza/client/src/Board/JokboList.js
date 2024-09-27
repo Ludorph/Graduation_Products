@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import jokboService from './jokboService';
 import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -8,13 +7,13 @@ import './jokboliststyle.css';
 import cartIcon from '../img/boardimg/cart-icon.png';
 import privateIcon from '../img/boardimg/private-icon.png';
 
-// const initialJokbos = [
-//     { id: 'notice1', title: '🚨 족보 게시판 이용 규칙 🚨', author: 'admin', createdAt: '2024-08-13T10:00:00', views: 1000, likes: 50, isNotice: true },
-//     { id: 'notice2', title: '🚨 족보 구매 시 주의사항 🚨', author: 'admin', createdAt: '2024-08-12T09:00:00', views: 800, likes: 30, isNotice: true },
-//     { id: 1, title: '정보처리기사 실기 문제', author: 'user1', createdAt: '2024-08-13T15:30:00', views: 150, likes: 10, summary: '정보처리기사 실기 문제의 핵심 내용을 정리한 족보입니다.' },
-//     { id: 2, title: '리눅스마스터 2급 기출문제', author: 'user2', createdAt: '2024-08-12T11:20:00', views: 120, likes: 5, summary: '리눅스마스터 2급 기출문제를 모아놓은 족보입니다.' },
-//     { id: 3, title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-11T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 족보입니다.' },
-// ];
+const initialJokbos = [
+    { id: 'notice1', title: '🚨 족보 게시판 이용 규칙 🚨', author: 'admin', createdAt: '2024-08-13T10:00:00', views: 1000, likes: 50, isNotice: true },
+    { id: 'notice2', title: '🚨 족보 구매 시 주의사항 🚨', author: 'admin', createdAt: '2024-08-12T09:00:00', views: 800, likes: 30, isNotice: true },
+    { id: 1, title: '정보처리기사 실기 문제', author: 'user1', createdAt: '2024-08-13T15:30:00', views: 150, likes: 10, summary: '정보처리기사 실기 문제의 핵심 내용을 정리한 족보입니다.' },
+    { id: 2, title: '리눅스마스터 2급 기출문제', author: 'user2', createdAt: '2024-08-12T11:20:00', views: 120, likes: 5, summary: '리눅스마스터 2급 기출문제를 모아놓은 족보입니다.' },
+    { id: 3, title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-11T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 족보입니다.' },
+];
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -68,22 +67,10 @@ function JokboList() {
     const [selectedJokbo, setSelectedJokbo] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
 
-    // useEffect(() => {
-    //     const fetchJokbos = async () => {
-    //         await new Promise(resolve => setTimeout(resolve, 500));
-    //         setJokbos(initialJokbos);
-    //     };
-    //     fetchJokbos();
-    // }, []);
-
     useEffect(() => {
         const fetchJokbos = async () => {
-            try {
-                const data = await jokboService.getAllJokbos();
-                setJokbos(data);
-            } catch (error) {
-                console.error('족보 목록 조회 실패:', error);
-            }
+            await new Promise(resolve => setTimeout(resolve, 500));
+            setJokbos(initialJokbos);
         };
         fetchJokbos();
     }, []);
@@ -94,7 +81,7 @@ function JokboList() {
 
     const handleRowClick = (params) => {
         if (!params.row.isNotice) {
-            navigate(`/board/jokbo/${params.row.examdata_post_id}`);
+            navigate(`/board/jokbo/${params.row.id}`);
         }
     };
 
@@ -105,7 +92,7 @@ function JokboList() {
 
     const columns = [
         {
-            field: 'examdata_post_id',
+            field: 'id',
             headerName: '번호',
             width: 80,
             headerAlign: 'center',
@@ -114,18 +101,18 @@ function JokboList() {
                 return params.row.isNotice ? <span style={{ color: 'red' }}>공지</span> : params.value;
             }
         },
-        { field: 'examdata_title', headerName: '제목', width: 300, flex: 1, headerAlign: 'center' },
-        { field: 'user_id', headerName: '글쓴이', width: 130, headerAlign: 'center', align: 'center' },
+        { field: 'title', headerName: '제목', width: 300, flex: 1, headerAlign: 'center' },
+        { field: 'author', headerName: '글쓴이', width: 130, headerAlign: 'center', align: 'center' },
         {
-            field: 'examdata_cdate',
+            field: 'createdAt',
             headerName: '작성일',
             width: 150,
             headerAlign: 'center',
             align: 'center',
             renderCell: (params) => formatDate(params.value)
         },
-        { field: 'examdata_views', headerName: '조회수', width: 100, headerAlign: 'center', align: 'center' },
-        { field: 'examdata_likes', headerName: '추천', width: 80, headerAlign: 'center', align: 'center' },
+        { field: 'views', headerName: '조회수', width: 100, headerAlign: 'center', align: 'center' },
+        { field: 'likes', headerName: '추천', width: 80, headerAlign: 'center', align: 'center' },
         {
             field: 'addToCart',
             headerName: '장바구니',
@@ -152,7 +139,6 @@ function JokboList() {
                         pageSize={5}
                         rowsPerPageOptions={[5]}
                         disableSelectionOnClick
-                        getRowId={(row) => row.examdata_post_id}
                         sortModel={[
                             { field: 'isNotice', sort: 'desc' },
                             { field: 'id', sort: 'desc' },

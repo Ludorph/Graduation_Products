@@ -82,34 +82,43 @@ const allCertifications = [
   // ... 더 많은 자격증 추가
 ];
 
-const CertificationSelector = ({ options, selectedOption, onSelect }) => {
+// propSelectedOtherCert => 사용자가 "기타 자격증" 카테고리에서 특정 자격증을 선택하면, 이 prop의 값이 업데이트
+// 이 정보를 사용하여 UI를 업데이트
+const CertificationSelector = ({ options, selectedOption, onSelect, selectedOtherCert: propSelectedOtherCert }) => {
   const [sliderStyle, setSliderStyle] = useState({});
   const [showSearch, setShowSearch] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [internalSelectedOtherCert, setInternalSelectedOtherCert] = useState(propSelectedOtherCert);
   const [selectedOtherCert, setSelectedOtherCert] = useState(null);
   const containerRef = useRef(null);
   const optionRefs = useRef([]);
 
+
   const updateSliderStyle = () => {
     let selectedIndex = options.findIndex(option => option === selectedOption);
-    if (selectedOption === '기타 자격증' && selectedOtherCert) {
-      const existingIndex = options.findIndex(option => option === selectedOtherCert);
+    if (selectedOption === '기타 자격증' && internalSelectedOtherCert) {
+      const existingIndex = options.findIndex(option => option === internalSelectedOtherCert);
       selectedIndex = existingIndex !== -1 ? existingIndex : options.length;
     }
     if (optionRefs.current[selectedIndex]) {
       const option = optionRefs.current[selectedIndex];
       setSliderStyle({
-        width: `${option.offsetWidth - 2}px`, // 너비를 2px 줄임
+        width: `${option.offsetWidth - 2}px`,
         transform: `translateX(${option.offsetLeft}px)`
       });
     }
   };
 
+
+  useEffect(() => {
+    setInternalSelectedOtherCert(propSelectedOtherCert);
+  }, [propSelectedOtherCert]);
+
   useEffect(() => {
     updateSliderStyle();
     window.addEventListener('resize', updateSliderStyle);
     return () => window.removeEventListener('resize', updateSliderStyle);
-  }, [selectedOption, options, selectedOtherCert]);
+  }, [selectedOption, options, internalSelectedOtherCert]);
 
   const handleOptionClick = (option) => {
     if (option === '기타 자격증') {
@@ -123,28 +132,28 @@ const CertificationSelector = ({ options, selectedOption, onSelect }) => {
 
   const handleSearchSelect = (event, newValue) => {
     if (newValue) {
-        const existingIndex = options.findIndex(option => option === newValue);
-        if (existingIndex !== -1) {
-            onSelect(newValue);
-            setSelectedOtherCert(null);
-        } else {
-            setSelectedOtherCert(newValue);
-            onSelect('기타 자격증', newValue);
-        }
-        setShowSearch(false);
+      const existingIndex = options.findIndex(option => option === newValue);
+      if (existingIndex !== -1) {
+        onSelect(newValue);
+        setSelectedOtherCert(null);
+      } else {
+        setSelectedOtherCert(newValue);
+        onSelect('기타 자격증', newValue);
+      }
+      setShowSearch(false);
     }
-};
+  };
 
   const handleClickAway = () => {
     setShowSearch(false);
-    if (selectedOption === '기타 자격증' && !selectedOtherCert) {
+    if (selectedOption === '기타 자격증' && !internalSelectedOtherCert) {
       onSelect(options[0]);
     }
   };
 
-  const isOptionSelected = (option) => 
-    option === selectedOption || 
-    (selectedOption === '기타 자격증' && option === selectedOtherCert);
+  const isOptionSelected = (option) =>
+    option === selectedOption ||
+    (selectedOption === '기타 자격증' && option === internalSelectedOtherCert);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -162,11 +171,11 @@ const CertificationSelector = ({ options, selectedOption, onSelect }) => {
           </Option>
         ))}
         <Option
-          isSelected={selectedOption === '기타 자격증' && !options.includes(selectedOtherCert)}
+          isSelected={selectedOption === '기타 자격증' && internalSelectedOtherCert && !options.includes(internalSelectedOtherCert)}
           onClick={() => handleOptionClick('기타 자격증')}
           ref={el => optionRefs.current[options.length] = el}
-          isOtherCert={selectedOption === '기타 자격증' && selectedOtherCert && !options.includes(selectedOtherCert)}
-          otherCertName={selectedOtherCert && !options.includes(selectedOtherCert) ? selectedOtherCert : ''}
+          isOtherCert={selectedOption === '기타 자격증' && internalSelectedOtherCert && !options.includes(internalSelectedOtherCert)}
+          otherCertName={internalSelectedOtherCert && !options.includes(internalSelectedOtherCert) ? internalSelectedOtherCert : ''}
         >
           기타 자격증
         </Option>

@@ -15,13 +15,37 @@
 }
 
 .user-submenu-top {
-    height: 120px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     background-color: #f0f0f0;
-    padding: 20px 0;
+    padding: 20px;
     position: relative;
+}
+
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 아이디 및 포인트 액수 */
+.user-info {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.user-id {
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.user-points {
+    font-family: 'NanumSquareNeoLight', sans-serif;
+    font-size: 14px;
+    color: #666;
 }
 
 .user-icon-wrapper {

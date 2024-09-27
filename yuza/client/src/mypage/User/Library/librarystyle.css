@@ -1,0 +1,216 @@
+.library-management {
+    width: 100%;
+}
+
+.library-header {
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    border-bottom: 1.4px solid #e6e6e6;
+    text-align: left;
+    font-size: 18px;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+.library-set-container {
+    display: flex;
+    width: 100%;
+}
+
+.library-set-left {
+    width: 12%;
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.library-set-right {
+    width: 85%;
+    padding: 20px;
+}
+
+.library-item-text {
+    color: #545a61;
+    font-size: 16px;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+.library-set-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2px;
+    border: 1.35px solid #e6e6e6;
+    max-width: 680px;
+    /* 최대 너비 설정 */
+}
+
+.library-period-selector {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 6px;
+}
+
+.purchase-date {
+    margin-right: 30px;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    font-size: 14px;
+}
+
+/* 구매일자와 오른쪽 기간 선택 사이의 구분선*/
+.separator {
+    width: 1.35px;
+    height: 40px;
+    background-color: #e6e6e6;
+    margin: 0 10px;
+}
+
+.period-selector-wrapper {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+/* PeriodSelectorContainer와 DateDisplay의 스타일 조정 */
+.period-selector-wrapper>div {
+    margin-right: 5px;
+}
+
+.period-selector-wrapper>div:last-child {
+    margin-right: 0;
+}
+
+/* 여기부터 구매한 족보 리스트 출력부분 */
+
+.library-exam-list-box {
+    border: 1.35px solid #e6e6e6;
+    border-radius: 10px;
+    overflow-y: auto;
+    max-height: 358px;
+    height: 358px;
+    margin-top: 10px;
+}
+
+.library-exam-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.library-exam-list th,
+.library-exam-list td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e6e6e6;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+.library-exam-list th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+/* 바로가기 버튼 */
+.library-exam-list td:last-child {
+    text-align: center;
+    
+}
+
+/* 작성한 족보 테이블에만 적용되는 스타일 .library-exam-list.written-exams td:last-child button:hover 까지만 */
+.library-exam-list-box.written-exams {
+    height: 279px;
+
+
+}
+.library-exam-list.written-exams td:last-child {
+    text-align: left;
+    padding-left: 0;
+}
+
+/* 아이콘 컨테이너 스타일 */
+.library-exam-list.written-exams td:last-child > div {
+    display: flex;
+    justify-content: flex-start;
+    gap: 3px;
+    padding-left: 60px;
+}
+
+/* 아이콘 버튼 스타일 */
+.library-exam-list.written-exams td:last-child button {
+    padding: 7px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4CAF50;
+    transition: color 0.3s ease;
+}
+
+.library-exam-list.written-exams td:last-child button:hover {
+    color: #45a049;
+}
+
+.library-exam-list.written-exams th:last-child {
+    position: relative;  /* 상대 위치 설정 */
+    width: 230px;  /* 셀의 너비 설정 (필요에 따라 조정) */
+    padding: 10px 0;  /* 상하 패딩만 유지 */
+    box-sizing: border-box;
+}
+
+/* 아이콘 컨테이너의 정렬 변경 */
+.library-exam-list.written-exams .icon-container {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 3px;
+}
+
+.library-exam-list.written-exams th:last-child::after {
+    content: "바로가기/수정하기";
+    position: absolute;
+    left: 45px;  /* 왼쪽에서의 거리 */
+    top: 50%;
+    transform: translateY(-50%);  /* 수직 중앙 정렬 */
+}
+
+/* 실제 th 내용을 숨김 */
+.library-exam-list.written-exams th:last-child span {
+    display: none;
+}
+
+/* 아이콘 컨테이너의 정렬 유지 */
+.library-exam-list.written-exams .icon-container {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 3px;
+}
+
+/* 기존 왼쪽 패딩 제거 */
+.library-exam-list.written-exams td:last-child {
+    padding-left: 0;
+}
+
+.library-set-container + .library-set-container {
+    margin-top: 30px;
+}
+
+.exam-price {
+    color: #666;
+    font-size: 0.9em;
+}
+
+
+/* .go-to-exam {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+} */
