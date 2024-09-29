@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faSackDollar, faBook, faPencilAlt, faChartBar, faToolbox, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import RotatingGradientBorder from '../menu/RotatingGradientBorder';
-import userimg from '../img/userimg/user-img2.png';
+import userimg from '../img/userimg/user-img3.jpg';
 import PointSet from './User/Point/PointSet';
 import Library from './User/Library/Library';
-import AdminSetQuestion from './Admin/AdminSetQuestion';
+import AdminSetDepart from './Admin/SetDepart/AdminSetDepart';
+import AdminSetQuestion from './Admin/SetQuestion/AdminSetQuestion';
 import './mypage.css';
 
 const MyPage = () => {
@@ -23,17 +24,27 @@ const MyPage = () => {
   ];
 
   const adminMenuItems = [
-    { id: 'admin1', label: '문제 관리' },
-    { id: 'admin2', label: '관리자 메뉴 2' },
-    { id: 'admin3', label: '관리자 메뉴 3' },
+    { id: 'admin1', label: '과별 자격증 메뉴 관리' },
+    { id: 'admin2', label: '족보 게시판 관리' },
+    { id: 'admin3', label: '문제 게시판 관리' },
+    { id: 'admin4', label: '자유 게시판 관리' },
+    { id: 'admin5', label: '사용자 관리'},
   ];
 
   const handleMenuClick = (id) => {
     setSelectedMenu(id);
     if (id === 'point') {
       navigate('point-set');
-    } else if (id === 'admin1') {
-      navigate('admin-setquestion');
+    } else if (id === 'admin1') {  // 과별 자격증 메뉴 관리
+      navigate('admin-set-depart'); 
+    } else if (id === 'admin2') { // 족보 게시판 관리
+      navigate('admin-set-jokbo');
+    } else if (id === 'admin3') { // 문제 게시판 관리
+      navigate('admin-set-question');
+    } else if (id === 'admin4') { // 자유 게시판 관리
+      navigate('admin-set-free');
+    } else if (id === 'admin5') { // 사용자 관리
+      navigate('admin-set-user');
     } else {
       navigate('');
     }
@@ -60,11 +71,15 @@ const MyPage = () => {
       case 'frequently':
         return <div>자주 공부한 내역</div>;
       case 'admin1':
-        return <AdminSetQuestion></AdminSetQuestion>;
+        return <AdminSetDepart></AdminSetDepart>;
       case 'admin2':
         return <div>관리자 메뉴 2 내용</div>;
       case 'admin3':
-        return <div>관리자 메뉴 3 내용</div>;
+        return <AdminSetQuestion></AdminSetQuestion>;
+      case 'admin2':
+        return <div>관리자 메뉴 4 내용</div>;
+      case 'admin2':
+        return <div>관리자 메뉴 5 내용</div>;
       default:
         return null;
     }
@@ -79,6 +94,7 @@ const MyPage = () => {
             <img src={userimg} alt="User" className="mypage-user-icon" />
           </div>
           <div className="mypage-nickname">사용자 닉네임</div>
+          <div className="mypage-point">1000 포인트</div>
         </div>
         <nav className="mypage-menu-list">
           {menuItems.map((item) => (

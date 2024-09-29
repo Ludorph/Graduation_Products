@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import MyPage from './MyPage';
 import PointSet from './User/Point/PointSet';
 import Library from './User/Library/Library'
-import AdminSetQuestion from './Admin/AdminSetQuestion';
+import AdminSetDepart from './Admin/SetDepart/AdminSetDepart';
+import AdminSetQuestion from './Admin/SetQuestion/AdminSetQuestion';
 
 function MypageRoutes() {
   return (
@@ -12,7 +13,8 @@ function MypageRoutes() {
       <Route path="/" element={<MyPage />}>
         <Route path="point-set" element={<PointSet />} /> 
         <Route path="library" element={<Library />} /> 
-        <Route path="admin-setquestion" element={<AdminSetQuestion />} /> 
+        <Route path="admin-set-depart" element={<AdminSetDepart />} /> 
+        <Route path="admin-set-question" element={<AdminSetQuestion />} /> 
       </Route>
     </Routes>
   );

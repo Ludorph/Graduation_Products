@@ -32,6 +32,13 @@ const StyledAutocomplete = styled(Autocomplete)`
       border-color: #760000;
       border-width: 2px;
     }
+      .MuiAutocomplete-listbox {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
   `}
 `;
 
@@ -294,7 +301,6 @@ const CertificationWrite = () => {
   const [questionType, setQuestionType] = useState('');
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [certificateError, setCertificateError] = useState(false);
-  const [questionCount, setQuestionCount] = useState('');
 
 
   const [questionTitle, setQuestionTitle] = useState('');
@@ -323,38 +329,42 @@ const CertificationWrite = () => {
       options: questionType === '객관식' ? options : null,
       answers: questionType === '객관식' ? answers : null,
       note: questionType === '주관식' ? options[0] : null,
-      file: uploadedFile,
     };
 
     setRegisteredQuestions(prev => [...prev, newQuestion]);
     resetForm();
   };
 
+  // const resetForm = () => {
+  //   setQuestionType('');
+  //   setQuestionCount('');
+  //   setQuestionTitle('');
+  //   setOptions([]);
+  //   setAnswers([]);
+  //   setUploadedFile(null);
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = '';
+  //   }
+  // };
+
   const resetForm = () => {
     setQuestionType('');
-    setQuestionCount('');
     setQuestionTitle('');
     setOptions([]);
     setAnswers([]);
-    setUploadedFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
   };
 
   /* 여기부터 오른쪽 문제 작성 영역 */
 
   useEffect(() => {
-    if (questionType === '객관식' && questionCount) {
-      const count = Math.min(parseInt(questionCount), 5); // 최대 6개로 제한
-      setQuestionCount(count.toString());
-      setOptions(Array(count).fill(''));
-      setAnswers(Array(count).fill(false));
+    if (questionType === '객관식') {
+      setOptions(Array(4).fill(''));
+      setAnswers(Array(4).fill(false));
     } else {
       setOptions([]);
       setAnswers([]);
     }
-  }, [questionType, questionCount]);
+  }, [questionType]);
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
@@ -433,19 +443,6 @@ const CertificationWrite = () => {
                 주관식
               </button>
             </div>
-            <StyledTextField
-              label="문항 갯수"
-              type="number"
-              value={questionCount}
-              onChange={(e) => setQuestionCount(Math.min(parseInt(e.target.value), 6).toString())}
-              disabled={questionType !== '객관식'}
-              InputProps={{
-                inputProps: {
-                  min: 1,
-                  max: 5
-                }
-              }}
-            />
             <div className="cert-section-subtitle">등록/리셋</div>
             <ButtonGroup>
               <Button
@@ -515,51 +512,29 @@ const CertificationWrite = () => {
                   />
                 )}
               </div>
-
-              <div className="cert-section-title" style={{ marginTop: '20px' }}>문제 작성(파일 업로드)</div>
-              <FileUploadArea>
-                <FileUploadWrapper>
-                  <FileNameInput
-                    type="text"
-                    placeholder="사진 등 참고자료를 업로드"
-                    value={uploadedFile ? uploadedFile.name : ''}
-                    readOnly
-                  />
-                  <UploadButton onClick={triggerFileInput}>
-                    <FontAwesomeIcon icon={faUpload} /> 파일찾기
-                  </UploadButton>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileUpload}
-                    style={{ display: 'none' }}
-                  />
-                </FileUploadWrapper>
-              </FileUploadArea>
             </QuestionInputArea>
 
-              <div className="cert-section-title" style={{ marginTop: '40px' }}>작성한 문제</div>
-              <RegisteredQuestionsArea>
-                {registeredQuestions.map((q, index) => (
-                  <RegisteredQuestion key={index}>
-                    <DeleteButton onClick={() => handleDeleteQuestion(index)}>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </DeleteButton>
-                    <RegisteredQuestionTitle>{index + 1}. {q.question}</RegisteredQuestionTitle>
-                    {q.type === '객관식' && (
-                      <RegisteredQuestionOptions>
-                        {q.options.map((option, i) => (
-                          <RegisteredQuestionOption key={i} isCorrect={q.answers[i]}>
-                            {option} {q.answers[i] && ' (정답)'}
-                          </RegisteredQuestionOption>
-                        ))}
-                      </RegisteredQuestionOptions>
-                    )}
-                    {q.type === '주관식' && <RegisteredQuestionNote>유의사항: {q.note}</RegisteredQuestionNote>}
-                    {q.file && <RegisteredQuestionFile>첨부파일: {q.file.name}</RegisteredQuestionFile>}
-                  </RegisteredQuestion>
-                ))}
-              </RegisteredQuestionsArea>
+            <div className="cert-section-title" style={{ marginTop: '40px' }}>작성한 문제</div>
+            <RegisteredQuestionsArea>
+              {registeredQuestions.map((q, index) => (
+                <RegisteredQuestion key={index}>
+                  <DeleteButton onClick={() => handleDeleteQuestion(index)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </DeleteButton>
+                  <RegisteredQuestionTitle>{index + 1}. {q.question}</RegisteredQuestionTitle>
+                  {q.type === '객관식' && (
+                    <RegisteredQuestionOptions>
+                      {q.options.map((option, i) => (
+                        <RegisteredQuestionOption key={i} isCorrect={q.answers[i]}>
+                          {option} {q.answers[i] && ' (정답)'}
+                        </RegisteredQuestionOption>
+                      ))}
+                    </RegisteredQuestionOptions>
+                  )}
+                  {q.type === '주관식' && <RegisteredQuestionNote>유의사항: {q.note}</RegisteredQuestionNote>}
+                </RegisteredQuestion>
+              ))}
+            </RegisteredQuestionsArea>
           </StyledCertWriteRight>
         </StyledCertWriteContent>
       </div>

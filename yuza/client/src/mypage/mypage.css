@@ -5,7 +5,7 @@
 }
 
 .mypage-left-section {
-  width: 20%;
+  width: 280px;
   background-color: #f0f0f0;
   padding: 20px;
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .mypage-right-section {
-  width: 80%;
+  flex-grow: 1; /* 남은 공간을 모두 차지하도록 변경 */
   padding: 20px;
   background-color: #ffffff;
 }
@@ -55,9 +55,17 @@
 }
 
 .mypage-nickname {
-  font-size: 18px;
-  font-weight: bold;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 17px;
+  color: #333;
   margin-top: 10px;
+}
+
+.mypage-point {
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
 }
 
 .mypage-menu-list {
