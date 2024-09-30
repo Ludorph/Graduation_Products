@@ -12,7 +12,7 @@ import CertificationBoard from './Board/CertificationBoard/CertificationBoard.js
 import FreeBoard from './Board/FreeBoard/FreeBoard.js'
 import MypageRoutes from './mypage/MypageRoutes.js'
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Routes, Route, Link, Switch } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -25,6 +25,77 @@ function App() {
   const [isHovered, setIsHovered] = useState(false);
   const [isMenuHovered, setIsMenuHovered] = useState(false); // 추가
 
+
+  // 데이터 흐름
+  // App.js -> MypageRoutes -> MyPage -> AdminSetDepart
+  const [departments, setDepartments] = useState(() => {
+    let currentId = 1;
+    return [
+      {
+        name: '공학부',
+        majors: ['기계시스템전공', '소방설비안전전공', '전기공학전공', '전자공학전공', '컴퓨터소프트웨어전공', '게임콘텐츠전공', '인공지능전공', '컴퓨터정보통신전공', 'IT비즈니스전공', '기계설계전공', '3D프린팅금형전공', '자동화공학과'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '디자인문화학부',
+        majors: ['산업디자인전공', '시각디자인전공', '패션디자인전공', '실내건축전공', '광고미디어전공', '방송영상전공', '애니메이션웹툰전공', '방송문예창작전공', '방송연예전공'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '건강보건학부',
+        majors: ['식품영양학과', '보건의료행정학과', '작업치료과', '반려동물보건학과', '응급구조과'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '건강생활학부',
+        majors: ['유한바이오제약전공', '유한생명화공전공', '피부메이크업전공', '뷰티화장품전공', '사회복지전공', '스포츠재활전공', '반려동물산업전공', '호텔조리전공', '카페베이커리전공', '아동보육전공'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '비즈니스학부',
+        majors: ['호텔관광전공', '일본비즈니스전공', '경영정보전공', '세무회계전공', '항공서비스학과', '항공경영전공', '유통물류전공', '중국비즈니스전공'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      }
+    ];
+  });
+
+  // const handleSaveDepartments = (updatedDepartments) => {
+  //   // AdminSetDepart에서 받은 데이터를 App에서 사용하는 형식으로 변환
+  //   const newDepartments = updatedDepartments.map(dept => ({
+  //     name: dept.name,
+  //     majors: dept.majors.map(major => ({
+  //       id: major.id,
+  //       name: major.name
+  //     }))
+  //   }));
+
+  //   // 상태 업데이트 (새로운 배열 참조 생성)
+  //   setDepartments(updatedDepartments);
+
+  //   // 콘솔에 로그 출력 
+  //   console.log('Departments updated:', newDepartments);
+  // };
+
+  const handleSaveDepartments = useCallback((updatedDepartments) => {
+    console.log('handleSaveDepartments called in App');
+    console.log('Updated departments:', updatedDepartments);
+    setDepartments(updatedDepartments);
+  }, []);
+
+  useEffect(() => {
+    console.log('Departments in App after update:', departments);
+  }, [departments]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
@@ -35,7 +106,11 @@ function App() {
 
         { /* 메뉴바 import */}
         <div>
-          <MenuBar isHovered={isMenuHovered} setIsHovered={setIsMenuHovered} />  { /* 블러처리를 위한 상태함수 전달 */}
+          <MenuBar
+            isHovered={isMenuHovered}
+            setIsHovered={setIsMenuHovered}
+            departments={departments}  // departments 전달
+          />
         </div>
 
         { /* 리액트 라우터 --> 상세페이지 */}
@@ -166,10 +241,13 @@ function App() {
             } />
             <Route path="/certigallery/:certId" element={<CertiGallery />} />
             <Route path="/dp/:deptId/:majorId" element={<Depart />} />
-            <Route path="/board/jokbo/*" element={<JokboBoard />}/>
-            <Route path="/board/cert/*" element={<CertificationBoard />}/>
-            <Route path="/board/free/*" element={<FreeBoard />}/>
-            <Route path="/mypage/*" element={<MypageRoutes />}/>
+            <Route path="/board/jokbo/*" element={<JokboBoard />} />
+            <Route path="/board/cert/*" element={<CertificationBoard />} />
+            <Route path="/board/free/*" element={<FreeBoard />} />
+            <Route
+              path="/mypage/*"
+              element={<MypageRoutes departments={departments} />}
+            />
           </Routes>
         </div>
 
