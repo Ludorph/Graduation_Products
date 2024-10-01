@@ -13,6 +13,7 @@ import styled, { keyframes, css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faCheck, faRotateRight, faUpload, faTrash, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import './certificationwritestyle.css';
+import axios from 'axios';
 
 // 자격증 선택 select-box 관련(흔들리는 애니메이션)
 const shakeAnimation = keyframes`
@@ -299,6 +300,7 @@ const QuestionInputArea = styled.div`
 const CertificationWrite = () => {
   const navigate = useNavigate();
   const [questionType, setQuestionType] = useState('');
+  const [certificates, setCertificates] = useState([]);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [certificateError, setCertificateError] = useState(false);
 
@@ -319,6 +321,7 @@ const CertificationWrite = () => {
   const handleSubmit = () => {
     if (!selectedCertificate || !questionTitle || (questionType === '객관식' && options.length === 0)) {
       // 에러 처리
+      setCertificateError(true);
       return;
     }
 
@@ -366,6 +369,18 @@ const CertificationWrite = () => {
     }
   }, [questionType]);
 
+  useEffect(() => {
+    const fetchCertificates = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/Certification/certificates'); // 백엔드에서 자격증 목록을 가져옴
+        setCertificates(response.data); // 가져온 자격증 목록을 상태에 저장
+      } catch (error) {
+        console.error('자격증 목록 불러오기 실패:', error);
+      }
+    };
+    fetchCertificates();
+  }, []);
+
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
     newOptions[index] = value;
@@ -410,22 +425,43 @@ const CertificationWrite = () => {
           <StyledCertWriteLeft className="cert-write-left">
             <div className="cert-section-title">문제 속성</div>
             <div className="cert-section-subtitle">자격증 선택</div>
-            <StyledAutocomplete
-              options={certificates}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder="자격증을 선택/입력"
-                  InputLabelProps={{ shrink: true }}
-                />
-              )}
-              value={selectedCertificate}
-              onChange={(event, newValue) => {
-                setSelectedCertificate(newValue);
-                setCertificateError(false);
-              }}
-              $error={certificateError}
+            {/*<StyledAutocomplete*/}
+            {/*  options={certificates}*/}
+            {/*  renderInput={(params) => (*/}
+            {/*    <TextField*/}
+            {/*      {...params}*/}
+            {/*      placeholder="자격증을 선택/입력"*/}
+            {/*      InputLabelProps={{ shrink: true }}*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*  value={selectedCertificate}*/}
+            {/*  onChange={(event, newValue) => {*/}
+            {/*    setSelectedCertificate(newValue);*/}
+            {/*    setCertificateError(false);*/}
+            {/*  }}*/}
+            {/*  $error={certificateError}*/}
+            {/*/>*/}
+
+            {/* Autocomplete를 사용한 자격증 선택탭 구현 */}
+            {/*DB와 연결해서 자격증 목록을 불러옴*/}
+            <Autocomplete
+                options={certificates} // API에서 가져온 자격증 목록을 옵션으로 제공
+                getOptionLabel={(option) => option.certificate_name} // 자격증 이름을 라벨로 표시
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        placeholder="자격증을 선택/입력"
+                        InputLabelProps={{ shrink: true }}
+                    />
+                )}
+                value={selectedCertificate} // 선택된 자격증
+                onChange={(event, newValue) => {
+                  setSelectedCertificate(newValue);
+                  setCertificateError(false);
+                }}
+                $error={certificateError}
             />
+
             <div className="cert-section-subtitle">문제형식 지정</div>
             <div className="question-type-buttons">
               <button

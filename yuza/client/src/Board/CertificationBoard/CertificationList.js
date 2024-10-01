@@ -7,6 +7,7 @@ import './certificationliststyle.css';
 import cartIcon from '../../img/boardimg/cart-icon.png';
 import privateIcon from '../../img/boardimg/private-icon.png';
 import CertificationSelector from './CertificationSelector';
+import CertificationService from "./CertificationService";
 
 // const initialCerts = [
 //     { id: 'notice1', title: '🚨 자격증 문제 게시판 이용 규칙 🚨', author: 'admin', createdAt: '2024-08-13T10:00:00', views: 1000, likes: 50, isNotice: true },
@@ -23,25 +24,25 @@ import CertificationSelector from './CertificationSelector';
 const purchasedCertIds = [1, 3, 5, 7, 9];
 
 const rawInitialCerts = [
-    { id: 'notice1', title: '🚨 자격증 문제 게시판 이용 규칙 🚨', author: 'admin', createdAt: '2024-08-13T10:00:00', views: 1000, likes: 50, isNotice: true },
-    { id: 'notice2', title: '🚨 자격증 문제 구매 시 주의사항 🚨', author: 'admin', createdAt: '2024-08-12T09:00:00', views: 800, likes: 30, isNotice: true },
-    { title: '정보처리기사 실기 문제', author: 'user1', createdAt: '2024-08-13T15:30:00', views: 150, likes: 10, summary: '정보처리기사 실기 문제의 핵심 내용을 정리한 자료입니다.', certType: '정보처리기사' },
-    { title: '리눅스마스터 2급 기출문제', author: 'user2', createdAt: '2024-08-12T11:20:00', views: 120, likes: 5, summary: '리눅스마스터 2급 기출문제를 모아놓은 자료입니다.', certType: '리눅스마스터' },
-    { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-15T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
-    { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-16T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
-    { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-12T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
-    { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-09T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
-    { title: '리눅스마스터 2급 기출문제', author: 'user2', createdAt: '2024-08-11T11:20:00', views: 120, likes: 5, summary: '리눅스마스터 2급 기출문제를 모아놓은 자료입니다.', certType: '리눅스마스터' },
-    { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-11T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
-    { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-10T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
-    { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-09T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
-    { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-09T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
-    { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-14T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
-    { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-10T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
-    { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-11T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
-    { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-10T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
-    { title: '조경기사 테스트', author: 'user4', createdAt: '2024-08-15T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '조경기사' },
-
+//     { id: 'notice1', title: '🚨 자격증 문제 게시판 이용 규칙 🚨', author: 'admin', createdAt: '2024-08-13T10:00:00', views: 1000, likes: 50, isNotice: true },
+//     { id: 'notice2', title: '🚨 자격증 문제 구매 시 주의사항 🚨', author: 'admin', createdAt: '2024-08-12T09:00:00', views: 800, likes: 30, isNotice: true },
+//     { title: '정보처리기사 실기 문제', author: 'user1', createdAt: '2024-08-13T15:30:00', views: 150, likes: 10, summary: '정보처리기사 실기 문제의 핵심 내용을 정리한 자료입니다.', certType: '정보처리기사' },
+//     { title: '리눅스마스터 2급 기출문제', author: 'user2', createdAt: '2024-08-12T11:20:00', views: 120, likes: 5, summary: '리눅스마스터 2급 기출문제를 모아놓은 자료입니다.', certType: '리눅스마스터' },
+//     { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-15T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
+//     { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-16T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
+//     { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-12T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
+//     { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-09T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
+//     { title: '리눅스마스터 2급 기출문제', author: 'user2', createdAt: '2024-08-11T11:20:00', views: 120, likes: 5, summary: '리눅스마스터 2급 기출문제를 모아놓은 자료입니다.', certType: '리눅스마스터' },
+//     { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-11T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
+//     { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-10T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
+//     { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-09T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
+//     { title: '빅데이터분석기사 실전 문제', author: 'user5', createdAt: '2024-08-09T16:15:00', views: 220, likes: 25, summary: '빅데이터분석기사 실전 문제를 정리한 자료입니다.', certType: '빅데이터분석기사' },
+//     { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-14T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
+//     { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-10T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
+//     { title: '네트워크관리사 핵심정리', author: 'user3', createdAt: '2024-08-11T09:45:00', views: 200, likes: 15, summary: '네트워크관리사 시험 핵심 내용을 정리한 자료입니다.', certType: '네트워크관리사' },
+//     { title: '정보보안기사 문제 모음', author: 'user4', createdAt: '2024-08-10T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '정보보안기사' },
+//     { title: '조경기사 테스트', author: 'user4', createdAt: '2024-08-15T14:20:00', views: 180, likes: 20, summary: '정보보안기사 시험 문제를 모아놓은 자료입니다.', certType: '조경기사' },
+//
 ];
 
 
@@ -134,21 +135,33 @@ function CertificationList() {
     const [selectedCertType, setSelectedCertType] = useState('내 학과 전체 자격증');
     const [selectedOtherCert, setSelectedOtherCert] = useState(null);
     const [myDepartmentCertifications, setMyDepartmentCertifications] = useState([
-        '정보처리기사', '리눅스마스터', '네트워크관리사', '정보보안기사', '빅데이터분석기사'
+    //     '정보처리기사', '리눅스마스터', '네트워크관리사', '정보보안기사', '빅데이터분석기사'
     ]);
     const [purchasedCerts, setPurchasedCerts] = useState([]);
     const location = useLocation();
 
+    // useEffect(() => {
+    //     const fetchCerts = async () => {
+    //         await new Promise(resolve => setTimeout(resolve, 500));
+    //         const certsWithPurchaseStatus = initialCerts.map(cert => ({
+    //             ...cert,
+    //             isPurchased: purchasedCertIds.includes(cert.id)
+    //         }));
+    //         setCerts(certsWithPurchaseStatus);
+    //     };
+    //     fetchCerts();
+    // }, []);
+
     useEffect(() => {
-        const fetchCerts = async () => {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            const certsWithPurchaseStatus = initialCerts.map(cert => ({
-                ...cert,
-                isPurchased: purchasedCertIds.includes(cert.id)
-            }));
-            setCerts(certsWithPurchaseStatus);
+        const fetchCertification = async () => {
+            try {
+                const data = await CertificationService.getAllCertification();
+                setCerts(data);
+            } catch (error) {
+                console.error('자격증 목록 조회 실패:', error);
+            }
         };
-        fetchCerts();
+        fetchCertification();
     }, []);
 
     const certTypes = ['내 학과 전체 자격증', ...myDepartmentCertifications];
@@ -169,7 +182,7 @@ function CertificationList() {
         if (!params.row.isNotice) {
             if (params.row.isPurchased) {
                 // 구매한 게시글인 경우 내용 페이지로 이동
-                navigate(`/board/cert/${params.row.id}`);
+                navigate(`/board/cert/${params.row.question_post_id}`);
             } else {
                 // 구매하지 않은 게시글인 경우 결제 다이얼로그 표시
                 setSelectedCert(params.row);
@@ -178,10 +191,11 @@ function CertificationList() {
         }
     };
 
-    const handlePurchase = (certId) => {
+    const handlePurchase = (cert) => {
+        const certId = cert.question_post_id;
         console.log(`자격증 문제 ID ${certId}를 구매했습니다.`);
-        setCerts(prevCerts => prevCerts.map(cert =>
-            cert.id === certId ? { ...cert, isPurchased: true } : cert
+        setCerts(prevCerts => prevCerts.map(c =>
+            c.question_post_id === certId ? { ...c, isPurchased: true } : c
         ));
         handleCloseDialog();
         navigate(`/board/cert/${certId}`);
@@ -216,7 +230,7 @@ function CertificationList() {
 
     const columns = [
         {
-            field: 'originalId',
+            field: 'question_post_id',
             headerName: '번호',
             width: 80,
             headerAlign: 'center',
@@ -228,18 +242,18 @@ function CertificationList() {
                 return params.value;
             }
         },
-        { field: 'title', headerName: '제목', width: 300, flex: 1, headerAlign: 'center' },
-        { field: 'author', headerName: '글쓴이', width: 130, headerAlign: 'center', align: 'center' },
+        { field: 'question_title', headerName: '제목', width: 300, flex: 1, headerAlign: 'center' },
+        { field: 'user_id', headerName: '글쓴이', width: 130, headerAlign: 'center', align: 'center' },
         {
-            field: 'createdAt',
+            field: 'question_date',
             headerName: '작성일',
             width: 150,
             headerAlign: 'center',
             align: 'center',
             renderCell: (params) => formatDate(params.value)
         },
-        { field: 'views', headerName: '조회수', width: 100, headerAlign: 'center', align: 'center' },
-        { field: 'likes', headerName: '추천', width: 80, headerAlign: 'center', align: 'center' },
+        { field: 'question_views', headerName: '조회수', width: 100, headerAlign: 'center', align: 'center' },
+        { field: 'question_likes', headerName: '추천', width: 80, headerAlign: 'center', align: 'center' },
         {
             field: 'addToCart',
             headerName: '장바구니',
@@ -281,7 +295,6 @@ function CertificationList() {
                     <DataGrid
                         rows={filteredCerts}
                         columns={columns}
-                        getRowId={(row) => row.id}
                         paginationModel={paginationModel}
                         onPaginationModelChange={setPaginationModel}
                         pageSizeOptions={[10]}
@@ -289,6 +302,7 @@ function CertificationList() {
                         onSortModelChange={setSortModel}
                         disableRowSelectionOnClick
                         onRowClick={handleRowClick}
+                        getRowId={(row) => row.question_post_id}
                         initialState={{
                             sorting: {
                                 sortModel: [
@@ -335,13 +349,13 @@ function CertificationList() {
                 <StyledDialogContent>
                     <p className="cert-detail">{selectedCert?.summary}</p>
                     <p className="cert-detail">이 자격증 문제를 열람하려면 포인트 결제가 필요합니다.</p>
-                    <PriceText>가격: 1,000 포인트</PriceText>
+                    <PriceText>가격: 10 포인트</PriceText>
                 </StyledDialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>취소</Button>
                     <Button
-                        onClick={() => handlePurchase(selectedCert?.id)}
-                        color="primary"
+                        onClick={() => handlePurchase(selectedCert)}
+                        color="primary" variant="contained"
                     >
                         결제하기
                     </Button>

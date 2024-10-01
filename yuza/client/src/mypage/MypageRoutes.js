@@ -6,14 +6,15 @@ import Library from './User/Library/Library'
 import AdminSetDepart from './Admin/SetDepart/AdminSetDepart';
 import AdminSetQuestion from './Admin/SetQuestion/AdminSetQuestion';
 
-function MypageRoutes({ departments }) {
+function MypageRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<MyPage departments={departments} />}>
-        <Route path="point-set" element={<PointSet />} />
-        <Route path="library" element={<Library />} />
-        <Route path="admin-set-depart" element={<AdminSetDepart departments={departments} />} />
-        <Route path="admin-set-question" element={<AdminSetQuestion />} />
+        {/* 마이페이지 컴포넌트 내부요소에 이중 컴포넌틀를 사용하면서 url을 변경하기 위한 중첩 라우팅 */}
+      <Route path="/" element={<MyPage />}>
+        <Route path="point-set" element={<PointSet />} /> 
+        <Route path="library" element={<Library />} /> 
+        <Route path="admin-set-depart" element={<AdminSetDepart />} /> 
+        <Route path="admin-set-question" element={<AdminSetQuestion />} /> 
       </Route>
     </Routes>
   );

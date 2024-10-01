@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faSackDollar, faBook, faPencilAlt, faChartBar, faToolbox, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import RotatingGradientBorder from '../menu/RotatingGradientBorder';
 import userimg from '../img/userimg/user-img3.jpg';
 import PointSet from './User/Point/PointSet';
@@ -10,7 +10,7 @@ import AdminSetDepart from './Admin/SetDepart/AdminSetDepart';
 import AdminSetQuestion from './Admin/SetQuestion/AdminSetQuestion';
 import './mypage.css';
 
-const MyPage = ({ departments }) => {
+const MyPage = () => {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const userLevel = 7; // 임시로 사용자 레벨 하드코딩
@@ -19,7 +19,7 @@ const MyPage = ({ departments }) => {
   const menuItems = [
     { id: 'point', icon: faSackDollar, label: '포인트 관리' },
     { id: 'edit', icon: faCog, label: '정보수정' },
-    { id: 'library', icon: faBook, label: '라이브러리' },
+    { id: 'library', icon: faBook, label: '라이브러리'},
     { id: 'frequently', icon: faChartBar, label: '자주 공부한 내역' },
   ];
 
@@ -28,58 +28,60 @@ const MyPage = ({ departments }) => {
     { id: 'admin2', label: '족보 게시판 관리' },
     { id: 'admin3', label: '문제 게시판 관리' },
     { id: 'admin4', label: '자유 게시판 관리' },
-    { id: 'admin5', label: '사용자 관리' },
+    { id: 'admin5', label: '사용자 관리'},
   ];
 
   const handleMenuClick = (id) => {
     setSelectedMenu(id);
     if (id === 'point') {
       navigate('point-set');
-    } else if (id === 'admin1') {
-      navigate('admin-set-depart');
-    } else if (id === 'admin2') {
+    } else if (id === 'admin1') {  // 과별 자격증 메뉴 관리
+      navigate('admin-set-depart'); 
+    } else if (id === 'admin2') { // 족보 게시판 관리
       navigate('admin-set-jokbo');
-    } else if (id === 'admin3') {
+    } else if (id === 'admin3') { // 문제 게시판 관리
       navigate('admin-set-question');
-    } else if (id === 'admin4') {
+    } else if (id === 'admin4') { // 자유 게시판 관리
       navigate('admin-set-free');
-    } else if (id === 'admin5') {
+    } else if (id === 'admin5') { // 사용자 관리
       navigate('admin-set-user');
     } else {
       navigate('');
     }
   };
 
-  useEffect(() => {
-    console.log('Departments in MyPage:', departments);
-  }, [departments]);
-
   const handleAdminClick = () => {
     setIsAdminOpen(!isAdminOpen);
+    // setSelectedMenu('admin'); 드롭다운 메뉴를 클릭하면 드롭다운이 닫히는 문제 수정
   };
 
   const renderContent = () => {
+    if (!selectedMenu) {
+      return <div className="mypage-empty-content">왼쪽 영역에서 메뉴를 선택해주세요</div>;
+    }
+
+    // 선택된 메뉴에 따라 다른 내용을 렌더링
     switch (selectedMenu) {
       case 'point':
-        return <PointSet />;
+        return <PointSet></PointSet>
       case 'edit':
         return <div>정보수정 내용</div>;
       case 'library':
-        return <Library />;
+        return <Library></Library>;
       case 'frequently':
         return <div>자주 공부한 내역</div>;
       case 'admin1':
-        return <AdminSetDepart departments={departments} />;
+        return <AdminSetDepart></AdminSetDepart>;
       case 'admin2':
         return <div>관리자 메뉴 2 내용</div>;
       case 'admin3':
-        return <AdminSetQuestion />;
-      case 'admin4':
+        return <AdminSetQuestion></AdminSetQuestion>;
+      case 'admin2':
         return <div>관리자 메뉴 4 내용</div>;
-      case 'admin5':
+      case 'admin2':
         return <div>관리자 메뉴 5 내용</div>;
       default:
-        return <div className="mypage-empty-content">왼쪽 영역에서 메뉴를 선택해주세요</div>;
+        return null;
     }
   };
 
