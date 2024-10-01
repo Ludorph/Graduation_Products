@@ -133,7 +133,6 @@ const PlaceholderIcon = styled(IoSchoolSharp)`
   margin-left: 8px;
 `;
 
-<<<<<<< HEAD
 
 const AdminSetDepart = ({ departments, setDepartments }) => {
   const [localDepartments, setLocalDepartments] = useState([]);
@@ -150,9 +149,6 @@ const AdminSetDepart = ({ departments, setDepartments }) => {
       setLocalDepartments(departments);
     }
   }, [departments]);
-=======
-
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
 
 const AdminSetDepart = () => {
     const [departments, setDepartments] = useState([
@@ -215,7 +211,6 @@ const AdminSetDepart = () => {
         }
     };
 
-<<<<<<< HEAD
       setNewlyAddedIds(prev => [...prev, newId]);
       handleCloseModal();
     }
@@ -338,117 +333,86 @@ const AdminSetDepart = () => {
                               onClick={() => handleSelect(major.id)}
                             >
                               {major.checked && <CgCheck className="check-icon" size={24} />}
-=======
-    return (
-        <div className="admin-depart-management">
-            <div className="admin-depart-header">과별 자격증 메뉴 관리</div>
-            <div className="admin-set-depart-container">
-                <div className="admin-set-depart-wrapper">
-                    <div className="admin-set-depart-title">전공 추가&삭제</div>
-                    <div className="admin-set-depart-section">
-                        <div className="admin-set-depart-content">
-                            <table className="admin-depart-table">
-                                <colgroup>
-                                    <col style={{ width: "7%" }} />
-                                    <col style={{ width: "10%" }} />
-                                    <col style={{ width: "25%" }} />
-                                    <col style={{ width: "40%" }} />
-                                    <col style={{ width: "18%" }} />
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <div className="custom-checkbox" onClick={handleSelectAll}>
-                                                {selectAll && <CgCheck className="check-icon" size={24} />}
-                                            </div>
-                                        </th>
-                                        <th>ID</th>
-                                        <th>학부명</th>
-                                        <th>학과명</th>
-                                        <th>등록일</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {departments.map((dept) => (
-                                        <tr key={dept.id}>
-                                            <td>
-                                                <div className={`custom-checkbox ${dept.checked ? 'checked' : ''}`} onClick={() => handleSelect(dept.id)}>
-                                                    {dept.checked && <CgCheck className="check-icon" size={24} />}
-                                                </div>
-                                            </td>
-                                            <td>{dept.id}</td>
-                                            <td>{dept.faculty}</td>
-                                            <td>{dept.department}</td>
-                                            <td>{dept.registrationDate}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            <div className="admin-depart-actions">
-                                <div className="admin-depart-actions-left">
-                                    <button onClick={handleOpenModal} className="admin-depart-button">전공추가</button>
-                                    <button onClick={handleDelete} className="admin-depart-button">삭제하기</button>
-                                </div>
-                                <div className="admin-depart-actions-right">
-                                    <button onClick={handleSave} className="admin-depart-button save-button">저장하기</button>
-                                </div>
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
                             </div>
-                        </div>
-                    </div>
-                </div>
+                          </td>
+                          <td>{major.id}</td>
+                          <td>{dept.name}</td>
+                          <td>{major.name}</td>
+                          <td>{major.registrationDate || '정보 없음'}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <StyledModal
-                open={modalOpen}
-                onClose={handleCloseModal}
-            >
-                <ModalContent>
-                    <InputContainer>
-                        <InputWrapper>
-                            <ModalStyledAutocomplete
-                                options={faculties}
-                                renderInput={(params) => (
-                                    <InputField
-                                        {...params}
-                                        placeholder="학부명을 선택/입력"
-                                        variant="outlined"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            startAdornment: (
-                                                <>
-                                                    <PlaceholderIcon />
-                                                    {params.InputProps.startAdornment}
-                                                </>
-                                            ),
-                                        }}
-                                    />
-                                )}
-                                value={newFaculty}
-                                onChange={(event, newValue) => setNewFaculty(newValue)}
-                                freeSolo
-                            />
-                        </InputWrapper>
-                        <InputWrapper>
-                            <InputField
-                                placeholder="전공명 입력"
-                                value={newDepartment}
-                                onChange={(e) => setNewDepartment(e.target.value)}
-                                variant="outlined"
-                            />
-                        </InputWrapper>
-                    </InputContainer>
-                    <ButtonContainer>
-                        <ButtonWrapper>
-                            <CancelButton onClick={handleCloseModal} variant="outlined">취소</CancelButton>
-                        </ButtonWrapper>
-                        <ButtonWrapper>
-                            <SubmitButton onClick={handleAddDepartment} variant="contained">리스트에 추가</SubmitButton>
-                        </ButtonWrapper>
-                    </ButtonContainer>
-                </ModalContent>
-            </StyledModal>
+          </div>
         </div>
-    );
-};
+      </div>
+      <div className="admin-depart-actions-top"></div>
+      <div className="admin-depart-actions">
+        <div className="admin-depart-actions-left">
+          <button onClick={handleOpenModal} className="admin-depart-button">전공추가</button>
+          <button className="admin-depart-button">삭제하기</button>
+        </div>
+        <div className="admin-depart-actions-right">
+          <button onClick={handleSave} className="admin-depart-button save-button">
+            저장하기
+          </button>
+        </div>
+      </div>
+
+      <StyledModal
+        open={modalOpen}
+        onClose={handleCloseModal}
+      >
+        <ModalContent>
+          <InputContainer>
+            <InputWrapper>
+              <ModalStyledAutocomplete
+                options={faculties}
+                renderInput={(params) => (
+                  <InputField
+                    {...params}
+                    placeholder="학부명을 선택/입력"
+                    variant="outlined"
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: (
+                        <>
+                          <PlaceholderIcon />
+                          {params.InputProps.startAdornment}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+                value={newFaculty}
+                onChange={(event, newValue) => setNewFaculty(newValue)}
+                freeSolo
+              />
+            </InputWrapper>
+            <InputWrapper>
+              <InputField
+                placeholder="전공명 입력"
+                value={newDepartment}
+                onChange={(e) => setNewDepartment(e.target.value)}
+                variant="outlined"
+              />
+            </InputWrapper>
+          </InputContainer>
+          <ButtonContainer>
+            <ButtonWrapper>
+              <CancelButton onClick={handleCloseModal} variant="outlined">취소</CancelButton>
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <SubmitButton onClick={handleAddDepartment} variant="contained">리스트에 추가</SubmitButton>
+            </ButtonWrapper>
+          </ButtonContainer>
+        </ModalContent>
+      </StyledModal>
+    </div>
+  );
+
 
 export default AdminSetDepart;

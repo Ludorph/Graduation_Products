@@ -71,11 +71,7 @@ const MyPage = () => {
       case 'frequently':
         return <div>자주 공부한 내역</div>;
       case 'admin1':
-<<<<<<< HEAD
         return <AdminSetDepart />;
-=======
-        return <AdminSetDepart></AdminSetDepart>;
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
       case 'admin2':
         return <div>관리자 메뉴 2 내용</div>;
       case 'admin3':
