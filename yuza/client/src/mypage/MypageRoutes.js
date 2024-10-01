@@ -33,6 +33,7 @@ function MypageRoutes() {
   }, []);
 
 
+<<<<<<< HEAD
   return (
     <Routes>
       <Route path="/" element={<MyPage />}>
@@ -40,6 +41,17 @@ function MypageRoutes() {
         <Route path="library" element={<Library />} />
         <Route path="admin-set-depart" element={<AdminSetDepart departments={departments} setDepartments={setDepartments} />} />
         <Route path="admin-set-question" element={<AdminSetQuestion />} />
+=======
+function MypageRoutes() {
+  return (
+    <Routes>
+        {/* 마이페이지 컴포넌트 내부요소에 이중 컴포넌틀를 사용하면서 url을 변경하기 위한 중첩 라우팅 */}
+      <Route path="/" element={<MyPage />}>
+        <Route path="point-set" element={<PointSet />} /> 
+        <Route path="library" element={<Library />} /> 
+        <Route path="admin-set-depart" element={<AdminSetDepart />} /> 
+        <Route path="admin-set-question" element={<AdminSetQuestion />} /> 
+>>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
       </Route>
     </Routes>
   );

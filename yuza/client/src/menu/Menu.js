@@ -10,7 +10,11 @@ import axios from 'axios';
 function Menu({ isHovered, setIsHovered }) {
     const [isOpen, setIsOpen] = useState(false);
     const [expandMenu, setExpandMenu] = useState(false);
+<<<<<<< HEAD
     const [departments, setDepartments] = useState([]);
+=======
+    const [departments, setDepartments] = useState({});
+>>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
     const menuRef = useRef(null);
     const bodyRef = useRef(document.body);
     const overlayRef = useRef();
@@ -20,6 +24,7 @@ function Menu({ isHovered, setIsHovered }) {
         setIsHovered(false);
     }, [location, setIsHovered]);
 
+<<<<<<< HEAD
     // useEffect(() => {
     //     const fetchDepartments = async () => {
     //       try {
@@ -31,6 +36,19 @@ function Menu({ isHovered, setIsHovered }) {
     //     };
     //     fetchDepartments();
     //   }, []);
+=======
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/test');
+                setDepartments(response.data);
+            } catch (error) {
+                console.error('학과 정보 가져오기 실패:', error);
+            }
+        };
+        fetchDepartments();
+    }, []);
+>>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -39,6 +57,7 @@ function Menu({ isHovered, setIsHovered }) {
         menuRef.current.classList.toggle('open');
     };
 
+<<<<<<< HEAD
     useEffect(() => {
         const storedDepartments = localStorage.getItem('departments');
         console.log('Stored departments (raw):', storedDepartments);
@@ -61,6 +80,8 @@ function Menu({ isHovered, setIsHovered }) {
         }
     }, []);
 
+=======
+>>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
     /* 학과명을 클릭하면 서브메뉴가 닫히게 하기 */
     const handleLinkClick = () => {
         // 클릭 이벤트 발생 후 약간의 지연 시간을 두고 메뉴를 닫습니다.
@@ -117,6 +138,7 @@ function Menu({ isHovered, setIsHovered }) {
                     {isHovered && (
                         <div className="mega-menu sample">
                             <div className="content">
+<<<<<<< HEAD
                                 {console.log('Rendering departments:', departments)}
                                 {departments.length > 0 ? (
                                     departments.map((dept, deptIndex) => (
@@ -142,10 +164,62 @@ function Menu({ isHovered, setIsHovered }) {
                                 ) : (
                                     <div>Loading departments...</div>
                                 )}
+=======
+                                {Object.entries(departments).map(([department, majors]) => (
+                                    <div className="col" key={department}>
+                                        <section>
+                                            <div className="menu-title">{department}</div>
+                                            <ul className="mega-links">
+                                                {majors.map((major, majorIndex) => (
+                                                    <li key={majorIndex}>
+                                                        <Link
+                                                            to={`/dp/${department}/${majorIndex + 1}`}
+                                                            className="menu-item"
+                                                            onClick={handleLinkClick}
+                                                        >
+                                                            {major}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </section>
+                                    </div>
+                                ))}
+>>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
                             </div>
                         </div>
                     )}
 
+<<<<<<< HEAD
+=======
+                    {/*{isHovered && (*/}
+                    {/*    <div className="mega-menu sample">*/}
+                    {/*        <div className="content">*/}
+                    {/*            {departments.map((dept, index) => (*/}
+                    {/*                <div className="col" key={index}>*/}
+                    {/*                    <section>*/}
+                    {/*                        <div className="menu-title">{dept.name}</div>*/}
+                    {/*                        <ul className="mega-links">*/}
+                    {/*                            {dept.majors.map((major, majorIndex) => (*/}
+                    {/*                                <li key={majorIndex}>*/}
+                    {/*                                    <Link*/}
+                    {/*                                        to={`/dp/${index + 1}/${majorIndex + 1}`}*/}
+                    {/*                                        className="menu-item"*/}
+                    {/*                                        onClick={handleLinkClick}*/}
+                    {/*                                    >*/}
+                    {/*                                        {major}*/}
+                    {/*                                    </Link>*/}
+                    {/*                                </li>*/}
+                    {/*                            ))}*/}
+                    {/*                        </ul>*/}
+                    {/*                    </section>*/}
+                    {/*                </div>*/}
+                    {/*            ))}*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
+
+>>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
                 </li>
                 <li><Link to="/board/jokbo" className="menu-item first-item" onClick={handleLinkClick}>족보게시판</Link></li>
                 <li><Link to="/board/cert" className="menu-item first-item" onClick={handleLinkClick}>문제게시판</Link></li>

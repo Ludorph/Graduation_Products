@@ -1,6 +1,7 @@
 .admin-depart-management {
     width: 100%;
     max-width: 1200px;
+
     margin: 0;
     /* 중앙 정렬 제거 */
 }
@@ -45,32 +46,19 @@
     padding: 20px;
 }
 
-/* 전공 추가&삭제 테이블 */
 .admin-set-depart-content {
     overflow-x: auto;
     border: 1.35px solid #e6e6e6;
     border-radius: 4px;
     width: 900px;
-    height: 400px;
     /* 표 너비 고정 */
 }
 
 .admin-depart-table {
     width: 100%;
     border-collapse: collapse;
-    /* table-layout: fixed; */
+    table-layout: fixed;
 }
-
-.table-container {
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-
-  .table-body-container {
-    height: calc(100% - 41px);
-    overflow-y: auto;
-    padding-top: 0px; /* thead의 높이만큼 패딩 추가 */
-  }
 
 /* 커스텀 체크 아이콘 */
 .custom-checkbox {
@@ -110,73 +98,21 @@
     font-weight: bold;
 }
 
-/* 새 전공이 추가될때 배경색 변경 */
-.admin-depart-table tr.newly-added {
-    background-color: #eae6d3;
-  }
-  
-
-.admin-depart-table tr.newly-added:hover {
-    background-color: #e0ddcc;
-  }
-
 .admin-depart-actions-row td {
     border-bottom: none;
 }
 
-/* 스크롤바 스타일링 (선택사항) */
-.table-body-container::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .table-body-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  .table-body-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-  }
-  
-  .table-body-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
-
-/* 전공추가, 삭제하기 등 버튼영역(테이블에 소속된거 아님, 그렇게 보이게 만든거) */
-.admin-depart-actions-top{
-    display: flex;
-    justify-content: space-between;
-    padding: 0px 8px 10px 10px;
-    border-left: 1.35px solid #e6e6e6;
-    border-right: 1.35px solid #e6e6e6;
-    margin-top: -22px;
-    margin-left: 35px;
-    width: 900px;
-
-}
 .admin-depart-actions {
     display: flex;
     justify-content: space-between;
-    padding: 10px 8px 10px 10px;
-    border-bottom: 1.35px solid #e6e6e6;
-    border-left: 1.35px solid #e6e6e6;
-    border-right: 1.35px solid #e6e6e6;
-    margin-left: 35px;
-    width: 900px;
-    border-radius: 3px;
+    padding: 6px 8px 6px 10px;
+    border-top: 0px solid #e6e6e6;
 }
 
 .admin-depart-actions-left,
 .admin-depart-actions-right {
     display: flex;
     gap: 8px;
-}
-
-.admin-depart-actions-right {
-    display: flex;
-    gap: 8px;
-    margin-right: 0px;
 }
 
 .admin-depart-button {
@@ -215,7 +151,7 @@
 .MuiPaper-root {
     background-color: white;
     padding: 10px;
-    width: 278px;
+    width: 200px;
     height: 150px;
     display: flex;
     flex-direction: column;
