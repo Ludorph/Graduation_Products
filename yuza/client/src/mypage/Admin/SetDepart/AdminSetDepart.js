@@ -132,7 +132,8 @@ const PlaceholderIcon = styled(IoSchoolSharp)`
   margin-left: 8px;
 `;
 
-const AdminSetDepart = ({ departments = [], onSaveDepartments }) => {
+
+const AdminSetDepart = ({ departments, setDepartments }) => {
   const [localDepartments, setLocalDepartments] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -143,7 +144,9 @@ const AdminSetDepart = ({ departments = [], onSaveDepartments }) => {
 
   // 새 전공을 추가하는 함수부분 
   useEffect(() => {
-    setLocalDepartments(departments);
+    if (departments && departments.length > 0) {
+      setLocalDepartments(departments);
+    }
   }, [departments]);
 
   const handleAddDepartment = () => {
@@ -191,13 +194,20 @@ const AdminSetDepart = ({ departments = [], onSaveDepartments }) => {
 
 
   // 이건 저장로직 
+  // const handleSave = () => {
+  //   // 여기서 저장 로직을 구현. 예를 들어, API 호출 등
+  //   // 저장이 성공적으로 완료되면 newlyAddedIds를 초기화합니다.
+  //   setNewlyAddedIds([]);
+  //   if (onSaveDepartments) {
+  //     onSaveDepartments(localDepartments);
+  //   }
+  // };
+
   const handleSave = () => {
-    // 여기서 저장 로직을 구현. 예를 들어, API 호출 등
-    // 저장이 성공적으로 완료되면 newlyAddedIds를 초기화합니다.
+    setDepartments(localDepartments);
     setNewlyAddedIds([]);
-    if (onSaveDepartments) {
-      onSaveDepartments(localDepartments);
-    }
+    // localStorage에 저장
+    localStorage.setItem('departments', JSON.stringify(localDepartments));
   };
 
   const handleSelectAll = () => {
@@ -237,10 +247,10 @@ const AdminSetDepart = ({ departments = [], onSaveDepartments }) => {
 
   const faculties = [...new Set(departments?.map(dept => dept.name) || [])];
 
-  if (!departments || departments.length === 0) {
-    return <div>학과 정보를 불러오는 중입니다...</div>;
+  if (!localDepartments || localDepartments.length === 0) {
+    return <div>학과 정보가 없습니다. 새로운 학과를 추가해주세요.</div>;
   }
-
+  
   return (
     <div className="admin-depart-management">
       <div className="admin-depart-header">과별 자격증 메뉴 관리</div>

@@ -20,6 +20,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 0
@@ -32,28 +35,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.DataComponent.js.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.JokboList.js.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.app.js.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.server.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/cbt-fronted&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.DataComponent.js.executor": "Run",
+    "Node.js.JokboList.js.executor": "Run",
+    "Node.js.app.js.executor": "Run",
+    "Node.js.server.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/temp/project/yuza_1/client - Board - CertificationBoard/CertificationWrite.js",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\temp\project\yuza\server\src\config" />
@@ -103,6 +106,26 @@
       <workItem from="1727390650133" duration="2013000" />
       <workItem from="1727441141965" duration="54000" />
       <workItem from="1727441300941" duration="1211000" />
+      <workItem from="1727442999363" duration="9000" />
+      <workItem from="1727448313147" duration="3056000" />
+      <workItem from="1727456611014" duration="6815000" />
+      <workItem from="1727465831933" duration="1084000" />
+      <workItem from="1727500229043" duration="5034000" />
+      <workItem from="1727528700915" duration="2347000" />
+      <workItem from="1727531713728" duration="10000" />
+      <workItem from="1727533809786" duration="604000" />
+      <workItem from="1727550936889" duration="13608000" />
+      <workItem from="1727618443750" duration="49000" />
+      <workItem from="1727709723003" duration="170000" />
+      <workItem from="1727724663742" duration="10000" />
+      <workItem from="1727724679640" duration="168000" />
+      <workItem from="1727724997098" duration="33000" />
+      <workItem from="1727725039183" duration="2700000" />
+      <workItem from="1727728138184" duration="648000" />
+      <workItem from="1727729319312" duration="821000" />
+      <workItem from="1727730941474" duration="2771000" />
+      <workItem from="1727733765712" duration="1418000" />
+      <workItem from="1727735219780" duration="5302000" />
     </task>
     <servers />
   </component>
@@ -116,13 +139,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/client/src/App.js</url>
-          <line>10</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/Board/JokboTempDetail.js</url>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

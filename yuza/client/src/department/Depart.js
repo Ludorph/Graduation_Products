@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faPencil, faTools } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'; // 리액트 라우터
 import './departstyle.css'; // CSS 파일
+import axios from 'axios';
 
 import styled from 'styled-components';
 import Slider from "react-slick";
@@ -283,6 +284,98 @@ const SliderWrapper = styled.div`
 
 function Depart() {
   const { deptId, majorId } = useParams();
+  const [majorInfo, setMajorInfo] = useState({ name: '', certificates: [] });
+  const [certifications, setCertifications] = useState([]);
+  
+  // 더미데이터 다시 만듦
+  let currentId = 1;
+  const [departments, setDepartments] = useState(() => {
+    return [
+      {
+        name: '공학부',
+        majors: ['기계시스템전공', '소방설비안전전공', '전기공학전공', '전자공학전공', '컴퓨터소프트웨어전공', '게임콘텐츠전공', '인공지능전공', '컴퓨터정보통신전공', 'IT비즈니스전공', '기계설계전공', '3D프린팅금형전공', '자동화공학과'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '디자인문화학부',
+        majors: ['산업디자인전공', '시각디자인전공', '패션디자인전공', '실내건축전공', '광고미디어전공', '방송영상전공', '애니메이션웹툰전공', '방송문예창작전공', '방송연예전공'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '건강보건학부',
+        majors: ['식품영양학과', '보건의료행정학과', '작업치료과', '반려동물보건학과', '응급구조과'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '건강생활학부',
+        majors: ['유한바이오제약전공', '유한생명화공전공', '피부메이크업전공', '뷰티화장품전공', '사회복지전공', '스포츠재활전공', '반려동물산업전공', '호텔조리전공', '카페베이커리전공', '아동보육전공'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      },
+      {
+        name: '비즈니스학부',
+        majors: ['호텔관광전공', '일본비즈니스전공', '경영정보전공', '세무회계전공', '항공서비스학과', '항공경영전공', '유통물류전공', '중국비즈니스전공'].map(major => ({
+          id: currentId++,
+          name: major
+        }))
+      }
+    ];
+  });
+
+
+  // 더미 데이터로 테스트
+  useEffect(() => {
+    console.log('Current departments state in Depart:', departments);
+    if (Array.isArray(departments) && departments.length > 0) {
+      const departmentsJSON = JSON.stringify(departments);
+      console.log('Saving departments to localStorage:', departmentsJSON);
+      localStorage.setItem('departments', departmentsJSON);
+    } else {
+      console.error('departments is empty or not an array:', departments);
+    }
+  }, [departments]);
+  
+
+  /* 이부분은 실제 db와 연결할때 주석해제
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const majorResponse = await axios.get(`http://localhost:5000/api/major-info/${majorId}`);
+        const certificationsResponse = await axios.get(`http://localhost:5000/api/certifications/${deptId}/${majorId}`);
+        const departmentsResponse = await axios.get('http://localhost:5000/test');
+        
+        setMajorInfo({
+          name: majorResponse.data[0]?.major_name || '알 수 없는 전공',
+          certificates: majorResponse.data.map(row => row.certificate_name).filter(Boolean)
+        });
+        
+        setCertifications(certificationsResponse.data);
+        setDepartments(departmentsResponse.data);
+        
+        // departments 데이터를 localStorage에 저장
+        localStorage.setItem('departments', JSON.stringify(departmentsResponse.data));
+      } catch (error) {
+        console.error('데이터 가져오기 실패:', error);
+        setMajorInfo({ name: '알 수 없는 전공', certificates: [] });
+      }
+    };
+    fetchData();
+  }, [deptId, majorId]); */
+
+    // certifications 객체에서 해당 학과와 전공에 맞는 자격증 목록을 가져옴
+  // 만약 해당 학과나 전공에 대한 정보가 없으면 빈 배열([])을 반환 --> 선택된 전공의 자격증 목록을 표시하는 데 사용
+  // const currentCertifications = certifications[deptId]?.[majorId] || [];
+  // 학과페이지명, 슬라이더 제목에 현재 전공 이름을 표시하는 데 사용
+  const currentMajor = majorInfo.name || '알 수 없는 전공';
+  // 캘린더 이벤트 객체의 배열 저장(캘린더에 표시될 일정(이벤트들))
+  const calendarEvents = getCertificationEvents(certifications);
 
   const certImages = {
     '1-1-1': require('../img/departimg/기계조립산업기사.png'),
@@ -291,150 +384,143 @@ function Depart() {
     '1-1-4': require('../img/departimg/가스산업기사.jpg')
   };
 
-  const departments = {
-    '1': {
-      '1': '기계시스템전공',
-      '2': '소방설비안전전공',
-      '3': '전기공학전공',
-      '4': '전자공학전공',
-      '5': '컴퓨터소프트웨어전공',
-      '6': '게임콘텐츠전공',
-      '7': '인공지능전공',
-      '8': '컴퓨터정보통신전공',
-      '9': 'IT비즈니스전공',
-      '10': '기계설계전공',
-      '11': '3D프린팅금형전공',
-      '12': '자동화공학과'
-    },
-    '2': {
-      '1': '산업디자인전공',
-      '2': '시각디자인전공',
-      '3': '패션디자인전공',
-      '4': '실내건축전공',
-      '5': '광고미디어전공',
-      '6': '방송영상전공',
-      '7': '애니메이션웹툰전공',
-      '8': '방송문예창작전공',
-      '9': '방송연예전공'
-    },
-    // ... 학과 추가필요 --> 귀찮아서 이정도만
-  };
+  //const departments = {
+  //   '1': {
+  //     '1': '기계시스템전공',
+  //     '2': '소방설비안전전공',
+  //     '3': '전기공학전공',
+  //     '4': '전자공학전공',
+  //     '5': '컴퓨터소프트웨어전공',
+  //     '6': '게임콘텐츠전공',
+  //     '7': '인공지능전공',
+  //     '8': '컴퓨터정보통신전공',
+  //     '9': 'IT비즈니스전공',
+  //     '10': '기계설계전공',
+  //     '11': '3D프린팅금형전공',
+  //     '12': '자동화공학과'
+  //   },
+  //   '2': {
+  //     '1': '산업디자인전공',
+  //     '2': '시각디자인전공',
+  //     '3': '패션디자인전공',
+  //     '4': '실내건축전공',
+  //     '5': '광고미디어전공',
+  //     '6': '방송영상전공',
+  //     '7': '애니메이션웹툰전공',
+  //     '8': '방송문예창작전공',
+  //     '9': '방송연예전공'
+  //   },
+  //   // ... 학과 추가필요 --> 귀찮아서 이정도만
+  //};
 
-  const certifications = {
-    '1': {
-      '1': [
-        {
-          id: 1,
-          name: '기계조립산업기사',
-          image: certImages['1-1-1'],
-          description: '기계 부품을 조립하고 기계 장치를 제작, 설치, 보수하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        },
-        {
-          id: 2,
-          name: '컴퓨터응용가공산업기사',
-          image: certImages['1-1-2'],
-          description: 'CAD/CAM 시스템을 활용하여 기계 부품을 가공하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        },
-        {
-          id: 3,
-          name: '공조냉동기계산업기사',
-          image: certImages['1-1-3'],
-          description: '냉동, 공조 시스템의 설계, 시공, 운전, 관리를 수행하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        },
-        {
-          id: 4,
-          name: '가스산업기사',
-          image: certImages['1-1-4'],
-          description: '가스관리를 담당하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        }
-      ],
-      '2': [
-        {
-          id: 1,
-          name: '기계조립산업기사',
-          image: certImages['1-1-1'],
-          description: '기계 부품을 조립하고 기계 장치를 제작, 설치, 보수하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        },
-        {
-          id: 2,
-          name: '컴퓨터응용가공산업기사',
-          image: certImages['1-1-2'],
-          description: 'CAD/CAM 시스템을 활용하여 기계 부품을 가공하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        },
-        {
-          id: 3,
-          name: '공조냉동기계산업기사',
-          image: certImages['1-1-3'],
-          description: '냉동, 공조 시스템의 설계, 시공, 운전, 관리를 수행하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        },
-        {
-          id: 4,
-          name: '가스산업기사',
-          image: certImages['1-1-4'],
-          description: '가스관리를 담당하는 기술자격',
-          examInfo: {
-            written: 3,
-            practical: 3
-          },
-          signUpPeriod: '24.07.05 ~ 24.07.27',
-          examDate: '24.10.19 ~ 24.11.08'
-        }
-      ],
-    },
-  };
+  //const certifications = {
+  //   '1': {
+  //     '1': [
+  //       {
+  //         id: 1,
+  //         name: '기계조립산업기사',
+  //         image: certImages['1-1-1'],
+  //         description: '기계 부품을 조립하고 기계 장치를 제작, 설치, 보수하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: '컴퓨터응용가공산업기사',
+  //         image: certImages['1-1-2'],
+  //         description: 'CAD/CAM 시스템을 활용하여 기계 부품을 가공하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: '공조냉동기계산업기사',
+  //         image: certImages['1-1-3'],
+  //         description: '냉동, 공조 시스템의 설계, 시공, 운전, 관리를 수행하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       },
+  //       {
+  //         id: 4,
+  //         name: '가스산업기사',
+  //         image: certImages['1-1-4'],
+  //         description: '가스관리를 담당하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       }
+  //     ],
+  //     '2': [
+  //       {
+  //         id: 1,
+  //         name: '기계조립산업기사',
+  //         image: certImages['1-1-1'],
+  //         description: '기계 부품을 조립하고 기계 장치를 제작, 설치, 보수하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: '컴퓨터응용가공산업기사',
+  //         image: certImages['1-1-2'],
+  //         description: 'CAD/CAM 시스템을 활용하여 기계 부품을 가공하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: '공조냉동기계산업기사',
+  //         image: certImages['1-1-3'],
+  //         description: '냉동, 공조 시스템의 설계, 시공, 운전, 관리를 수행하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       },
+  //       {
+  //         id: 4,
+  //         name: '가스산업기사',
+  //         image: certImages['1-1-4'],
+  //         description: '가스관리를 담당하는 기술자격',
+  //         examInfo: {
+  //           written: 3,
+  //           practical: 3
+  //         },
+  //         signUpPeriod: '24.07.05 ~ 24.07.27',
+  //         examDate: '24.10.19 ~ 24.11.08'
+  //       }
+  //     ],
+  //   },
+  //};
 
-  // certifications 객체에서 해당 학과와 전공에 맞는 자격증 목록을 가져옴
-  // 만약 해당 학과나 전공에 대한 정보가 없으면 빈 배열([])을 반환 --> 선택된 전공의 자격증 목록을 표시하는 데 사용
-  const currentCertifications = certifications[deptId]?.[majorId] || [];
-  // 학과페이지명, 슬라이더 제목에 현재 전공 이름을 표시하는 데 사용
-  const currentMajor = departments[deptId]?.[majorId] || '알 수 없는 전공';
-  // 캘린더 이벤트 객체의 배열 저장(캘린더에 표시될 일정(이벤트들))
-  const calendarEvents = getCertificationEvents(currentCertifications);
+
 
   const settings = {
-    // dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
@@ -464,32 +550,37 @@ function Depart() {
     prevArrow: <SamplePrevArrow />,
   };
 
-  console.log(currentCertifications);
-
 
 
   return (
-    <div>
+    <div className="depart-container">
       <div>
         <p className='main-title'>{currentMajor}</p>
       </div>
+      <h2>관련 자격증:</h2>
+      <ul>
+        {majorInfo.certificates.map((cert, index) => (
+          <li key={index}>{cert}</li>
+        ))}
+      </ul>
+      <div className="depart-header">
+        <h2>{deptId}학과 {majorId}전공 상세 페이지</h2>
+      </div>
+      
       <ContentContainer>
         <div style={{ position: 'relative', marginBottom: '60px' }}>
-          <SectionTitle style={{ position: 'absolute', top: '-20px', left: '0', backgroundColor: 'white' }}> {/* SectionTitle 스타일 추가지정 */}
+          <SectionTitle style={{ position: 'absolute', top: '-20px', left: '0', backgroundColor: 'white' }}>
             {currentMajor} 주요 자격증
           </SectionTitle>
           <SliderWrapper>
-            {/* 자격증 슬라이드 내용 */}
             <Slider {...settings}>
-              {currentCertifications.map((cert, index) => (
+              {certifications.map((cert, index) => (
                 <div key={index}>
                   <Link to={`/CertiGallery/${cert.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div className="slide-content">
                       <div className="slide-image">
-                        {/* url로 자격증별 id값인 cert.id을 전달 --> 각 자격증 페이지를 로드할 때 사용*/}
                         <img src={cert.image} alt={cert.name} />
                         <div className="slide-overlay">
-                          {/* 슬라이드에 hover 했을 때 */}
                           <p><FontAwesomeIcon icon={faPencil} className="fa-icon" />{cert.signUpPeriod}</p>
                           <p><FontAwesomeIcon icon={faTools} className="fa-icon" />{cert.examDate}</p>
                         </div>
@@ -498,8 +589,8 @@ function Depart() {
                         <h3>{cert.name}</h3>
                         <p>{cert.description}</p>
                         <div className="exam-info">
-                          <span className="exam-tag">필기(연{cert.examInfo.written}회)</span>
-                          <span className="exam-tag">실기(연{cert.examInfo.practical}회)</span>
+                          <span className="exam-tag">필기(연{cert.examInfo?.written || '정보없음'}회)</span>
+                          <span className="exam-tag">실기(연{cert.examInfo?.practical || '정보없음'}회)</span>
                         </div>
                       </div>
                     </div>
@@ -510,22 +601,15 @@ function Depart() {
           </SliderWrapper>
         </div>
 
-
         <BackgroundCalendar>
           <CalendarContainer>
             <SectionTitle style={{ position: 'absolute', top: '-20px', left: '30px', backgroundColor: '#f4f4f4', zIndex: 1 }}>
               주요 시험일정
             </SectionTitle>
-            <CertificationCalendar
-              events={calendarEvents}
-            // title={<SectionTitle>주요 시험일정</SectionTitle>}
-            />
+            <CertificationCalendar events={calendarEvents} />
           </CalendarContainer>
         </BackgroundCalendar>
       </ContentContainer>
-
-
-      {/* <h1>{deptId}학과 {majorId}전공 상세 페이지</h1> */}
     </div>
   );
 }
