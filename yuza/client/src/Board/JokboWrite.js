@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './jokbowritestyle.css';
 import { CiLock } from "react-icons/ci";
-import jokboService from './jokboService';
+import { jokboFetch } from './JokboFetch';
 
 const JokboWrite = () => {
   const [content, setContent] = useState('');
@@ -155,12 +155,10 @@ const JokboWrite = () => {
       examdata_content: content,
     };
     try {
-      const result = await jokboService.createJokbo(jokboData);
-      if (result.success) {
+      const result = await jokboFetch.createJokbo(jokboData);
+      if (result) {
         alert('족보가 성공적으로 등록되었습니다!');
         navigate('/board/jokbo');
-      } else {
-        alert(`족보 등록 실패: ${result.error}`);
       }
     } catch (error) {
       console.error('족보 등록 중 오류 발생:', error);

@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import jokboService from './jokboService';
+import { jokboFetch } from './JokboFetch';
 
 const JokboEdit = () => {
-    const [jokbo, setJokbo] = useState({ examdata_title: '', examdata_content: '' });
     const { id } = useParams();
     const navigate = useNavigate();
+    const fetchedJokbo = jokboFetch.useFetchJokboById(id);
+    const [jokbo, setJokbo] = useState({ examdata_title: '', examdata_content: '' });
 
     useEffect(() => {
-        const fetchJokbo = async () => {
-            try {
-                const data = await jokboService.getJokboById(id);
-                setJokbo(data);
-            } catch (error) {
-                console.error('족보 조회 실패:', error);
-            }
-        };
-        fetchJokbo();
-    }, [id]);
+        if (fetchedJokbo) {
+            setJokbo(fetchedJokbo);
+        }
+    }, [fetchedJokbo]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,7 +22,7 @@ const JokboEdit = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const result = await jokboService.updateJokbo(id, jokbo);
+            const result = await jokboFetch.updateJokbo(id, jokbo);
             if (result.success) {
                 alert('족보가 성공적으로 수정되었습니다.');
                 navigate(`/board/jokbo/${id}`);

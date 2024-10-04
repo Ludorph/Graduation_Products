@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import jokboService from './jokboService';
+import { jokboFetch } from './JokboFetch';
 
 const JokboTempDetail = () => {
-    const [jokbo, setJokbo] = useState(null);
     const { id } = useParams();
+    const jokbo = jokboFetch.useFetchJokboById(id);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchJokbo = async () => {
-            try {
-                const data = await jokboService.getJokboById(id);
-                setJokbo(data);
-            } catch (error) {
-                console.error('족보 조회 실패:', error);
-            }
-        };
-        fetchJokbo();
-    }, [id]);
 
     const handleEdit = () => {
         navigate(`/board/jokbo/edit/${id}`);
@@ -26,12 +14,10 @@ const JokboTempDetail = () => {
     const handleDelete = async () => {
         if (window.confirm('정말로 이 족보를 삭제하시겠습니까?')) {
             try {
-                const result = await jokboService.deleteJokbo(id);
-                if (result.success) {
+                const result = await jokboFetch.deleteJokbo(id);
+                if (result) {
                     alert('족보가 삭제되었습니다.');
                     navigate('/board/jokbo');
-                } else {
-                    alert(`족보 삭제 실패: ${result.error}`);
                 }
             } catch (error) {
                 console.error('족보 삭제 실패:', error);
@@ -46,7 +32,7 @@ const JokboTempDetail = () => {
         <div>
             <p>{jokbo.examdata_title}</p>
             <p>작성자: {jokbo.user_id}</p>
-            <p>작성일: {new Date(jokbo.examdata_cdate).toLocaleDateString()}</p>
+            <p>작성일: {new Date(jokbo.examdata_date).toLocaleDateString()}</p>
             <div dangerouslySetInnerHTML={{ __html: jokbo.examdata_content }} />
 
             <div style={{ marginTop: '20px' }}>

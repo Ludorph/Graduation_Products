@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import jokboService from './jokboService';
 import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import './jokboliststyle.css';
 import cartIcon from '../img/boardimg/cart-icon.png';
 import privateIcon from '../img/boardimg/private-icon.png';
+import { jokboFetch } from './JokboFetch';
 
 // const initialJokbos = [
 //     { id: 'notice1', title: '🚨 족보 게시판 이용 규칙 🚨', author: 'admin', createdAt: '2024-08-13T10:00:00', views: 1000, likes: 50, isNotice: true },
@@ -64,7 +64,7 @@ const PriceText = styled('p')({
 
 function JokboList() {
     const navigate = useNavigate();
-    const [jokbos, setJokbos] = useState([]);
+    const jokbos = jokboFetch.useFetchAllJokbos();
     const [selectedJokbo, setSelectedJokbo] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -75,18 +75,6 @@ function JokboList() {
     //     };
     //     fetchJokbos();
     // }, []);
-
-    useEffect(() => {
-        const fetchJokbos = async () => {
-            try {
-                const data = await jokboService.getAllJokbos();
-                setJokbos(data);
-            } catch (error) {
-                console.error('족보 목록 조회 실패:', error);
-            }
-        };
-        fetchJokbos();
-    }, []);
 
     const handleAddToCart = (id) => {
         console.log(`족보 ID ${id}를 장바구니에 추가했습니다.`);

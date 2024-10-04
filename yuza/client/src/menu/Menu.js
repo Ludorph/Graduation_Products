@@ -10,11 +10,7 @@ import axios from 'axios';
 function Menu({ isHovered, setIsHovered }) {
     const [isOpen, setIsOpen] = useState(false);
     const [expandMenu, setExpandMenu] = useState(false);
-<<<<<<< HEAD
-    const [departments, setDepartments] = useState([]);
-=======
     const [departments, setDepartments] = useState({});
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
     const menuRef = useRef(null);
     const bodyRef = useRef(document.body);
     const overlayRef = useRef();
@@ -24,19 +20,6 @@ function Menu({ isHovered, setIsHovered }) {
         setIsHovered(false);
     }, [location, setIsHovered]);
 
-<<<<<<< HEAD
-    // useEffect(() => {
-    //     const fetchDepartments = async () => {
-    //       try {
-    //         const response = await axios.get('http://localhost:5000/test');
-    //         setDepartments(response.data);
-    //       } catch (error) {
-    //         console.error('학과 정보 가져오기 실패:', error);
-    //       }
-    //     };
-    //     fetchDepartments();
-    //   }, []);
-=======
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
@@ -48,7 +31,6 @@ function Menu({ isHovered, setIsHovered }) {
         };
         fetchDepartments();
     }, []);
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -57,31 +39,6 @@ function Menu({ isHovered, setIsHovered }) {
         menuRef.current.classList.toggle('open');
     };
 
-<<<<<<< HEAD
-    useEffect(() => {
-        const storedDepartments = localStorage.getItem('departments');
-        console.log('Stored departments (raw):', storedDepartments);
-        if (storedDepartments) {
-            try {
-                const parsedDepartments = JSON.parse(storedDepartments);
-                console.log('Parsed departments:', parsedDepartments);
-                if (Array.isArray(parsedDepartments) && parsedDepartments.length > 0) {
-                    setDepartments(parsedDepartments);
-                } else {
-                    console.error('Stored departments is empty or not an array:', parsedDepartments);
-                    setDepartments([]);
-                }
-            } catch (error) {
-                console.error('Error parsing stored departments:', error);
-                setDepartments([]);
-            }
-        } else {
-            console.log('No departments found in localStorage');
-        }
-    }, []);
-
-=======
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
     /* 학과명을 클릭하면 서브메뉴가 닫히게 하기 */
     const handleLinkClick = () => {
         // 클릭 이벤트 발생 후 약간의 지연 시간을 두고 메뉴를 닫습니다.
@@ -138,33 +95,6 @@ function Menu({ isHovered, setIsHovered }) {
                     {isHovered && (
                         <div className="mega-menu sample">
                             <div className="content">
-<<<<<<< HEAD
-                                {console.log('Rendering departments:', departments)}
-                                {departments.length > 0 ? (
-                                    departments.map((dept, deptIndex) => (
-                                        <div className="col" key={dept.name}>
-                                            <section>
-                                                <div className="menu-title">{dept.name}</div>
-                                                <ul className="mega-links">
-                                                    {dept.majors.map((major, majorIndex) => (
-                                                        <li key={major.id}>
-                                                            <Link
-                                                                to={`/dp/${deptIndex + 1}/${majorIndex + 1}`}
-                                                                className="menu-item"
-                                                                onClick={handleLinkClick}
-                                                            >
-                                                                {major.name}
-                                                            </Link>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </section>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div>Loading departments...</div>
-                                )}
-=======
                                 {Object.entries(departments).map(([department, majors]) => (
                                     <div className="col" key={department}>
                                         <section>
@@ -185,13 +115,10 @@ function Menu({ isHovered, setIsHovered }) {
                                         </section>
                                     </div>
                                 ))}
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
                             </div>
                         </div>
                     )}
 
-<<<<<<< HEAD
-=======
                     {/*{isHovered && (*/}
                     {/*    <div className="mega-menu sample">*/}
                     {/*        <div className="content">*/}
@@ -219,7 +146,6 @@ function Menu({ isHovered, setIsHovered }) {
                     {/*    </div>*/}
                     {/*)}*/}
 
->>>>>>> 57ba392c4fc2a7279814103b4162250cb667af70
                 </li>
                 <li><Link to="/board/jokbo" className="menu-item first-item" onClick={handleLinkClick}>족보게시판</Link></li>
                 <li><Link to="/board/cert" className="menu-item first-item" onClick={handleLinkClick}>문제게시판</Link></li>
