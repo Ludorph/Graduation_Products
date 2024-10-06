@@ -109,6 +109,18 @@
     background-color: #f0f0f0;
 }
 
+.submenu-button.logout {
+    color: #ba8689 !important; /* 로그아웃 버튼  */
+    background-color: #ffeeee;
+}
+
+/* 호버 효과도 다르게 주고 싶다면 */
+.submenu-button.logout:hover {
+    background-color: #e7dddd; /* 예: 연한 빨간색 배경으로 변경 */
+}
+
 .submenu-button:last-child {
     border-bottom: none;
 }
+
+

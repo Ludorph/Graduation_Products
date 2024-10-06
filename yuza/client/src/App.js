@@ -11,9 +11,13 @@ import JokboBoard from './Board/JokboBoard.js'; // 족보게시판
 import CertificationBoard from './Board/CertificationBoard/CertificationBoard.js'
 import FreeBoard from './Board/FreeBoard/FreeBoard.js'
 import MypageRoutes from './mypage/MypageRoutes.js'
-import Register from "./Register";
-import Login from './Login';
 import UserInfo from './UserInfo';
+
+/* 여기서 로그인, 로그아웃, 회원가입 컴포넌트 Routes */
+import AuthRoutes from './authentication/AuthRoutes.js';
+// import Register from "./Register";
+// import Login from './Login';
+
 
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, Switch } from 'react-router-dom'
@@ -193,6 +197,8 @@ function App() {
 
 
             } />
+            {/* authentication관련 */}
+            <Route path="/auth/*" element={<AuthRoutes/>} />
             <Route path="/certigallery/:certId" element={<CertiGallery />} />
             <Route path="/dp/:deptId/:majorId" element={<Depart />} />
             <Route path="/board/jokbo/*" element={<JokboBoard />}/>

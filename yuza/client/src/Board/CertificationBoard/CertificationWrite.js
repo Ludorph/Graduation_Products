@@ -277,6 +277,7 @@ const RegisteredQuestionFile = styled.p`
 const StyledCertWriteContent = styled.div`
   display: flex;
   justify-content: space-between;
+  min-height: 750px;  // 문제속성과 <-> 제목,문제작성,작성한 문제를 구분하는 border
 `;
 
 const StyledCertWriteLeft = styled.div`
@@ -287,6 +288,7 @@ const StyledCertWriteLeft = styled.div`
 
 const StyledCertWriteRight = styled.div`
   width: 75%;
+  min-height: 750px;
 `;
 
 const QuestionInputArea = styled.div`
@@ -294,11 +296,22 @@ const QuestionInputArea = styled.div`
   border-bottom: 1px solid #a5a5a5;
 `;
 
+const TitleInputArea = styled.div`
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #a5a5a5;
+`;
+
+const TitleInputWrapper = styled.div`
+  width: 73%;  // 이 값을 조절하여 입력란의 너비를 변경할 수 있습니다.
+  margin-left: 5px;
+`;
 
 
 
 const CertificationWrite = () => {
   const navigate = useNavigate();
+  const [title, setTitle] = useState(''); // 게시글 제목 
   const [questionType, setQuestionType] = useState('');
   const [certificates, setCertificates] = useState([]);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
@@ -318,15 +331,15 @@ const CertificationWrite = () => {
   const [registeredQuestions, setRegisteredQuestions] = useState([]);
 
 
-  const handleSubmit = () => {
-    if (!selectedCertificate || !questionTitle || (questionType === '객관식' && options.length === 0)) {
+  // 등록된 문제 영역에 문제 등록
+  const handleAddQuestion = () => {
+    if (!questionTitle || (questionType === '객관식' && options.length === 0)) {
       // 에러 처리
-      setCertificateError(true);
+      setCertificateError(false);
       return;
     }
 
     const newQuestion = {
-      certificate: selectedCertificate,
       type: questionType,
       question: questionTitle,
       options: questionType === '객관식' ? options : null,
@@ -336,6 +349,34 @@ const CertificationWrite = () => {
 
     setRegisteredQuestions(prev => [...prev, newQuestion]);
     resetForm();
+  };
+
+
+  // 게시글 등록 함수 
+  const handlePublish = async () => {
+    if (!selectedCertificate || !title || registeredQuestions.length === 0) {
+      alert('자격증 선택, 제목 입력, 그리고 최소 1개의 문제를 등록해야 합니다.');
+      return;
+    }
+    
+    // 여기에 실제 게시글 등록 로직 구현
+    const postData = {
+      certificate: selectedCertificate,
+      title: title,
+      questions: registeredQuestions
+    };
+    
+    console.log('게시글 등록:', postData);
+    // TODO: API 호출 등의 실제 등록 로직 추가
+    
+    try {
+      // const response = await api.publishCertificationPost(postData);
+      alert('게시글이 성공적으로 등록되었습니다!');
+      navigate('/board/cert'); // 등록 후 문제은행 게시판으로 이동
+    } catch (error) {
+      console.error('게시글 등록 중 오류 발생:', error);
+      alert('게시글 등록에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   // const resetForm = () => {
@@ -417,15 +458,20 @@ const CertificationWrite = () => {
     <ThemeProvider theme={theme}>
       <div className="cert-write-container">
         <div className="cert-write-header">
-          <div onClick={() => navigate('/board/certification')} className="board-title">
+          <span
+            onClick={() => navigate('/board/cert')}
+            className="board-title"
+            style={{ cursor: 'pointer' }}
+          >
             <FontAwesomeIcon icon={faPenToSquare} /> 문제은행 게시판
-          </div>
+          </span>
+          <button onClick={handlePublish} className="cert-publish-button">등록</button>
         </div>
         <StyledCertWriteContent className="cert-write-content">
           <StyledCertWriteLeft className="cert-write-left">
             <div className="cert-section-title">문제 속성</div>
             <div className="cert-section-subtitle">자격증 선택</div>
-            {/*<StyledAutocomplete*/}
+            {/* <StyledAutocomplete*/}
             {/*  options={certificates}*/}
             {/*  renderInput={(params) => (*/}
             {/*    <TextField*/}
@@ -440,26 +486,26 @@ const CertificationWrite = () => {
             {/*    setCertificateError(false);*/}
             {/*  }}*/}
             {/*  $error={certificateError}*/}
-            {/*/>*/}
+            {/*/> */}
 
             {/* Autocomplete를 사용한 자격증 선택탭 구현 */}
-            {/*DB와 연결해서 자격증 목록을 불러옴*/}
+            {/*DB와 연결해서 자격증 목록을 불러옴 */}
             <Autocomplete
-                options={certificates} // API에서 가져온 자격증 목록을 옵션으로 제공
-                getOptionLabel={(option) => option.certificate_name} // 자격증 이름을 라벨로 표시
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        placeholder="자격증을 선택/입력"
-                        InputLabelProps={{ shrink: true }}
-                    />
-                )}
-                value={selectedCertificate} // 선택된 자격증
-                onChange={(event, newValue) => {
-                  setSelectedCertificate(newValue);
-                  setCertificateError(false);
-                }}
-                $error={certificateError}
+              options={certificates} // API에서 가져온 자격증 목록을 옵션으로 제공
+              getOptionLabel={(option) => option.certificate_name} // 자격증 이름을 라벨로 표시
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="자격증을 선택/입력"
+                  InputLabelProps={{ shrink: true }}
+                />
+              )}
+              value={selectedCertificate} // 선택된 자격증
+              onChange={(event, newValue) => {
+                setSelectedCertificate(newValue);
+                setCertificateError(false);
+              }}
+              $error={certificateError}
             />
 
             <div className="cert-section-subtitle">문제형식 지정</div>
@@ -482,7 +528,7 @@ const CertificationWrite = () => {
             <div className="cert-section-subtitle">등록/리셋</div>
             <ButtonGroup>
               <Button
-                onClick={handleSubmit}
+                onClick={handleAddQuestion}
                 variant="outlined"
                 className="submit-button"
               >
@@ -500,6 +546,19 @@ const CertificationWrite = () => {
 
           {/* 오른쪽 영역 시작 */}
           <StyledCertWriteRight className="cert-write-right">
+            <TitleInputArea>
+              <div className="cert-section-title">제목</div>
+              <TitleInputWrapper>
+                <CustomTextField
+                  label="제목을 입력하세요"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  margin="normal"
+                  height="50px"
+                  variant="outlined"
+                />
+              </TitleInputWrapper>
+            </TitleInputArea>
             <QuestionInputArea>
               <div className="cert-section-title">문제 작성</div>
               <div className="question-input-area">
