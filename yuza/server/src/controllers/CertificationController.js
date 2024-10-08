@@ -40,9 +40,13 @@ const getCertificationById = async (req, res) => {
 
 // 자격증 문제 추가
 const createCertification = async (req, res) => {
-    const { certificate, question_title, question_content, question_type } = req.body;
+    const { user_id, certificate_id, question_title, questions } = req.body;
     try {
-        const insertId = await certificationModel.createCertification({ certificate, question_title, question_content, question_type });
+        if (!user_id || !certificate_id || !question_title || !Array.isArray(questions) || questions.length === 0) {
+            return res.status(400).json({ error: '잘못된 입력 데이터입니다.' });
+        }
+
+        const insertId = await certificationModel.createCertification({ user_id, certificate_id, question_title, questions });
         res.status(201).json({ success: true, insertId, message: '자격증 문제가 성공적으로 등록되었습니다.' });
     } catch (error) {
         console.error('자격증 문제 등록 실패:', error);
@@ -75,11 +79,46 @@ const deleteCertification = async (req, res) => {
     }
 };
 
+const getAllCertificationDetails = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const details = await certificationModel.getAllCertificationDetails(id);
+
+        if (!details || details.length === 0) {
+            return res.status(404).json({ error: '자격증 문제를 찾을 수 없습니다.' });
+        }
+
+        // 데이터 구조 변경
+        const formattedDetails = {
+            id: details[0].question_post_id,
+            title: details[0].question_title,
+            author: details[0].user_id,
+            createdAt: details[0].question_date,
+            views: details[0].question_views,
+            likes: details[0].question_likes,
+            certificate: details[0].certificate_name,
+            questions: details.map(detail => ({
+                id: detail.question_id,
+                question: detail.question_content,
+                options: detail.options_id ? [
+                    { id: detail.options_id, content: detail.options_content, isCorrect: detail.is_correct === 1 }
+                ] : [],
+            }))
+        };
+
+        res.json(formattedDetails);
+    } catch (error) {
+        console.error('쿼리 실행 실패:', error);
+        res.status(500).json({ error: '서버 오류' });
+    }
+};
+
 module.exports = {
     getAllCertificates,
     getAllCertification,
     getCertificationById,
     createCertification,
     updateCertification,
-    deleteCertification
+    deleteCertification,
+    getAllCertificationDetails
 };

@@ -37,9 +37,11 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Node.js.App.js.executor&quot;: &quot;Run&quot;,
     &quot;Node.js.DataComponent.js.executor&quot;: &quot;Run&quot;,
     &quot;Node.js.JokboFetch.js.executor&quot;: &quot;Run&quot;,
     &quot;Node.js.JokboList.js.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.Menu.js.executor&quot;: &quot;Run&quot;,
     &quot;Node.js.app.js.executor&quot;: &quot;Run&quot;,
     &quot;Node.js.server.js.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -60,11 +62,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\temp\project\yuza\client\src\fetch" />
       <recent name="C:\temp\project\yuza\server\src\config" />
       <recent name="C:\temp\project\yuza\server\src" />
       <recent name="C:\temp\project\yuza\server" />
       <recent name="C:\temp\project\yuza\client\src\Board" />
-      <recent name="C:\temp\project\yuza\client\src" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -129,7 +131,12 @@
       <workItem from="1727735219780" duration="5302000" />
       <workItem from="1727888073384" duration="1556000" />
       <workItem from="1727970649856" duration="25701000" />
-      <workItem from="1728047864830" duration="1793000" />
+      <workItem from="1728047864830" duration="2583000" />
+      <workItem from="1728053009753" duration="374000" />
+      <workItem from="1728220789701" duration="19635000" />
+      <workItem from="1728240763732" duration="41000" />
+      <workItem from="1728240904779" duration="6082000" />
+      <workItem from="1728247199181" duration="11705000" />
     </task>
     <servers />
   </component>

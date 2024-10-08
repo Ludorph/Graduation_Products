@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faCog } from '@fortawesome/free-solid-svg-icons';
-import { CiLogout, CiLock } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import './usersubmenu.css';
 import RotatingGradientBorder from './RotatingGradientBorder';
@@ -82,8 +81,6 @@ function UserSubmenu() {
                         <Link to="/purchase-history" className="submenu-button">포인트 관리</Link>
                         <Link to="/edit-profile" className="submenu-button">내 계정</Link>
                         <Link to="/find-certificate" className="submenu-button">라이브러리</Link>
-                        <Link to="/" className="submenu-button logout"><CiLock size={20} style={{ marginRight: '2px' }} />
-                        로그아웃</Link>
                     </div>
                 </div>
             )}

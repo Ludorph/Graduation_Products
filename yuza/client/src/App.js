@@ -6,21 +6,18 @@ import './fonts.css'; // 폰트 전역선언(단 styled-components는 적용 안
 import MenuBar from './menu/Menu'; // 상단 메뉴바
 import SearchBox from './search/SearchBox'; // 메인페이지 검색바
 import CertiGallery from './certigallery/CertiGallery.js';
+import Menu from './menu/Menu.js';
 import Depart from './department/Depart.js'; // 학과페이지(Link는 Menu.js에서)
 import JokboBoard from './Board/JokboBoard.js'; // 족보게시판
 import CertificationBoard from './Board/CertificationBoard/CertificationBoard.js'
 import FreeBoard from './Board/FreeBoard/FreeBoard.js'
 import MypageRoutes from './mypage/MypageRoutes.js'
+import Register from "./Register";
+import Login from './Login';
 import UserInfo from './UserInfo';
 
-/* 여기서 로그인, 로그아웃, 회원가입 컴포넌트 Routes */
-import AuthRoutes from './authentication/AuthRoutes.js';
-// import Register from "./Register";
-// import Login from './Login';
-
-
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link, Switch } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query';
 import axios from 'axios';
 
@@ -197,10 +194,8 @@ function App() {
 
 
             } />
-            {/* authentication관련 */}
-            <Route path="/auth/*" element={<AuthRoutes/>} />
             <Route path="/certigallery/:certId" element={<CertiGallery />} />
-            <Route path="/dp/:deptId/:majorId" element={<Depart />} />
+            <Route path="/depart/:id" element={<Depart />} />
             <Route path="/board/jokbo/*" element={<JokboBoard />}/>
             <Route path="/board/cert/*" element={<CertificationBoard />}/>
             <Route path="/board/free/*" element={<FreeBoard />}/>

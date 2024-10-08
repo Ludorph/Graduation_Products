@@ -18,15 +18,38 @@ const getCertificationById = async (id) => {
     return rows[0] || null;
 };
 
-const createCertification = async ({ certificate, question_title, question_content, question_type }) => {
-    const insertPostQuery = 'INSERT INTO question_post (certificate_id, question_title) VALUES (?, ?)';
-    const [postResult] = await db.execute(insertPostQuery, [certificate, question_title]);
-    const questionPostId = postResult.insertId;
+const createCertification = async ({ user_id, certificate_id, question_title, questions }) => {
+    const connection = await db.getConnection();
+    try {
+        await connection.beginTransaction();
 
-    const insertInfoQuery = 'INSERT INTO question_information (question_id, question_content, question_type) VALUES (?, ?, ?)';
-    await db.execute(insertInfoQuery, [questionPostId, question_content, question_type]);
+        // 1. Insert into question_post table
+        const insertPostQuery = 'INSERT INTO question_post (user_id, certificate_id, question_title) VALUES (?, ?, ?)';
+        const [postResult] = await connection.execute(insertPostQuery, [user_id, certificate_id, question_title]);
+        const questionPostId = postResult.insertId;
 
-    return questionPostId;
+        // 2. Insert questions and options
+        for (const question of questions) {
+            const insertInfoQuery = 'INSERT INTO question_information (question_post_id, question_content, question_explanation, question_tag) VALUES (?, ?, ?, ?)';
+            const [infoResult] = await connection.execute(insertInfoQuery, [questionPostId, question.question_content, question.question_explanation, question.question_tag]);
+            const questionId = infoResult.insertId;
+
+            if (question.question_type === '객관식' && Array.isArray(question.options)) {
+                const insertOptionQuery = 'INSERT INTO question_options (question_id, options_num, options_content, is_correct) VALUES (?, ?, ?, ?)';
+                for (const option of question.options) {
+                    await connection.execute(insertOptionQuery, [questionId, option.options_num, option.options_content, option.is_correct]);
+                }
+            }
+        }
+
+        await connection.commit();
+        return questionPostId;
+    } catch (error) {
+        await connection.rollback();
+        throw error;
+    } finally {
+        connection.release();
+    }
 };
 
 const updateCertification = async (id, { question_title, question_description, question_answer }) => {
@@ -47,11 +70,42 @@ const deleteCertification = async (id) => {
     await db.execute(query, [id]);
 };
 
+const getAllCertificationDetails = async (id) => {
+    const query = `
+        SELECT
+            ci.certificate_id,
+            ci.certificate_name,
+            qp.question_post_id,
+            qp.user_id,
+            qp.question_title,
+            qp.question_views,
+            qp.question_likes,
+            qp.question_date,
+            qi.question_id,
+            qi.question_content,
+            qi.question_explanation,
+            qi.question_tag,
+            qo.options_id,
+            qo.options_num,
+            qo.options_content,
+            qo.is_correct
+        FROM certificate_information ci
+                 JOIN question_post qp ON ci.certificate_id = qp.certificate_id
+                 JOIN question_information qi ON qp.question_post_id = qi.question_post_id
+                 LEFT JOIN question_options qo ON qi.question_id = qo.question_id
+        WHERE qp.question_post_id = ?
+    `;
+
+    const [rows] = await db.execute(query, [id]);
+    return rows.length > 0 ? rows : null;
+};
+
 module.exports = {
     getAllCertificates,
     getAllCertifications,
     getCertificationById,
     createCertification,
     updateCertification,
-    deleteCertification
+    deleteCertification,
+    getAllCertificationDetails
 };

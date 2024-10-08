@@ -7,9 +7,9 @@ router.get('/certificates', CertificationController.getAllCertificates);
 // 모든 자격증 문제 조회
 router.get('/', CertificationController.getAllCertification);
 // 특정 자격증 문제 조회
-router.get('/:id', CertificationController.getCertificationById);
+router.get('/:id', CertificationController.getAllCertificationDetails);
 // 자격증 문제 추가
-router.post('/', CertificationController.createCertification);
+router.post('/write', CertificationController.createCertification);
 // 자격증 문제 수정
 router.put('/:id', CertificationController.updateCertification);
 // 자격증 문제 삭제

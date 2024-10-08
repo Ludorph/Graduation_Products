@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './jokbowritestyle.css';
 import { CiLock } from "react-icons/ci";
-import { jokboFetch } from './JokboFetch';
+import { jokboFetch } from '../fetch/JokboFetch';
 
 const JokboWrite = () => {
   const [content, setContent] = useState('');

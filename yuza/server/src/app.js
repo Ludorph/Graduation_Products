@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoute');
-const menuRoutes = require('./routes/menuRoute');
+const majorRoutes = require('./routes/majorRoute');
 const jokboRoutes = require('./routes/jokboRoute');
 const CertificationRoutes = require('./routes/CertificationRoute');
 
@@ -20,8 +20,8 @@ app.use(cookieParser());
 app.get('/', (req, res) => res.send('Hello World!'));
 
 app.use('/users', userRoutes);
-app.use('/test', menuRoutes);
-app.use('/db', jokboRoutes);
+app.use('/major', majorRoutes);
+app.use('/jokbo', jokboRoutes);
 app.use('/api/Certification', CertificationRoutes);
 
 const PORT = 5000;

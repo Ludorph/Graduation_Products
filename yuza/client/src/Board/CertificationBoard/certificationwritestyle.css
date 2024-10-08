@@ -1,336 +1,318 @@
 @font-face {
-  font-family: 'NanumSquareNeoBold';
-  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot);
-  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), 
-       url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), 
-       url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-.cert-write-container {
-  width: 1080px; 
-  max-width: 2000px;
-  margin: 0 auto;
-  padding-top: 65px;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.cert-write-header {
-  font-family: 'NanumSquareNeoBold', sans-serif;
-  text-align: left;
-  width: 100%;
-  color: #575f44;
-  font-size: 18px;
-  font-weight: bold;
-  position: relative;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #575f44;
-}
-
-.board-title {
-  cursor: pointer;
-  display: inline-block;
-  font-family: 'NanumSquareNeoBold', sans-serif;
-}
-
-.cert-publish-button {
-  position: absolute;
-  width: 60px;
-  right: 0;
-  top: 0;
-  background-color: #e0f8eb;
-  color: #009f47;
-  border: none;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 8px;
-  margin-top: 1px;
-  margin-right: 5px;
-  font-family: 'NanumSquareNeoBold', sans-serif;
-}
-
-.cert-write-content {
-  display: flex;
-  justify-content: space-between;
-}
-
-.cert-write-left {
-  width: 22%;
-  padding-right: 20px;
-}
-
-.cert-write-right {
-  width: 75%;
-  display: flex;
-  flex-direction: column;
-}
-
-.cert-section-title {
-  font-family: 'NanumSquareNeoBold', sans-serif;
-  font-size: 16px;
-  color: #575f44;
-  margin-bottom: 15px;
-  text-align: left;
-  font-weight: bold;
-}
-
-.cert-section-subtitle {
-  font-family: 'NanumSquareNeoBold', sans-serif;
-  font-size: 14px;
-  color: #3f3f3f89;
-  margin-bottom: 15px;
-  text-align: left;
-  margin-bottom: 10px;
-  margin-top: 28px;
-}
-
-.question-type-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.question-type-buttons button {
-  width: 48%;
-  padding: 10px;
-  border: none;
-  border-radius: 20px;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-family: 'NanumSquareNeoBold', sans-serif;
-  margin-bottom: 10px;
-}
-
-.question-type-buttons button.active {
-  background-color: #575f44;
-  color: white;
-}
-
-.cert-temporarily-submit-button, .cert-submit-button {
-  position: absolute;
-  top: 65px;
-  font-family: 'NanumSquareNeoBold', sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 8px 16px;
-}
-
-.cert-temporarily-submit-button {
-  right: 75px;
-  width: 90px;
-  height: 38px;
-  background-color: #ffffff;
-  color: #000000;
-  border: 1px solid #ccc;
-}
-
-.cert-submit-button {
-  right: 5px;
-  width: 60px;
-  background-color: #e0f8eb;
-  color: #009f47;
-  border: none;
-}
-
-.submit-button,
-.reset-button {
-  min-width: 45px !important;
-  width: 45px !important;
-  height: 45px !important;
-  padding: 0 !important;
-  border-radius: 50% !important;
-  background-color: white !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  box-shadow: none !important;
-}
-
-.submit-button {
-  border: 5px solid #a6b6a2 !important;
-  color: #a6b6a2 !important;
-}
-
-.submit-button:hover {
-  background-color: #a6b6a2 !important;
-  color: white !important;
-}
-
-.reset-button {
-  border: 5px solid #8f8fa4 !important;
-  color: #8f8fa4 !important;
-}
-
-.reset-button:hover {
-  background-color: #8f8fa4 !important;
-  color: white !important;
-}
-
-.submit-button .fa-check,
-.reset-button .fa-rotate-right {
-  font-size: 24px;
-}
-
-/* Material-UI Autocomplete 및 TextField 스타일 오버라이드 */
-.MuiAutocomplete-root, .MuiTextField-root {
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-.MuiOutlinedInput-root {
-  border-radius: 4px;
-}
-
-.MuiOutlinedInput-notchedOutline {
-  border-color: #ccc;
-}
-
-.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #575f44 !important;
-}
-
-.MuiInputLabel-outlined.Mui-focused {
-  color: #575f44 !important;
-}
-
-/* 비활성화된 TextField 스타일 */
-.MuiTextField-root.Mui-disabled .MuiOutlinedInput-root {
-  background-color: #f0f0f0;
-}
-
-.MuiTextField-root.Mui-disabled .MuiOutlinedInput-input {
-  color: #999;
-}
-
-
-/* 오른쪽 영역 시작 */
-
-.question-input-area {
-  /* padding: 20px; */
-  /* background-color: #f5f5f5; */
-  border-radius: 8px;
-  padding: 0 5px; /* 좌우 여백 추가 */
-  max-width: 600px; /* 최대 너비 설정 */
-  margin: 0; /* 왼쪽 정렬을 위해 margin 제거 */
-}
-
-.option-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-.option-row .MuiFormControlLabel-root {
-  margin-left: 5px;
-  margin-right: 0;
-}
-
-.option-row .MuiCheckbox-root {
-  padding: 4px;
-}
-
-.option-row .MuiTextField-root {
-  flex-grow: 1;
-  max-width: calc(100% - 50px); /* 체크박스 너비를 고려하여 조정 */
-  
-}
-
-/* Material-UI Checkbox 스타일 오버라이드 */
-.MuiCheckbox-root.Mui-checked {
-  color: #575f44 !important;
-}
-
-/* Material-UI TextField 스타일 오버라이드 */
-.MuiTextField-root {
-  margin-bottom: 15px !important;
-  width: 100% !important; /* 너비 100% 유지 */
-}
-
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #575f44 !important;
-}
-
-.MuiInputLabel-root.Mui-focused {
-  color: #575f44 !important;
-}
-
-
-/* 반응형 디자인을 위한 미디어 쿼리 */
-@media (max-width: 1200px) {
-  .cert-write-right {
-    padding: 0 20px;
+    font-family: 'NanumSquareNeoBold';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), 
+         url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), 
+         url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
   }
+  
+  .cert-write-container {
+    width: 1080px; 
+    max-width: 2000px;
+    margin: 0 auto;
+    padding-top: 65px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .cert-write-header {
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    text-align: left;
+    width: 100%;
+    color: #575f44;
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #575f44;
+  }
+  
+  .board-title {
+    cursor: pointer;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+  }
+  
+  .cert-write-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cert-write-left {
+    width: 22%;
+    padding-right: 20px;
+  }
+  
+  .cert-write-right {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cert-section-title {
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    font-size: 16px;
+    color: #575f44;
+    margin-bottom: 15px;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .cert-section-subtitle {
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    font-size: 14px;
+    color: #3f3f3f89;
+    margin-bottom: 15px;
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 28px;
+  }
+  
+  .question-type-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .question-type-buttons button {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    margin-bottom: 10px;
+  }
+  
+  .question-type-buttons button.active {
+    background-color: #575f44;
+    color: white;
+  }
+  
+  .cert-temporarily-submit-button, .cert-submit-button {
+    position: absolute;
+    top: 65px;
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 8px 16px;
+  }
+  
+  .cert-temporarily-submit-button {
+    right: 75px;
+    width: 90px;
+    height: 38px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #ccc;
+  }
+  
+  .cert-submit-button {
+    right: 5px;
+    width: 60px;
+    background-color: #e0f8eb;
+    color: #009f47;
+    border: none;
+  }
+  
+  .submit-button,
+  .reset-button {
+    min-width: 45px !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background-color: white !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-shadow: none !important;
+  }
+  
+  .submit-button {
+    border: 5px solid #a6b6a2 !important;
+    color: #a6b6a2 !important;
+  }
+  
+  .submit-button:hover {
+    background-color: #a6b6a2 !important;
+    color: white !important;
+  }
+  
+  .reset-button {
+    border: 5px solid #8f8fa4 !important;
+    color: #8f8fa4 !important;
+  }
+  
+  .reset-button:hover {
+    background-color: #8f8fa4 !important;
+    color: white !important;
+  }
+  
+  .submit-button .fa-check,
+  .reset-button .fa-rotate-right {
+    font-size: 24px;
+  }
+  
+  /* Material-UI Autocomplete 및 TextField 스타일 오버라이드 */
+  .MuiAutocomplete-root, .MuiTextField-root {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .MuiOutlinedInput-root {
+    border-radius: 4px;
+  }
+  
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #ccc;
+  }
+  
+  .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #575f44 !important;
+  }
+  
+  .MuiInputLabel-outlined.Mui-focused {
+    color: #575f44 !important;
+  }
+  
+  /* 비활성화된 TextField 스타일 */
+  .MuiTextField-root.Mui-disabled .MuiOutlinedInput-root {
+    background-color: #f0f0f0;
+  }
+  
+  .MuiTextField-root.Mui-disabled .MuiOutlinedInput-input {
+    color: #999;
+  }
+
+
+  /* 오른쪽 영역 시작 */
 
   .question-input-area {
-    max-width: 100%;
+    /* padding: 20px; */
+    /* background-color: #f5f5f5; */
+    border-radius: 8px;
+    padding: 0 5px; /* 좌우 여백 추가 */
+    max-width: 600px; /* 최대 너비 설정 */
+    margin: 0; /* 왼쪽 정렬을 위해 margin 제거 */
   }
-}
+  
+  .option-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
 
-/* 등록된 문제 영역 */
-.registered-questions-area {
-  margin-top: 30px;
-  padding: 20px;
-  border-radius: 8px;
-}
+  .option-row .MuiFormControlLabel-root {
+    margin-left: 5px;
+    margin-right: 0;
+  }
 
-.registered-questions-title {
-  font-family: 'NanumSquareNeoBold', sans-serif;
-  font-size: 18px;
-  color: #575f44;
-  margin-bottom: 15px;
-  padding: 10px;
-}
+  .option-row .MuiCheckbox-root {
+    padding: 4px;
+  }
+  
+  .option-row .MuiTextField-root {
+    flex-grow: 1;
+    max-width: calc(100% - 50px); /* 체크박스 너비를 고려하여 조정 */
+    
+  }
+  
+  /* Material-UI Checkbox 스타일 오버라이드 */
+  .MuiCheckbox-root.Mui-checked {
+    color: #575f44 !important;
+  }
+  
+  /* Material-UI TextField 스타일 오버라이드 */
+  .MuiTextField-root {
+    margin-bottom: 15px !important;
+    width: 100% !important; /* 너비 100% 유지 */
+  }
 
-.registered-question {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  position: relative;
-}
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #575f44 !important;
+  }
+  
+  .MuiInputLabel-root.Mui-focused {
+    color: #575f44 !important;
+  }
+  
+  
+  /* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 1200px) {
+    .cert-write-right {
+      padding: 0 20px;
+    }
+  
+    .question-input-area {
+      max-width: 100%;
+    }
+  }
 
-.registered-question h4 {
-  font-family: 'NanumSquareNeoBold', sans-serif;
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.registered-question ol {
-  padding-left: 20px;
-}
-
-.registered-question li {
-  margin-bottom: 5px;
-}
-
-.registered-question .correct-answer {
-  color: #4CAF50;
-  font-weight: bold;
-}
-
-.delete-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: #d32f2f;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.delete-button:hover {
-  color: #b71c1c;
-}
+  /* 등록된 문제 영역 */
+  .registered-questions-area {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .registered-questions-title {
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    font-size: 18px;
+    color: #575f44;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+  
+  .registered-question {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    position: relative;
+  }
+  
+  .registered-question h4 {
+    font-family: 'NanumSquareNeoBold', sans-serif;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .registered-question ol {
+    padding-left: 20px;
+  }
+  
+  .registered-question li {
+    margin-bottom: 5px;
+  }
+  
+  .registered-question .correct-answer {
+    color: #4CAF50;
+    font-weight: bold;
+  }
+  
+  .delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #d32f2f;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .delete-button:hover {
+    color: #b71c1c;
+  }

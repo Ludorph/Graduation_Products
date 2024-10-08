@@ -5,12 +5,12 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { Link, useLocation } from 'react-router-dom'; // 리액트 라우터
 import './menustyle.css'; // CSS 파일
 import UserSubmenu from './UserSubmenu';
-import axios from 'axios';
+import { majorFetch } from '../fetch/MajorFetch';
 
 function Menu({ isHovered, setIsHovered }) {
     const [isOpen, setIsOpen] = useState(false);
     const [expandMenu, setExpandMenu] = useState(false);
-    const [departments, setDepartments] = useState({});
+    const departments = majorFetch.useFetchDepartments();
     const menuRef = useRef(null);
     const bodyRef = useRef(document.body);
     const overlayRef = useRef();
@@ -19,18 +19,6 @@ function Menu({ isHovered, setIsHovered }) {
     useEffect(() => {
         setIsHovered(false);
     }, [location, setIsHovered]);
-
-    useEffect(() => {
-        const fetchDepartments = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/test');
-                setDepartments(response.data);
-            } catch (error) {
-                console.error('학과 정보 가져오기 실패:', error);
-            }
-        };
-        fetchDepartments();
-    }, []);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -103,7 +91,7 @@ function Menu({ isHovered, setIsHovered }) {
                                                 {majors.map((major, majorIndex) => (
                                                     <li key={majorIndex}>
                                                         <Link
-                                                            to={`/dp/${department}/${majorIndex + 1}`}
+                                                            to={`/depart/${encodeURIComponent(major)}`}
                                                             className="menu-item"
                                                             onClick={handleLinkClick}
                                                         >
@@ -118,33 +106,6 @@ function Menu({ isHovered, setIsHovered }) {
                             </div>
                         </div>
                     )}
-
-                    {/*{isHovered && (*/}
-                    {/*    <div className="mega-menu sample">*/}
-                    {/*        <div className="content">*/}
-                    {/*            {departments.map((dept, index) => (*/}
-                    {/*                <div className="col" key={index}>*/}
-                    {/*                    <section>*/}
-                    {/*                        <div className="menu-title">{dept.name}</div>*/}
-                    {/*                        <ul className="mega-links">*/}
-                    {/*                            {dept.majors.map((major, majorIndex) => (*/}
-                    {/*                                <li key={majorIndex}>*/}
-                    {/*                                    <Link*/}
-                    {/*                                        to={`/dp/${index + 1}/${majorIndex + 1}`}*/}
-                    {/*                                        className="menu-item"*/}
-                    {/*                                        onClick={handleLinkClick}*/}
-                    {/*                                    >*/}
-                    {/*                                        {major}*/}
-                    {/*                                    </Link>*/}
-                    {/*                                </li>*/}
-                    {/*                            ))}*/}
-                    {/*                        </ul>*/}
-                    {/*                    </section>*/}
-                    {/*                </div>*/}
-                    {/*            ))}*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
 
                 </li>
                 <li><Link to="/board/jokbo" className="menu-item first-item" onClick={handleLinkClick}>족보게시판</Link></li>

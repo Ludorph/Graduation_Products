@@ -13,7 +13,7 @@ const CertificationService = {
         }
     },
 
-    getCertificationById: async (id) => {
+    getAllCertificationDetails: async (id) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/${id}`);
             return response.data;
@@ -23,12 +23,12 @@ const CertificationService = {
         }
     },
 
-    createCertification: async (CertificationData) => {
+    createCertification: async (certificationData) => {
         try {
-            const response = await axios.post(`${API_BASE_URL}/write`, CertificationData);
+            const response = await axios.post(`${API_BASE_URL}/write`, certificationData);
             return response.data;
         } catch (error) {
-            console.error('자격증 추가 실패:', error);
+            console.error('자격증 문제 추가 실패:', error);
             throw error;
         }
     },

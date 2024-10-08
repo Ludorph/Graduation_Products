@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import './jokboliststyle.css';
 import cartIcon from '../img/boardimg/cart-icon.png';
 import privateIcon from '../img/boardimg/private-icon.png';
-import { jokboFetch } from './JokboFetch';
+import { jokboFetch } from '../fetch/JokboFetch';
 
 // const initialJokbos = [
 //     { id: 'notice1', title: '🚨 족보 게시판 이용 규칙 🚨', author: 'admin', createdAt: '2024-08-13T10:00:00', views: 1000, likes: 50, isNotice: true },

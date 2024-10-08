@@ -11,9 +11,9 @@ function CertificationBoard() {
     <Routes>
       <Route path="/" element={<CertificationList />} />
       <Route path="/write" element={<CertificationWrite />} />
-      {/*<Route path="/:id" element={<CertificationDetail />} />  */}
+      <Route path="/test/:id" element={<CertificationDetail />} />
       <Route path="/:id" element={<CertificationTempDetail />} />
-      <Route path="/board/Certification/edit/:id" element={<CertificationEdit />} />
+      <Route path="/edit/:id" element={<CertificationEdit />} />
     </Routes>
   );
 }

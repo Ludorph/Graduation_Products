@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import CertificationService from "./CertificationService";
 import {
     Typography,
     Paper,
@@ -336,17 +337,69 @@ const mockCertData = {
 
 const CertificationDetail = () => {
     const { id } = useParams();
-    const cert = mockCertData;
-    const [isLiked, setIsLiked] = useState(false);
-    const [likeCount, setLikeCount] = useState(cert.likes);
+    // const cert = mockCertData;
+    const [cert, setCert] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    // const [isLiked, setIsLiked] = useState(false);
+    // const [likeCount, setLikeCount] = useState(cert.likes);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [subjectiveAnswers, setSubjectiveAnswers] = useState({});
 
-    const handleLike = () => {
-        setIsLiked(true);
-        setLikeCount(prevCount => prevCount + 1);
-        setTimeout(() => setIsLiked(false), 500);
-    };
+    useEffect(() => {
+        const fetchCertification = async () => {
+            try {
+                const data = await CertificationService.getAllCertificationDetails(id);
+                if (data) {
+                    const structuredData = {
+                        certificate_id: data[0].certificate_id,
+                        certificate_name: data[0].certificate_name,
+                        question_post_id: data[0].question_post_id,
+                        user_id: data[0].user_id,
+                        question_title: data[0].question_title,
+                        question_views: data[0].question_views,
+                        question_likes: data[0].question_likes,
+                        question_date: data[0].question_date,
+                        questions: data.reduce((acc, curr) => {
+                            if (!acc[curr.question_id]) {
+                                acc[curr.question_id] = {
+                                    id: curr.question_id,
+                                    content: curr.question_content,
+                                    explanation: curr.question_explanation,
+                                    tag: curr.question_tag,
+                                    options: []
+                                };
+                            }
+                            if (curr.options_id) {
+                                acc[curr.question_id].options.push({
+                                    id: curr.options_id,
+                                    num: curr.options_num,
+                                    content: curr.options_content,
+                                    is_correct: curr.is_correct
+                                });
+                            }
+                            return acc;
+                        }, {})
+                    };
+                    setCert(structuredData);
+                } else {
+                    setError('자격증 정보를 찾을 수 없습니다.');
+                }
+            } catch (err) {
+                console.error('Error fetching certification:', err);
+                setError('자격증 데이터를 가져오는 데 실패했습니다.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchCertification();
+    }, [id]);
+
+    // const handleLike = () => {
+    //     setIsLiked(true);
+    //     setLikeCount(prevCount => prevCount + 1);
+    //     setTimeout(() => setIsLiked(false), 500);
+    // };
 
     const handleQuestionOptionSelect = (questionId, optionIndex) => {
         setSelectedAnswers(prev => ({
@@ -376,126 +429,76 @@ const CertificationDetail = () => {
         }));
     };
 
+    if (isLoading) return <div>로딩 중...</div>;
+    if (error) return <div>{error}</div>;
+    if (!cert) return <div>자격증 정보를 찾을 수 없습니다.</div>;
+
     return (
-        <div>
-            <h2 className="cert-title">자격증 문제 게시판</h2>
+        <Container>
+            <HeaderContainer>
+                <TitleContainer>
+                    <TitleTypography>{cert.question_title}</TitleTypography>
+                </TitleContainer>
+                <InfoContainerWrapper>
+                    <InfoContainer>
+                        <InfoTypography>작성자: {cert.user_id}</InfoTypography>
+                        <InfoTypography>작성일: {new Date(cert.question_date).toLocaleDateString()}</InfoTypography>
+                        <InfoTypography>조회수: {cert.question_views}</InfoTypography>
+                    </InfoContainer>
+                </InfoContainerWrapper>
+            </HeaderContainer>
 
-            <Container maxWidth="md">
-                <HeaderContainer>
-                    <Grid container alignItems="center">
-                        <Grid item xs={4}>
-                            <LikeButtonContainer>
-                                <LikeButton onClick={handleLike} isLiked={isLiked}>
-                                    <FontAwesomeIcon icon={faThumbsUp} />
-                                </LikeButton>
-                                <LikeCount variant="body2">{likeCount}</LikeCount>
-                            </LikeButtonContainer>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TitleContainer>
-                                <TitleTypography variant="h4">{cert.title}</TitleTypography>
-                            </TitleContainer>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <InfoContainerWrapper>
-                                <InfoContainer>
-                                    <InfoTypography variant="subtitle2">{cert.certificate}</InfoTypography>
-                                    <InfoTypography variant="subtitle2">{cert.author}</InfoTypography>
-                                    <InfoTypography variant="caption">{new Date(cert.createdAt).toLocaleString()}</InfoTypography>
-                                </InfoContainer>
-                            </InfoContainerWrapper>
-                        </Grid>
-                    </Grid>
-                </HeaderContainer>
+            {/*<LikeButtonContainer>*/}
+            {/*    <LikeButton onClick={handleLike} isLiked={isLiked}>*/}
+            {/*        <FontAwesomeIcon icon={faThumbsUp} />*/}
+            {/*    </LikeButton>*/}
+            {/*    <LikeCount>{likeCount}</LikeCount>*/}
+            {/*</LikeButtonContainer>*/}
 
-                <ContentContainer>
-                    <QuestionSheetContainer>
-                        <Typography variant="h6" gutterBottom></Typography>
-                        {cert.questions.map((q, index) => (
-                            <QuestionItem key={q.id}>
-                                <Typography variant="subtitle1">
-                                    {index + 1}. {q.question}
-                                </Typography>
-                                {q.type === '객관식' && (
-                                    <Box ml={2}>
-                                        {q.options.map((option, i) => (
-                                            <OptionItem
-                                                key={i}
-                                                isSelected={selectedAnswers[q.id] === i}
-                                                onClick={() => handleQuestionOptionSelect(q.id, i)}
-                                            >
-                                                <OptionNumber isSelected={selectedAnswers[q.id] === i}>
-                                                    {['①', '②', '③', '④', '⑤'][i]}
-                                                </OptionNumber>
-                                                <OptionText isSelected={selectedAnswers[q.id] === i}>
-                                                    {option}
-                                                </OptionText>
-                                            </OptionItem>
-                                        ))}
-                                    </Box>
-                                )}
-                                {q.type === '주관식' && (
-                                    <Box ml={2}>
-                                        <Typography variant="body2" style={{ marginTop: '5px' }}>
-                                            유의사항: {q.note}
-                                        </Typography>
-                                        <QuestionSheetSubjectiveInput
-                                            variant="standard"
-                                            size="small"
-                                            placeholder="답안 입력"
-                                            value={subjectiveAnswers[q.id] || ''}
-                                            onChange={(e) => handleQuestionSubjectiveChange(q.id, e.target.value)}
-                                            multiline
-                                            rows={1}
-                                        />
-                                    </Box>
-                                )}
-                            </QuestionItem>
-                        ))}
-                    </QuestionSheetContainer>
-
-                    <AnswerSheetContainer>
-                        <AnswerSheetTitle>답안 표기란</AnswerSheetTitle>
-                        <AnswerSheetContent>
-                            {cert.questions.map((q, index) => (
-                                <React.Fragment key={q.id}>
-                                    <AnswerItem container spacing={3}>
-                                        <Grid item xs={2}>
-                                            <QuestionNumber>{index + 1}</QuestionNumber>
-                                        </Grid>
-                                        <VerticalDivider orientation="vertical" flexItem />
-                                        <Grid item xs>
-                                            {q.type === '객관식' ? (
-                                                <AnswerOptions>
-                                                    {['①', '②', '③', '④'].map((option, i) => (
-                                                        <AnswerOption
-                                                            key={i}
-                                                            isSelected={selectedAnswers[q.id] === i}
-                                                            onClick={() => handleAnswerSelect(q.id, i)}
-                                                        >
-                                                            {option}
-                                                        </AnswerOption>
-                                                    ))}
-                                                </AnswerOptions>
-                                            ) : (
-                                                <SubjectiveAnswerInput
-                                                    variant="outlined"
-                                                    size="small"
-                                                    placeholder="답안 입력"
-                                                    value={subjectiveAnswers[q.id] || ''}
-                                                    onChange={(e) => handleSubjectiveAnswerChange(q.id, e.target.value)}
-                                                />
-                                            )}
-                                        </Grid>
-                                    </AnswerItem>
-                                    {index !== cert.questions.length - 1 && <Divider />}
-                                </React.Fragment>
+            <ContentContainer>
+                <QuestionSheetContainer>
+                    {Object.values(cert.questions).map((question, index) => (
+                        <QuestionItem key={question.id}>
+                            <Typography variant="h6">{index + 1}</Typography>
+                            <Typography>{question.content}</Typography>
+                            {question.options.map((option) => (
+                                <OptionItem key={option.id}>
+                                    <OptionNumber>{option.num}</OptionNumber>
+                                    <OptionText>{option.content}</OptionText>
+                                </OptionItem>
                             ))}
-                        </AnswerSheetContent>
-                    </AnswerSheetContainer>
-                </ContentContainer>
-            </Container>
-        </div>
+                            {question.explanation && (
+                                <Typography variant="body2" style={{marginTop: '10px'}}>
+                                    해설: {question.explanation}
+                                </Typography>
+                            )}
+                        </QuestionItem>
+                    ))}
+                </QuestionSheetContainer>
+
+                <AnswerSheetContainer>
+                    <AnswerSheetTitle>답안지</AnswerSheetTitle>
+                    <AnswerSheetContent>
+                        {Object.values(cert.questions).map((question, index) => (
+                            <AnswerItem key={question.id}>
+                                <QuestionNumber>{index + 1}.</QuestionNumber>
+                                <AnswerOptions>
+                                    {question.options.map((option) => (
+                                        <AnswerOption
+                                            key={option.id}
+                                            isSelected={selectedAnswers[question.id] === option.num}
+                                            onClick={() => handleAnswerSelect(question.id, option.num)}
+                                        >
+                                            {option.num}
+                                        </AnswerOption>
+                                    ))}
+                                </AnswerOptions>
+                            </AnswerItem>
+                        ))}
+                    </AnswerSheetContent>
+                </AnswerSheetContainer>
+            </ContentContainer>
+        </Container>
     );
 };
 
