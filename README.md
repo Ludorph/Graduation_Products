@@ -15,28 +15,6 @@ JWT_SECRET=AJfrpp5mG2jcJZCZfKFOsOsr4mnTLbFIMEUZEoWnm0YQKHYvdK9HVr2SmHf8vCEs
 INSERT INTO user_information (user_id, user_password, user_name, user_grade)
 VALUES ('테스트 유저', 'root', '테스트 유저', '관리자');
 
-INSERT INTO certificate_information (certificate_id, major_id, certificate_name, certificate_detail) VALUES 
-(1, 205, '정보처리기사', '정보시스템의 생명주기 전반에 걸친 프로세스를 이해하고 수행하는 업무를 담당하는 직무로서 정보시스템 개발 요구사항 분석, 시스템 설계, 시스템 구축 등의 업무를 수행합니다.');
-
-INSERT INTO question_post (question_post_id, user_id, certificate_id, question_title) 
-VALUES (1, '테스트 유저', 1, '정보처리기사 문제 예제');
-
-INSERT INTO question_information (question_id, question_post_id, question_content, question_explanation, question_tag) VALUES 
-(1, 1, '정보처리기사 직무의 내용을 포함하는 법률은 무엇입니까?', '정보처리기사 직무를 위한 법률은 정보통신망 이용촉진 및 정보보호 등에 관한 법률입니다.', '정보처리'),
-(2, 1, '정보시스템 개발 생명주기 중 "요구분석" 단계의 주요 기능은 무엇입니까?', '요구분석 단계에서는 시스템 사용자 요구사항을 도출하는 기능이 있습니다.', '정보처리'),
-(3, 1, '다음 중 데이터베이스 정규화의 목적은 무엇입니까?', '정규화의 목적은 데이터 중복을 최소화하고 무결성을 유지하는 것입니다.', '정보처리');
-
-INSERT INTO question_options (options_id, question_id, options_num, options_content, is_correct) VALUES 
-(1, 1, 1, '정보통신망 이용촉진 및 정보보호법', 1),
-(2, 1, 2, '정보보호법', 0),
-(3, 1, 3, '정보통신법', 0),
-(4, 2, 1, '사용자 요구사항 도출', 1),
-(5, 2, 2, '시스템 설계', 0),
-(6, 2, 3, '코드 작성', 0),
-(7, 3, 1, '데이터 중복 최소화', 1),
-(8, 3, 2, '데이터 저장 용량 감소', 0),
-(9, 3, 3, '보안 강화', 0);
-
 INSERT INTO major_information (major_id, department_name, major_name) VALUES
 (101, '자유전공학과', '자유전공학과'),
 (201, '공학부', '기계시스템전공'),
@@ -74,3 +52,25 @@ INSERT INTO major_information (major_id, department_name, major_name) VALUES
 (603, '비즈니스학부', '경영정보전공'),
 (604, '비즈니스학부', '세무회계전공'),
 (605, '비즈니스학부', '항공서비스학과');
+
+INSERT INTO certificate_information (certificate_id, major_id, certificate_name, certificate_detail) VALUES 
+(1, 205, '정보처리기사', '정보시스템의 생명주기 전반에 걸친 프로세스를 이해하고 수행하는 업무를 담당하는 직무로서 정보시스템 개발 요구사항 분석, 시스템 설계, 시스템 구축 등의 업무를 수행합니다.');
+
+INSERT INTO question_post (question_post_id, user_id, certificate_id, question_title) 
+VALUES (1, '테스트 유저', 1, '정보처리기사 문제 예제');
+
+INSERT INTO question_information (question_id, question_post_id, question_content, question_explanation, question_tag) VALUES 
+(1, 1, '정보처리기사 직무의 내용을 포함하는 법률은 무엇입니까?', '정보처리기사 직무를 위한 법률은 정보통신망 이용촉진 및 정보보호 등에 관한 법률입니다.', '정보처리'),
+(2, 1, '정보시스템 개발 생명주기 중 "요구분석" 단계의 주요 기능은 무엇입니까?', '요구분석 단계에서는 시스템 사용자 요구사항을 도출하는 기능이 있습니다.', '정보처리'),
+(3, 1, '다음 중 데이터베이스 정규화의 목적은 무엇입니까?', '정규화의 목적은 데이터 중복을 최소화하고 무결성을 유지하는 것입니다.', '정보처리');
+
+INSERT INTO question_options (options_id, question_id, options_num, options_content, is_correct) VALUES 
+(1, 1, 1, '정보통신망 이용촉진 및 정보보호법', 1),
+(2, 1, 2, '정보보호법', 0),
+(3, 1, 3, '정보통신법', 0),
+(4, 2, 1, '사용자 요구사항 도출', 1),
+(5, 2, 2, '시스템 설계', 0),
+(6, 2, 3, '코드 작성', 0),
+(7, 3, 1, '데이터 중복 최소화', 1),
+(8, 3, 2, '데이터 저장 용량 감소', 0),
+(9, 3, 3, '보안 강화', 0);
