@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mypage">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/yuza/client/src/mypage.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
