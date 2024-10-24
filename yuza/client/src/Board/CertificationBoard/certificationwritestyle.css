@@ -29,6 +29,23 @@
     margin-bottom: 20px;
     border-bottom: 1px solid #575f44;
   }
+
+  .cert-publish-button {
+    position: absolute;
+    width: 60px;
+    right: 0;
+    top: 0;
+    background-color: #e0f8eb;
+    color: #009f47;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: -6px;
+    margin-right: 5px;
+  }
   
   .board-title {
     cursor: pointer;

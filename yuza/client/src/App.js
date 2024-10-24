@@ -200,7 +200,7 @@ function App() {
                         {/* authentication관련 */}
                         <Route path="/auth/*" element={<AuthRoutes/>} />
                         <Route path="/certigallery/:certId" element={<CertiGallery />} />
-                        <Route path="/dp/:deptId/:majorId" element={<Depart />} />
+                        <Route path="/dp/:majorId" element={<Depart />} />
                         <Route path="/board/jokbo/*" element={<JokboBoard />}/>
                         <Route path="/board/cert/*" element={<CertificationBoard />}/>
                         <Route path="/board/free/*" element={<FreeBoard />}/>
