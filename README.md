@@ -58,10 +58,7 @@ INSERT INTO certificate_information (certificate_id, major_id, certificate_name,
 INSERT INTO question_post (question_post_id, user_id, certificate_id, question_title) 
 VALUES (1, '테스트 유저', 1, '정보처리기사 문제 예제');
 
-INSERT INTO question_information (question_id, question_post_id, question_content, question_explanation, question_tag) VALUES 
-(1, 1, '정보처리기사 직무의 내용을 포함하는 법률은 무엇입니까?', '정보처리기사 직무를 위한 법률은 정보통신망 이용촉진 및 정보보호 등에 관한 법률입니다.', '정보처리'),
-(2, 1, '정보시스템 개발 생명주기 중 "요구분석" 단계의 주요 기능은 무엇입니까?', '요구분석 단계에서는 시스템 사용자 요구사항을 도출하는 기능이 있습니다.', '정보처리'),
-(3, 1, '다음 중 데이터베이스 정규화의 목적은 무엇입니까?', '정규화의 목적은 데이터 중복을 최소화하고 무결성을 유지하는 것입니다.', '정보처리');
+INSERT INTO question_information (question_id, question_post_id, question_content, question_answer1, question_answer2, question_answer3, question_answer4, question_answer, question_explanation, question_tag) VALUES (1, 1, '다음 중 데이터베이스의 트랜잭션(Transaction) 특성인 ACID에 대한 설명으로 올바르지 않은 것은?', '1. Atomicity(원자성): 트랜잭션의 연산은 데이터베이스에 모두 반영되거나 전혀 반영되지 않아야 한다.', '2. Consistency(일관성): 트랜잭션이 실행되기 전의 데이터베이스 내용이 잘못되어 있지 않다면, 트랜잭션이 실행된 이후에도 데이터베이스의 내용에 잘못이 있으면 안 된다.', '3. Isolation(격리성): 트랜잭션이 실행 중에 생성하는 연산의 중간 결과는 반드시 다른 트랜잭션이 접근할 수 있어야 한다.', '4. Durability(영속성): 트랜잭션이 성공적으로 완료되면 그 결과가 영구적으로 데이터베이스에 저장된다.', 3, '트랜잭션의 격리성(Isolation)은 실제로 "트랜잭션이 실행 중에 생성하는 연산의 중간 결과는 다른 트랜잭션이 접근할 수 없어야 한다"가 올바른 설명입니다.', '정보처리');
 
 INSERT INTO question_options (options_id, question_id, options_num, options_content, is_correct) VALUES 
 (1, 1, 1, '정보통신망 이용촉진 및 정보보호법', 1),
