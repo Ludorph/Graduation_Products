@@ -41,7 +41,7 @@
 
 [Node.js](https://nodejs.org/en)
   
-><a href="https://ko.legacy.reactjs.org"><img src="https://i.pinimg.com/736x/cb/a0/b8/cba0b89d2bf2d96a1ed26edb5849f804.jpg" width="40%" alt=""></a>
+><a href="https://ko.legacy.reactjs.org"><img src="https://i.pinimg.com/736x/f3/4a/02/f34a0218dd2e38726c52ac763df55fa7.jpg" width="40%" alt=""></a>
 >>  + 비동기 I/O 처리와 이벤트 기반 아키텍처
 >>  + 단일 쓰레드 환경
 >>  + JavaScript 기반의 풀스택 개발 지원
@@ -50,7 +50,7 @@
 
 [EXPRESS](https://expressjs.com/ko/)
   
-><a href="https://ko.legacy.reactjs.org"><img src="https://i.pinimg.com/736x/cb/a0/b8/cba0b89d2bf2d96a1ed26edb5849f804.jpg" width="40%" alt=""></a>
+><a href="https://expressjs.com/ko/"><img src="https://on-ad.github.io/static/assets/img/post_img/chanuuuuu/express_cover.png" width="40%" alt=""></a>
 >>  + 간결한 웹 애플리케이션 프레임워크
 >>  + 유연한 미들웨어 구조
 >>  + 라우팅 시스템 제공
